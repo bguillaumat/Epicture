@@ -1,5 +1,9 @@
 language: android
 
+addons:
+  ssh_known_hosts:
+  - git.epitech.eu
+
 android:
   components:
     - build-tools-28.0.3
@@ -9,9 +13,9 @@ script:
   - ./gradlew build
 
 after_success:
+  - openssl aes-256-cbc -K $encrypted_ead2ccba5de1_key -iv $encrypted_ead2ccba5de1_iv -in rsa4encrypt.enc -out rsa4encrypt -d
   - eval "$(ssh-agent -s)"
-  - echo $SSHKEY > id_rsa
-  - chmod 600 id_rsa
-  - ssh-add id_rsa
+  - chmod 600 rsa4encrypt
+  - ssh-add rsa4encrypt
   - git remote add deploy git@github.com:bguillaumat/Epicture.git
   - git push deploy --all

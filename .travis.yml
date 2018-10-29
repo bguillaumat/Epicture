@@ -19,5 +19,5 @@ script:
   - "./gradlew build"
 
 after_success:
-  - git remote add deploy git@github.com:bguillaumat/Epicture.git
+  - git remote add deploy git@git.epitech.eu:/bastien.guillaumat@epitech.eu/DEV_epicture_2018
   - git push deploy --all

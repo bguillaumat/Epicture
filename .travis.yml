@@ -7,3 +7,11 @@ android:
 
 script:
   - ./gradlew build
+
+after_success:
+  - eval "$(ssh-agent -s)"
+  - echo $SSHKEY > id_rsa
+  - chmod 600 id_rsa
+  - ssh-add id_rsa
+  - git remote add deploy git@github.com:bguillaumat/Epicture.git
+  - git push deploy --all

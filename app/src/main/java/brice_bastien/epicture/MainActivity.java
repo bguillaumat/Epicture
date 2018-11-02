@@ -43,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Read data
-        //try {
-        //    openData();
-        //} catch (IOException ignored) {
-        //    onStop();
-        //}
+        try {
+            openData();
+        } catch (IOException ignored) {
+            onStop();
+        }
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         SharedPreferences sharedPref =

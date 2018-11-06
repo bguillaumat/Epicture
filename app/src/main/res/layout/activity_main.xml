@@ -31,13 +31,14 @@
         android:layout_height="wrap_content"
         android:theme="@style/Widget.MaterialComponents.Button"
         app:layout_anchor="@id/bottom_app_bar"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@drawable/ic_baseline_add_24px" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        app:navigationIcon="@drawable/ic_menu_white"
         app:backgroundTint="@color/colorPrimary"
         app:fabAlignmentMode="center" />
 

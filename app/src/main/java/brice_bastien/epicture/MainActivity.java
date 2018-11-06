@@ -10,8 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,26 +32,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+		BottomAppBar bar = findViewById(R.id.bottom_app_bar);
+        setSupportActionBar(bar);
 
-		String token = getIntent().getStringExtra("ACCESS_TOKEN");
+        if (Token == null || Token.length() == 0) {
+        	Token = getIntent().getStringExtra("ACCESS_TOKEN");
+        	closeData();
+		} else {
+			try {
+				openData();
+			} catch (IOException ignored) {
+				onStop();
+			}
+		}
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            	Toast.makeText(getApplicationContext(), Token, Toast.LENGTH_LONG).show();
+				BottomAppBar bar = findViewById(R.id.bottom_app_bar);
+
+				if (bar.getFabAlignmentMode() == BottomAppBar.FAB_ALIGNMENT_MODE_END) {
+					bar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
+				} else {
+					bar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
+				}
             }
         });
-
-        //Read data
-        try {
-            openData();
-        } catch (IOException ignored) {
-            onStop();
-        }
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         SharedPreferences sharedPref =
@@ -92,25 +102,31 @@ public class MainActivity extends AppCompatActivity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
+		switch (item.getItemId()) {
+			case (R.id.action_settings):
+				Intent intent = new Intent(this, SettingsActivity.class);
+				startActivity(intent);
+				return true;
+			case (R.id.app_bar_fav):
+				Toast.makeText(getApplicationContext(), "Fav Push", Toast.LENGTH_SHORT).show();
+				break;
+			case (R.id.app_bar_search):
+				Toast.makeText(getApplicationContext(), "Search Push", Toast.LENGTH_SHORT).show();
+				break;
+			case (android.R.id.home):
+				Toast.makeText(getApplicationContext(), "Menu Push", Toast.LENGTH_SHORT).show();
+				BottomNavigationDrawerFragment bottomNavDrawerFragment = new BottomNavigationDrawerFragment();
+				getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
+				bottomNavDrawerFragment.show(getSupportFragmentManager(), bottomNavDrawerFragment.getTag());
+				break;
+		}
         return super.onOptionsItemSelected(item);
     }
+
 }

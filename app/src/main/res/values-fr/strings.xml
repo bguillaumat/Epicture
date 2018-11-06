@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Epicture</string>
+    <string name="action_favorite">Favoris</string>
+    <string name="action_search">Rechercher</string>
+    <string name="nav_item1">Mon Compte</string>
+    <string name="nav_item2">Mes Photos</string>
+    <string name="nav_item3">Se Déconnecter</string>
+    <string name="action_settings">Paramètres</string>
+</resources>

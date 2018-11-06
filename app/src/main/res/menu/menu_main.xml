@@ -6,5 +6,19 @@
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="never" >
+    </item>
+
+    <item
+        android:id="@+id/app_bar_fav"
+        android:icon="@drawable/ic_favorite_white_24dp"
+        android:title="@string/action_favorite"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/app_bar_search"
+        android:icon="@drawable/ic_search_white"
+        android:title="@string/action_search"
+        app:showAsAction="ifRoom"/>
+
 </menu>

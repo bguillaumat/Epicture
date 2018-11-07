@@ -38,13 +38,7 @@ public class MainActivity extends AppCompatActivity {
         if (Token == null || Token.length() == 0) {
         	Token = getIntent().getStringExtra("ACCESS_TOKEN");
         	closeData();
-		} else {
-			try {
-				openData();
-			} catch (IOException ignored) {
-				onStop();
-			}
-		}
+        }
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -73,19 +67,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         closeData();
         super.onPause();
-    }
-
-    private void openData() throws IOException {
-        String FILENAME = "data";
-        String token = "";
-        String etc = "";
-        FileInputStream fos = openFileInput(FILENAME);
-        Scanner sc = new Scanner(fos);
-        if (sc.hasNextLine()) token = sc.nextLine();
-        if (sc.hasNextLine()) etc = sc.nextLine();
-        fos.close();
-        Token = token;
-        Etc = etc;
     }
 
     private void closeData() {

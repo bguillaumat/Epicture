@@ -25,7 +25,10 @@ import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
 
+    Storage store = new Storage();
+
     private String Token = "";
+    private String Username = "";
     private String Etc = "";
 
     @Override
@@ -37,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (Token == null || Token.length() == 0) {
         	Token = getIntent().getStringExtra("ACCESS_TOKEN");
-        	closeData();
+        	Username = getIntent().getStringExtra("ACCOUNT_USERNAME");
+        	store.closeData(this, Token, Username, Etc);
         }
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -60,20 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        closeData();
+        store.closeData(this, Token, Username, Etc);
         super.onPause();
-    }
-
-    private void closeData() {
-        String FILENAME = "data";
-        String token = Token;
-        String etc = Etc;
-        String finalStr = (token + '\n' + etc + '\n');
-        try (FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE)) {
-            fos.write(finalStr.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
     
     @Override

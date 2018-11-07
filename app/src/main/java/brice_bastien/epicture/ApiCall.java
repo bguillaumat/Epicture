@@ -1,3 +1,5 @@
+package brice_bastien.epicture;
+
 class ApiCall {
 
     void uploadImg() {

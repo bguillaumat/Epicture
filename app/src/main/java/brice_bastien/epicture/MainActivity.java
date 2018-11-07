@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
             	Toast.makeText(getApplicationContext(), Token, Toast.LENGTH_LONG).show();
 				BottomAppBar bar = findViewById(R.id.bottom_app_bar);
-
 				if (bar.getFabAlignmentMode() == BottomAppBar.FAB_ALIGNMENT_MODE_END) {
 					bar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
 				} else {
@@ -60,13 +59,9 @@ public class MainActivity extends AppCompatActivity {
 				}
             }
         });
-
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        SharedPreferences sharedPref =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        Boolean switchPref = sharedPref.getBoolean
-                (SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
-        Toast.makeText(this, switchPref.toString(), Toast.LENGTH_SHORT).show();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean switchPref = sharedPref.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
     }
 
     @Override
@@ -114,13 +109,10 @@ public class MainActivity extends AppCompatActivity {
 				startActivity(intent);
 				return true;
 			case (R.id.app_bar_fav):
-				Toast.makeText(getApplicationContext(), "Fav Push", Toast.LENGTH_SHORT).show();
 				break;
 			case (R.id.app_bar_search):
-				Toast.makeText(getApplicationContext(), "Search Push", Toast.LENGTH_SHORT).show();
 				break;
 			case (android.R.id.home):
-				Toast.makeText(getApplicationContext(), "Menu Push", Toast.LENGTH_SHORT).show();
 				BottomNavigationDrawerFragment bottomNavDrawerFragment = new BottomNavigationDrawerFragment();
 				getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
 				bottomNavDrawerFragment.show(getSupportFragmentManager(), bottomNavDrawerFragment.getTag());

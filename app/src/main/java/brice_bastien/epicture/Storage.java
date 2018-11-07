@@ -1,7 +1,9 @@
 package brice_bastien.epicture;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,5 +37,10 @@ class Storage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    void destroyData(Context context) {
+        String FILENAME = "data";
+        context.deleteFile(FILENAME);
     }
 }

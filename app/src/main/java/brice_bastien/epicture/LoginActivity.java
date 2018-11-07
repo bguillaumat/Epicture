@@ -33,15 +33,18 @@ public class LoginActivity extends AppCompatActivity {
 
 		try {
 		    String[] result = store.openData(this);
-		    Token = result[0];
-		    Username = result[1];
-		    Etc = result[2];
-			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-		    intent.putExtra("ACCESS_TOKEN", Token);
-            intent.putExtra("ACCOUNT_USERNAME", Username);
-		    finish();
-		    startActivity(intent);
-		    return;
+            Toast.makeText(getApplicationContext(), result[0], Toast.LENGTH_SHORT).show();
+            if (!result[0].isEmpty()) {
+				Token = result[0];
+				Username = result[1];
+				Etc = result[2];
+				Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+				intent.putExtra("ACCESS_TOKEN", Token);
+				intent.putExtra("ACCOUNT_USERNAME", Username);
+				finish();
+				startActivity(intent);
+				return;
+			}
 		} catch (IOException ignored) {
 		    onStop();
 		}
@@ -64,7 +67,8 @@ public class LoginActivity extends AppCompatActivity {
                         Username = parameters.get("account_username");
 						intent.putExtra("ACCESS_TOKEN", Token);
                         intent.putExtra("ACCOUNT_USERNAME", Username);
-						finish();
+                        store.closeData(getApplicationContext(), Token, Username, Etc);
+                        finish();
 						startActivity(intent);
 						return;
 					}
@@ -72,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
 				super.onPageStarted(view, url, favicon);
 			}
 		});
-		store.closeData(this, Token, Username, Etc);
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setDomStorageEnabled(true);
 		webView.loadUrl("https://api.imgur.com/oauth2/authorize?client_id=8c94575ba123f37&response_type=token");
@@ -81,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        store.closeData(this, Token, Username, Etc);
+        //store.closeData(this, Token, Username, Etc);
         super.onPause();
     }
 }

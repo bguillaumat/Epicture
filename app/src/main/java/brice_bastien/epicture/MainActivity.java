@@ -10,6 +10,7 @@ import androidx.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,10 +35,18 @@ public class MainActivity extends AppCompatActivity {
         BottomAppBar bar = findViewById(R.id.bottom_app_bar);
         setSupportActionBar(bar);
 
+        Toast.makeText(this, Token, Toast.LENGTH_SHORT).show();
+
         if (Token == null || Token.length() == 0) {
         	Token = getIntent().getStringExtra("ACCESS_TOKEN");
         	Username = getIntent().getStringExtra("ACCOUNT_USERNAME");
-        	store.closeData(this, Token, Username, Etc);
+        	//store.closeData(this, Token, Username, Etc);
+        	if (Token.isEmpty()) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                store.destroyData(this);
+                finish();
+                startActivity(intent);
+            }
         }
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -61,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        store.closeData(this, Token, Username, Etc);
+        //store.closeData(this, Token, Username, Etc);
         super.onPause();
     }
 

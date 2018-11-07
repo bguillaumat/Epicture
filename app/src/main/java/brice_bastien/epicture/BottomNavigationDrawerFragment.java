@@ -1,5 +1,6 @@
 package brice_bastien.epicture;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
+
+    Storage store = new Storage();
 
 	@Nullable
 	@Override
@@ -36,7 +39,10 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
                         Toast.makeText(getContext(), "Click !", Toast.LENGTH_LONG).show();
                         break;
                     case (R.id.nav3):
-                        Toast.makeText(getContext(), "Click !", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        store.destroyData(getContext());
+                        getActivity().finish();
+                        startActivity(intent);
                         break;
                 }
                 return true;

@@ -18,6 +18,7 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
 		return inflater.inflate(R.layout.fragment_bottomsheet, container, false);
 	}
 

@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
 				break;
 			case (android.R.id.home):
 				BottomNavigationDrawerFragment bottomNavDrawerFragment = new BottomNavigationDrawerFragment();
-				getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
 				bottomNavDrawerFragment.show(getSupportFragmentManager(), bottomNavDrawerFragment.getTag());
 				break;
 		}

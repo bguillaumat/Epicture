@@ -21,7 +21,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    Storage store = new Storage();
+
     private String Token = "";
+    private String Username = "";
     private String Etc = "";
 
     @Override
@@ -32,17 +35,17 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(bar);
 
         if (Token == null || Token.length() == 0) {
-            Token = getIntent().getStringExtra("ACCESS_TOKEN");
-            closeData();
+        	Token = getIntent().getStringExtra("ACCESS_TOKEN");
+        	Username = getIntent().getStringExtra("ACCOUNT_USERNAME");
+        	store.closeData(this, Token, Username, Etc);
         }
-
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 BottomAppBar bar = findViewById(R.id.bottom_app_bar);
-                ApiCall apiCall = new ApiCall("AsianPw", "8c94575ba123f37", Token);
+                ApiCall apiCall = new ApiCall(Username, "8c94575ba123f37", Token);
                 apiCall.getUserImg(getApplicationContext());
                 if (bar.getFabAlignmentMode() == BottomAppBar.FAB_ALIGNMENT_MODE_END) {
                     bar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
@@ -58,20 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        closeData();
+        store.closeData(this, Token, Username, Etc);
         super.onPause();
-    }
-
-    private void closeData() {
-        String FILENAME = "data";
-        String token = Token;
-        String etc = Etc;
-        String finalStr = (token + '\n' + etc + '\n');
-        try (FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE)) {
-            fos.write(finalStr.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

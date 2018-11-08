@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -18,35 +22,22 @@ import java.util.Scanner;
 import java.util.Set;
 
 
-
 public class LoginActivity extends AppCompatActivity {
 
-	private String Token = "";
-    private String Username = "";
-	private String Etc = "";
-	Storage store = new Storage();
+	SharedPreferences sharedPreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
-		try {
-		    String[] result = store.openData(this);
-            Toast.makeText(getApplicationContext(), result[0], Toast.LENGTH_SHORT).show();
-            if (!result[0].isEmpty()) {
-				Token = result[0];
-				Username = result[1];
-				Etc = result[2];
-				Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-				intent.putExtra("ACCESS_TOKEN", Token);
-				intent.putExtra("ACCOUNT_USERNAME", Username);
-				finish();
-				startActivity(intent);
-				return;
-			}
-		} catch (IOException ignored) {
-		    onStop();
+		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
+		if (sharedPreferences.contains("User_Token") && sharedPreferences.contains("Username")) {
+			Toast.makeText(this, "Already auth", Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+			finish();
+			startActivity(intent);
+			return;
 		}
 
 		final WebView webView = findViewById(R.id.webView);
@@ -59,16 +50,23 @@ public class LoginActivity extends AppCompatActivity {
 					Map<String, String> parameters = new HashMap<>();
 					for (String s : args) {
 						String s1 = uri.getQueryParameter(s);
-						parameters.put(s, s1);
+						if (s1 != null)
+							parameters.put(s, s1);
 					}
-					if (parameters.containsKey("access_token")) {
+					if (parameters.containsKey("access_token") && parameters.containsKey("account_username")) {
+						Toast.makeText(getApplicationContext(), "Information enter.", Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-						Token = parameters.get("access_token");
-                        Username = parameters.get("account_username");
+						String Token = parameters.get("access_token");
+						String Username = parameters.get("account_username");
+						CookieManager cookieManager = CookieManager.getInstance();
 						intent.putExtra("ACCESS_TOKEN", Token);
-                        intent.putExtra("ACCOUNT_USERNAME", Username);
-                        store.closeData(getApplicationContext(), Token, Username, Etc);
-                        finish();
+						intent.putExtra("ACCOUNT_USERNAME", Username);
+						sharedPreferences.edit()
+								.putString("User_Token", Token)
+								.putString("Username", Username)
+								.apply();
+						cookieManager.removeAllCookies(null);
+						finish();
 						startActivity(intent);
 						return;
 					}
@@ -78,13 +76,9 @@ public class LoginActivity extends AppCompatActivity {
 		});
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setDomStorageEnabled(true);
+		webView.clearCache(true);
+		webView.clearFormData();
 		webView.loadUrl("https://api.imgur.com/oauth2/authorize?client_id=8c94575ba123f37&response_type=token");
 
 	}
-
-    @Override
-    protected void onPause() {
-        //store.closeData(this, Token, Username, Etc);
-        super.onPause();
-    }
 }

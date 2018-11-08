@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Epicture</string>
 
+    <string name="user_info_pref">UserInfo</string>
+
     <string name="action_favorite">Favorite</string>
     <string name="action_search">Search</string>
     <string name="nav_item1">My Account</string>
     <string name="nav_item2">My Pictures</string>
     <string name="nav_item3">Logout</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="action_settings">Settings</string>
 </resources>

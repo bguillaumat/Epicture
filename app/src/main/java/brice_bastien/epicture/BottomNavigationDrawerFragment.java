@@ -1,6 +1,8 @@
 package brice_bastien.epicture;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,38 +18,40 @@ import androidx.annotation.Nullable;
 
 public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 
-    Storage store = new Storage();
+	Storage store = new Storage();
+	private SharedPreferences sharedPreferences;
 
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
+		getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
 		return inflater.inflate(R.layout.fragment_bottomsheet, container, false);
 	}
 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        NavigationView navigationView = getView().findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case (R.id.nav1):
-                        Toast.makeText(getContext(), "Click !", Toast.LENGTH_LONG).show();
-                        break;
-                    case (R.id.nav2):
-                        Toast.makeText(getContext(), "Click !", Toast.LENGTH_LONG).show();
-                        break;
-                    case (R.id.nav3):
-                        Intent intent = new Intent(getContext(), LoginActivity.class);
-                        store.destroyData(getContext());
-                        getActivity().finish();
-                        startActivity(intent);
-                        break;
-                }
-                return true;
-            }
-        });
+		NavigationView navigationView = getView().findViewById(R.id.navigation_view);
+		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+			@Override
+			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+				switch (menuItem.getItemId()) {
+					case (R.id.nav1):
+						Toast.makeText(getContext(), "Click !", Toast.LENGTH_LONG).show();
+						break;
+					case (R.id.nav2):
+						Toast.makeText(getContext(), "Click !", Toast.LENGTH_LONG).show();
+						break;
+					case (R.id.nav3):
+						Intent intent = new Intent(getContext(), LoginActivity.class);
+						sharedPreferences = getActivity().getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
+						sharedPreferences.edit().clear().commit();
+						getActivity().finish();
+						startActivity(intent);
+						break;
+				}
+				return true;
+			}
+		});
 
 		super.onActivityCreated(savedInstanceState);
 	}

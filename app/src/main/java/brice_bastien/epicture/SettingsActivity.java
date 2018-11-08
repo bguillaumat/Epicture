@@ -6,8 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    public static final String
-            KEY_PREF_EXAMPLE_SWITCH = "example_switch";
+    public static final String KEY_PREF_EXAMPLE_SWITCH = "example_switch";
 
 
     @Override

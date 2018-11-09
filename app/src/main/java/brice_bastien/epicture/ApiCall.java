@@ -35,7 +35,7 @@ class ApiCall {
 		//https://api.imgur.com/3/image
 	}
 
-	void getUserImg(final Context context) {
+	void getUserImg(final Context context, final PostsFragment fragment) {
 		String url = "https://api.imgur.com/3/account/" + username + "/images";
 
 		RequestQueue queue = Volley.newRequestQueue(context);
@@ -44,7 +44,27 @@ class ApiCall {
 				null, new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {
-				Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
+				try {
+					JSONArray array = new JSONArray(response.getString("data"));
+					for (int i = 0; i < array.length(); i++) {
+						JSONObject obj = new JSONObject(array.getString(i));
+						PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), "0", "0", obj.getString("link"));
+						if (obj.isNull("images")) {
+							post.AddImage(obj.getString("link"));
+							fragment.adapter.addItem(0, post);
+							continue;
+						}
+						JSONArray images = new JSONArray(obj.getString("images"));
+						for (int j = 0; j < images.length(); j++) {
+							JSONObject tmp_img = new JSONObject(images.getString(j));
+							post.AddImage(tmp_img.getString("link"));
+						}
+						fragment.adapter.addItem(0, post);
+					}
+				} catch (Exception e) {
+					Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+				}
+
 			}
 		}, new Response.ErrorListener() {
 			@Override
@@ -76,9 +96,6 @@ class ApiCall {
 			@Override
 			public void onResponse(JSONObject response) {
 				try {
-					if (fragment.adapter == null) {
-						Toast.makeText(context, "frag", Toast.LENGTH_SHORT).show();
-					}
 					JSONArray array = new JSONArray(response.getString("data"));
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject obj = new JSONObject(array.getString(i));
@@ -86,7 +103,6 @@ class ApiCall {
 						if (obj.isNull("images")) {
 							post.AddImage(obj.getString("link"));
 							fragment.adapter.addItem(0, post);
-							Log.i("GetData", post.toString());
 							continue;
 						}
 						JSONArray images = new JSONArray(obj.getString("images"));
@@ -94,7 +110,6 @@ class ApiCall {
 							JSONObject tmp_img = new JSONObject(images.getString(j));
 							post.AddImage(tmp_img.getString("link"));
 						}
-						Log.i("GetData", post.toString());
 						fragment.adapter.addItem(0, post);
 					}
 				} catch (Exception e) {
@@ -123,8 +138,58 @@ class ApiCall {
 
 	}
 
-	void getFavorites() {
-		//https://api.imgur.com/3/account/{{username}}/favorites/{{page}}/{{favoritesSort}}
+	void getFavorites(final Context context, final PostsFragment fragment) {
+		String url = "https://api.imgur.com/3/account/" + username + "/favorites/";
+
+		RequestQueue queue = Volley.newRequestQueue(context);
+
+		JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
+				null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					JSONArray array = new JSONArray(response.getString("data"));
+
+					Log.i("Data ", response.toString(2));
+
+					for (int i = 0; i < array.length(); i++) {
+						JSONObject obj = new JSONObject(array.getString(i));
+						PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), "0", "0", obj.getString("link"));
+						if (obj.isNull("images")) {
+							post.AddImage(obj.getString("link"));
+							fragment.adapter.addItem(0, post);
+							Log.i("GetData", post.toString());
+							continue;
+						}
+						JSONArray images = new JSONArray(obj.getString("images"));
+						for (int j = 0; j < images.length(); j++) {
+							JSONObject tmp_img = new JSONObject(images.getString(j));
+							post.AddImage(tmp_img.getString("link"));
+						}
+						Log.i("GetData", post.toString());
+						fragment.adapter.addItem(0, post);
+					}
+				} catch (Exception e) {
+					Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+				}
+
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+			}
+		}) {
+			@Override
+			public Map<String, String> getHeaders() {
+				HashMap<String, String> headers = new HashMap<>();
+				headers.put("Content-Type", "application/json; charset=UTF-8");
+				String credentials = "Bearer " + token;
+				headers.put("Authorization", credentials);
+				return headers;
+			}
+		};
+		queue.add(req);
 	}
 
 }

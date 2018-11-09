@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	private SharedPreferences sharedPreferences;
 	private PostsFragment postsFragment = PostsFragment.newInstance(1);
 	private FragmentManager fragmentManager = getFragmentManager();
+	private ApiCall apiCall;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			}
 		});
 
-		ApiCall apiCall = new ApiCall(Username, "8c94575ba123f37", Token);
+		apiCall = new ApiCall(Username, "8c94575ba123f37", Token);
 		apiCall.getRecentImg(getApplicationContext(), "hot", postsFragment);
 	}
 
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 				startActivity(intent);
 				return true;
 			case (R.id.app_bar_fav):
+				postsFragment.adapter.removeAll();
+				apiCall.getFavorites(getApplicationContext(), postsFragment);
 				break;
 			case (R.id.app_bar_search):
 				break;

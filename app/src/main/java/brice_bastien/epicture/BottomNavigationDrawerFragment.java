@@ -34,16 +34,22 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+				sharedPreferences = getActivity().getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
+				String Token = sharedPreferences.getString("User_Token", null);
+				String Username = sharedPreferences.getString("Username", null);
+
+				ApiCall apiCall = new ApiCall(Username, "8c94575ba123f37", Token);;
+
 				switch (menuItem.getItemId()) {
 					case (R.id.nav1):
-						Toast.makeText(getContext(), "Click !", Toast.LENGTH_LONG).show();
 						break;
 					case (R.id.nav2):
-						Toast.makeText(getContext(), "Click !", Toast.LENGTH_LONG).show();
+
+// TODO interface in PostsFragment for access postsFragments ref
+//						apiCall.getUserImg(getContext(), postsFragment);
 						break;
 					case (R.id.nav3):
 						Intent intent = new Intent(getContext(), LoginActivity.class);
-						sharedPreferences = getActivity().getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 						sharedPreferences.edit().clear().apply();
 						getActivity().finish();
 						startActivity(intent);

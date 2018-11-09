@@ -80,6 +80,11 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		notifyDataSetChanged();
 	}
 
+	public void removeAll() {
+		itemList.clear();
+		notifyDataSetChanged();
+	}
+
 	public void addItem(int position, PostItem post) {
 		if (position == 0) {
 			itemList.add(post);

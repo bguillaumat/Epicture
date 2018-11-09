@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import brice_bastien.epicture.dummy.PostItem;
 
 /**
@@ -60,12 +61,20 @@ public class PostsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_posts_list, container, false);
+		View fragView = inflater.inflate(R.layout.fragment_posts_list, container, false);
+		RecyclerView recyclerView = fragView.findViewById(R.id.list);
+		SwipeRefreshLayout swipeRefreshLayout = fragView.findViewById(R.id.refreshSwipe);
+
+		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				
+			}
+		});
 
 		// Set the adapter
-		if (view instanceof RecyclerView) {
-			Context context = view.getContext();
-			RecyclerView recyclerView = (RecyclerView) view;
+		if (recyclerView != null) {
+			Context context = recyclerView.getContext();
 			if (mColumnCount <= 1) {
 				recyclerView.setLayoutManager(new LinearLayoutManager(context));
 			} else {
@@ -74,7 +83,7 @@ public class PostsFragment extends Fragment {
 			adapter = new MyPostsRecyclerViewAdapter(mListener);
 			recyclerView.setAdapter(adapter);
 		}
-		return view;
+		return fragView;
 	}
 
 	@Override

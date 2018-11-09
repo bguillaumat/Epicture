@@ -1,9 +1,15 @@
 package brice_bastien.epicture;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
+
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +44,25 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 
 	@Override
 	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-		holder.mItem = itemList.get(position);
-		holder.mIdView.setText(itemList.get(position).title);
-		holder.mContentView.setText(itemList.get(position).link);
 
+		holder.mItem = itemList.get(position);
+		holder.mTitleView.setText(itemList.get(position).title);
+		VideoView videoView = holder.mVideoView;
+		ImageView imageView = holder.mImageView;
+
+		if (itemList.get(position).images.get(0).endsWith(".mp4")) {
+			imageView.setVisibility(View.GONE);
+			MediaController mediaController = new MediaController(holder.mView.getContext());
+			mediaController.setAnchorView(videoView);
+			videoView.setMediaController(mediaController);
+			videoView.setVideoURI(Uri.parse(itemList.get(position).images.get(0)));
+		} else {
+			videoView.setVisibility(View.GONE);
+			GlideApp.with(holder.mView)
+					.load(itemList.get(position).images.get(0))
+					.diskCacheStrategy(DiskCacheStrategy.ALL)
+					.into(imageView);
+		}
 		holder.mView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -50,6 +71,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 				}
 			}
 		});
+
 	}
 
 	public void updateData(List<PostItem> posts) {
@@ -57,9 +79,14 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		itemList.addAll(posts);
 		notifyDataSetChanged();
 	}
-	public void addItem(PostItem post) {
-		itemList.add(post);
-		notifyDataSetChanged();// notifyItemChanged();
+
+	public void addItem(int position, PostItem post) {
+		if (position == 0) {
+			itemList.add(post);
+		} else {
+			itemList.add(position, post);
+		}
+		notifyItemChanged(position);
 	}
 
 	public void removeItem(int position) {
@@ -77,21 +104,17 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		public final View mView;
-		public final TextView mIdView;
-		public final TextView mContentView;
+		public final TextView mTitleView;
+		public final ImageView mImageView;
+		public final VideoView mVideoView;
 		public PostItem mItem;
 
 		public ViewHolder(View view) {
 			super(view);
 			mView = view;
-			mIdView = view.findViewById(R.id.item_number);
-			mContentView = view.findViewById(R.id.content);
-		}
-
-		@NonNull
-		@Override
-		public String toString() {
-			return super.toString() + " '" + mContentView.getText() + "'";
+			mTitleView = view.findViewById(R.id.post_title);
+			mImageView = view.findViewById(R.id.post_img);
+			mVideoView = view.findViewById(R.id.post_vid);
 		}
 	}
 }

@@ -77,7 +77,7 @@ class ApiCall {
 			public void onResponse(JSONObject response) {
 				try {
 					if (fragment.adapter == null) {
-						Toast.makeText(context,"frag", Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, "frag", Toast.LENGTH_SHORT).show();
 					}
 					JSONArray array = new JSONArray(response.getString("data"));
 					for (int i = 0; i < array.length(); i++) {
@@ -85,7 +85,7 @@ class ApiCall {
 						PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), obj.getString("ups"), obj.getString("downs"), obj.getString("link"));
 						if (obj.isNull("images")) {
 							post.AddImage(obj.getString("link"));
-							fragment.adapter.addItem(post);
+							fragment.adapter.addItem(0, post);
 							Log.i("GetData", post.toString());
 							continue;
 						}
@@ -95,9 +95,8 @@ class ApiCall {
 							post.AddImage(tmp_img.getString("link"));
 						}
 						Log.i("GetData", post.toString());
-						fragment.adapter.addItem(post);
+						fragment.adapter.addItem(0, post);
 					}
-
 				} catch (Exception e) {
 					Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
 				}

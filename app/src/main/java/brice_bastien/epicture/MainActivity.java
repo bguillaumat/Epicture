@@ -40,6 +40,16 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			finish();
 			startActivity(intent);
 		}
+
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+		if (switchPref) {
+			setTheme(R.style.AppTheme_DARK);
+		} else {
+			setTheme(R.style.AppTheme);
+		}
+
 		fragmentManager.beginTransaction().replace(R.id.include, postsFragment).commit();
 		FloatingActionButton fab = findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
@@ -48,9 +58,6 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 				postsFragment.adapter.removeItem(0);
 			}
 		});
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
 
 		ApiCall apiCall = new ApiCall(Username, "8c94575ba123f37", Token);
 		apiCall.getRecentImg(getApplicationContext(), "hot", postsFragment);
@@ -59,6 +66,19 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	@Override
 	protected void onPause() {
 		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+		if (switchPref) {
+			setTheme(R.style.AppTheme_DARK);
+		} else {
+			setTheme(R.style.AppTheme);
+		}
 	}
 
 	@Override

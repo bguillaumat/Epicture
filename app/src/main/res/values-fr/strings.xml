@@ -8,4 +8,6 @@
     <string name="nav_item3">Se Déconnecter</string>
     <string name="action_settings">Paramètres</string>
     <string name="user_info_pref">UserInfo</string>
+    <string name="dark_mode">Mode Sombre</string>
+    <string name="dark_mode_hint">Activer le mode sombre. Note: N\'est pas integrer parfaitement :p</string>
 </resources>

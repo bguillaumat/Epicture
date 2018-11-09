@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <androidx.preference.SwitchPreferenceCompat
-        android:defaultValue="true"
-        android:title="Settings option"
+        android:defaultValue="false"
+        android:title="@string/dark_mode"
         android:key="example_switch"
-        android:summary="Turn this option on or off" />
+        android:summary="@string/dark_mode_hint" />
 </androidx.preference.PreferenceScreen>

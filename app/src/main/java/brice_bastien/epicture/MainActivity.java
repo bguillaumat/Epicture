@@ -96,13 +96,13 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 				startActivity(intent);
 				return true;
 			case (R.id.app_bar_fav):
-				postsFragment.adapter.removeAll();
 				apiCall.getFavorites(getApplicationContext(), postsFragment);
 				break;
 			case (R.id.app_bar_search):
 				break;
 			case (android.R.id.home):
 				BottomNavigationDrawerFragment bottomNavDrawerFragment = new BottomNavigationDrawerFragment();
+				bottomNavDrawerFragment.postsFragment = postsFragment;
 				bottomNavDrawerFragment.show(getSupportFragmentManager(), bottomNavDrawerFragment.getTag());
 				break;
 		}

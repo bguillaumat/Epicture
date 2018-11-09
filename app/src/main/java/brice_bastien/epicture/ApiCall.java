@@ -45,6 +45,8 @@ class ApiCall {
 			@Override
 			public void onResponse(JSONObject response) {
 				try {
+					fragment.adapter.removeAll();
+					Log.i("GetData", response.toString(2));
 					JSONArray array = new JSONArray(response.getString("data"));
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject obj = new JSONObject(array.getString(i));
@@ -96,6 +98,7 @@ class ApiCall {
 			@Override
 			public void onResponse(JSONObject response) {
 				try {
+					fragment.adapter.removeAll();
 					JSONArray array = new JSONArray(response.getString("data"));
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject obj = new JSONObject(array.getString(i));
@@ -149,16 +152,13 @@ class ApiCall {
 			public void onResponse(JSONObject response) {
 				try {
 					JSONArray array = new JSONArray(response.getString("data"));
-
-					Log.i("Data ", response.toString(2));
-
+					fragment.adapter.removeAll();
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject obj = new JSONObject(array.getString(i));
 						PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), "0", "0", obj.getString("link"));
 						if (obj.isNull("images")) {
 							post.AddImage(obj.getString("link"));
 							fragment.adapter.addItem(0, post);
-							Log.i("GetData", post.toString());
 							continue;
 						}
 						JSONArray images = new JSONArray(obj.getString("images"));
@@ -166,7 +166,6 @@ class ApiCall {
 							JSONObject tmp_img = new JSONObject(images.getString(j));
 							post.AddImage(tmp_img.getString("link"));
 						}
-						Log.i("GetData", post.toString());
 						fragment.adapter.addItem(0, post);
 					}
 				} catch (Exception e) {

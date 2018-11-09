@@ -20,6 +20,8 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 
 	Storage store = new Storage();
 	private SharedPreferences sharedPreferences;
+	public PostsFragment postsFragment;
+
 
 	@Nullable
 	@Override
@@ -42,9 +44,11 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 
 				switch (menuItem.getItemId()) {
 					case (R.id.nav1):
+						Intent intentAccount = new Intent(getActivity(), AccountSetting.class);
+						startActivity(intentAccount);
 						break;
 					case (R.id.nav2):
-
+						apiCall.getUserImg(getContext(), postsFragment);
 // TODO interface in PostsFragment for access postsFragments ref
 //						apiCall.getUserImg(getContext(), postsFragment);
 						break;

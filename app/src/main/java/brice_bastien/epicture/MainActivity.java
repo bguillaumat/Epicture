@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.preference.PreferenceManager;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,18 +12,23 @@ import android.widget.Toast;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
-	Storage store = new Storage();
-
 	private String Token = "";
 	private String Username = "";
-	SharedPreferences sharedPreferences;
+	private List<Post> posts = new ArrayList<>();
+	private SharedPreferences sharedPreferences;
+
+	private RecyclerView postsView;
+	private RecyclerView.Adapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +47,14 @@ public class MainActivity extends AppCompatActivity {
 			startActivity(intent);
 		}
 
-		Toast.makeText(this, Token, Toast.LENGTH_LONG).show();
+		ApiCall apiCall = new ApiCall(Username, "8c94575ba123f37", Token);
+		apiCall.getRecentImg(getApplicationContext(), "hot", posts);
 
 		FloatingActionButton fab = findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				BottomAppBar bar = findViewById(R.id.bottom_app_bar);
-				ApiCall apiCall = new ApiCall(Username, "8c94575ba123f37", Token);
-				apiCall.getUserImg(getApplicationContext());
 				if (bar.getFabAlignmentMode() == BottomAppBar.FAB_ALIGNMENT_MODE_END) {
 					bar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
 				} else {
@@ -68,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	protected void onPause() {
-		//store.closeData(this, Token, Username, Etc);
 		super.onPause();
 	}
 

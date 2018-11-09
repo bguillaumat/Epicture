@@ -1,25 +1,21 @@
 package brice_bastien.epicture;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -33,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
 
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 		if (sharedPreferences.contains("User_Token") && sharedPreferences.contains("Username")) {
-			Toast.makeText(this, "Already auth", Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 			finish();
 			startActivity(intent);
@@ -54,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
 							parameters.put(s, s1);
 					}
 					if (parameters.containsKey("access_token") && parameters.containsKey("account_username")) {
-						Toast.makeText(getApplicationContext(), "Information enter.", Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 						String Token = parameters.get("access_token");
 						String Username = parameters.get("account_username");

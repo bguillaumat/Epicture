@@ -15,8 +15,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import brice_bastien.epicture.dummy.PostItem;
 
 class ApiCall {
 
@@ -65,23 +66,26 @@ class ApiCall {
 
 	}
 
-	void getRecentImg(final Context context, String section, final List<Post> posts) {
+	void getRecentImg(final Context context, String section, final PostsFragment fragment) {
 		String url = "https://api.imgur.com/3/gallery/" + section + "/";
 
 		RequestQueue queue = Volley.newRequestQueue(context);
 
-		posts.clear();
 		JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url,
 				null, new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {
 				try {
+					if (fragment.adapter == null) {
+						Toast.makeText(context,"frag", Toast.LENGTH_SHORT).show();
+					}
 					JSONArray array = new JSONArray(response.getString("data"));
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject obj = new JSONObject(array.getString(i));
-						Post post = new Post(obj.getString("id"), obj.getString("title"), obj.getString("ups"), obj.getString("downs"), obj.getString("link"));
+						PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), obj.getString("ups"), obj.getString("downs"), obj.getString("link"));
 						if (obj.isNull("images")) {
 							post.AddImage(obj.getString("link"));
+							fragment.adapter.addItem(post);
 							Log.i("GetData", post.toString());
 							continue;
 						}
@@ -91,7 +95,7 @@ class ApiCall {
 							post.AddImage(tmp_img.getString("link"));
 						}
 						Log.i("GetData", post.toString());
-						posts.add(post);
+						fragment.adapter.addItem(post);
 					}
 
 				} catch (Exception e) {
@@ -113,10 +117,7 @@ class ApiCall {
 				return headers;
 			}
 		};
-
 		queue.add(req);
-
-
 	}
 
 	void searchImg() {

@@ -1,5 +1,6 @@
 package brice_bastien.epicture;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,28 +8,21 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import brice_bastien.epicture.dummy.PostItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PostsFragment.OnListFragmentInteractionListener {
 
 	private String Token = "";
 	private String Username = "";
-	private List<Post> posts = new ArrayList<>();
 	private SharedPreferences sharedPreferences;
-
-	private RecyclerView postsView;
-	private RecyclerView.Adapter adapter;
+	private PostsFragment postsFragment = PostsFragment.newInstance(1);
+	private FragmentManager fragmentManager = getFragmentManager();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,25 +40,20 @@ public class MainActivity extends AppCompatActivity {
 			finish();
 			startActivity(intent);
 		}
-
-		ApiCall apiCall = new ApiCall(Username, "8c94575ba123f37", Token);
-		apiCall.getRecentImg(getApplicationContext(), "hot", posts);
-
+		fragmentManager.beginTransaction().replace(R.id.include, postsFragment).commit();
 		FloatingActionButton fab = findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				BottomAppBar bar = findViewById(R.id.bottom_app_bar);
-				if (bar.getFabAlignmentMode() == BottomAppBar.FAB_ALIGNMENT_MODE_END) {
-					bar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-				} else {
-					bar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-				}
+				postsFragment.adapter.removeItem(0);
 			}
 		});
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+
+		ApiCall apiCall = new ApiCall(Username, "8c94575ba123f37", Token);
+		apiCall.getRecentImg(getApplicationContext(), "hot", postsFragment);
 	}
 
 	@Override
@@ -97,4 +86,8 @@ public class MainActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	public void onListFragmentInteraction(PostItem item) {
+
+	}
 }

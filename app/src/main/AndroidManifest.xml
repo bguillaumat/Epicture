@@ -57,7 +57,13 @@
         </activity>
         <activity
             android:name=".AccountSetting"
-            android:label="@string/title_activity_account_setting"></activity>
+            android:label="@string/title_activity_account_setting"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

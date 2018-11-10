@@ -46,10 +46,10 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
 		holder.mItem = itemList.get(position);
-		if (itemList.get(position).title == null)
-			holder.mTitleView.setText(itemList.get(position).title);
-		else
+		if (itemList.get(position).title.equals("null"))
 			holder.mTitleView.setText("");
+		else
+			holder.mTitleView.setText(itemList.get(position).title);
 		VideoView videoView = holder.mVideoView;
 		ImageView imageView = holder.mImageView;
 

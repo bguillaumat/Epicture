@@ -39,7 +39,7 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="brice_bastien.epicture"
-            android:targetClass="brice_bastien.epicture.MainActivity" />
+            android:targetClass="brice_bastien.epicture.AccountSetting" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 

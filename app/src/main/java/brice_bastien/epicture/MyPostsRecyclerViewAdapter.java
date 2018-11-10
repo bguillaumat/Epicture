@@ -1,5 +1,7 @@
 package brice_bastien.epicture;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -43,8 +46,12 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+	public void onViewRecycled(@NonNull ViewHolder holder) {
+		super.onViewRecycled(holder);
+	}
 
+	@Override
+	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 		holder.mItem = itemList.get(position);
 		if (itemList.get(position).title.equals("null"))
 			holder.mTitleView.setText("");
@@ -55,6 +62,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 
 		if (itemList.get(position).images.get(0).endsWith(".mp4")) {
 			imageView.setVisibility(View.GONE);
+			GlideApp.with(holder.mView).clear(imageView);
 			MediaController mediaController = new MediaController(holder.mView.getContext());
 			mediaController.setAnchorView(videoView);
 			videoView.setMediaController(mediaController);
@@ -94,7 +102,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		} else {
 			itemList.add(position, post);
 		}
-		notifyItemChanged(position);
+		notifyItemInserted(position);
 	}
 
 	public void removeItem(int position) {

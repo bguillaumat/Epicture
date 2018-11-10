@@ -63,14 +63,14 @@ public class PostsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View fragView = inflater.inflate(R.layout.fragment_posts_list, container, false);
 		RecyclerView recyclerView = fragView.findViewById(R.id.list);
-		SwipeRefreshLayout swipeRefreshLayout = fragView.findViewById(R.id.refreshSwipe);
+		final SwipeRefreshLayout swipeRefreshLayout = fragView.findViewById(R.id.refreshSwipe);
 
 		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
 
 				//Refresh data
-
+				swipeRefreshLayout.setRefreshing(false);
 			}
 		});
 

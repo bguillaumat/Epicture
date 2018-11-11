@@ -22,11 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import brice_bastien.epicture.PostsFragment.OnListFragmentInteractionListener;
 import brice_bastien.epicture.dummy.PostItem;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PostItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecyclerViewAdapter.ViewHolder> {
 
 	private final List<PostItem> itemList;

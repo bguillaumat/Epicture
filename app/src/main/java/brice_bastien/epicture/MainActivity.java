@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	private String Token = "";
 	private String Username = "";
 	private SharedPreferences sharedPreferences;
-	private PostsFragment postsFragment = PostsFragment.newInstance(1);
+	private PostsFragment postsFragment;
 	private FragmentManager fragmentManager = getFragmentManager();
 	private ImgurApi imgurApi;
 	private static final int REQUEST_CODE = 42;
@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			setTheme(R.style.AppTheme);
 		}
 
+		imgurApi = new ImgurApi(getApplicationContext(), Username, Token);
+		postsFragment = PostsFragment.newInstance(1, imgurApi);
 		fragmentManager.beginTransaction().replace(R.id.include, postsFragment).commit();
 		FloatingActionButton fab = findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			}
 		});
 
-		imgurApi = new ImgurApi(getApplicationContext(), Username, Token);
 		imgurApi.getRecentImg(postsFragment, "hot");
 	}
 
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			case (android.R.id.home):
 				BottomNavigationDrawerFragment bottomNavDrawerFragment = new BottomNavigationDrawerFragment();
 				bottomNavDrawerFragment.postsFragment = postsFragment;
+				bottomNavDrawerFragment.imgurApi = imgurApi;
 				bottomNavDrawerFragment.show(getSupportFragmentManager(), bottomNavDrawerFragment.getTag());
 				break;
 		}

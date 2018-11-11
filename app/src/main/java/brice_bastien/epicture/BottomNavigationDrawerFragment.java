@@ -22,6 +22,7 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 	Storage store = new Storage();
 	private SharedPreferences sharedPreferences;
 	public PostsFragment postsFragment;
+	public ImgurApi imgurApi;
 
 
 	@Nullable
@@ -37,12 +38,6 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-				sharedPreferences = getActivity().getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
-				String Token = sharedPreferences.getString("User_Token", null);
-				String Username = sharedPreferences.getString("Username", null);
-
-				ImgurApi imgurApi = new ImgurApi(getContext(), Username, Token);
-
 				switch (menuItem.getItemId()) {
 					case (R.id.nav1):
 						Intent intentAccount = new Intent(getActivity(), AccountSetting.class);
@@ -50,7 +45,6 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 						break;
 					case (R.id.nav2):
 						imgurApi.getUserImg(postsFragment);
-						// TODO interface in PostsFragment for access postsFragments ref
 						break;
 					case (R.id.nav3):
 						Intent intent = new Intent(getContext(), LoginActivity.class);

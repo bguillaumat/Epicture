@@ -1,10 +1,10 @@
 package brice_bastien.epicture;
 
-import android.Manifest;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	private PostsFragment postsFragment = PostsFragment.newInstance(1);
 	private FragmentManager fragmentManager = getFragmentManager();
 	private ApiCall apiCall;
+	private static final int REQUEST_CODE = 42;
 	String[] PERMISSIONS = {
 			android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
 			android.Manifest.permission.READ_EXTERNAL_STORAGE
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 				Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 				intent.addCategory(Intent.CATEGORY_OPENABLE);
 				intent.setType("image/*");
-				startActivityForResult(intent, 42);
+				startActivityForResult(intent, REQUEST_CODE);
 			}
 		});
 
@@ -124,4 +125,27 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	public void onListFragmentInteraction(PostItem item) {
 
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+				case REQUEST_CODE:
+					if (data != null) {
+						Uri uri = data.getData();
+
+						apiCall.UploadImg(getApplicationContext(), uri);
+
+//						PostItem post = new PostItem("1", "my picture", "0", "0", uri.toString());
+//						post.AddImage(uri.toString());
+
+//						postsFragment.adapter.removeAll();
+//						postsFragment.adapter.addItem(0, post);
+					}
+			}
+		}
+
+	}
+
+
 }

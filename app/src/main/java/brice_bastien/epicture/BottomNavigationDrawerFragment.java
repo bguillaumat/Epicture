@@ -15,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import brice_bastien.epicture.ImgurApi.ImgurApi;
 
 public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 
@@ -40,7 +41,7 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 				String Token = sharedPreferences.getString("User_Token", null);
 				String Username = sharedPreferences.getString("Username", null);
 
-				ApiCall apiCall = new ApiCall(Username, "8c94575ba123f37", Token);;
+				ImgurApi imgurApi = new ImgurApi(getContext(), Username, Token);
 
 				switch (menuItem.getItemId()) {
 					case (R.id.nav1):
@@ -48,9 +49,8 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 						startActivity(intentAccount);
 						break;
 					case (R.id.nav2):
-						apiCall.getUserImg(getContext(), postsFragment);
-// TODO interface in PostsFragment for access postsFragments ref
-//						apiCall.getUserImg(getContext(), postsFragment);
+						imgurApi.getUserImg(postsFragment);
+						// TODO interface in PostsFragment for access postsFragments ref
 						break;
 					case (R.id.nav3):
 						Intent intent = new Intent(getContext(), LoginActivity.class);

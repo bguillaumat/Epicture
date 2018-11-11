@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
+import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.dummy.PostItem;
 
 public class MainActivity extends AppCompatActivity implements PostsFragment.OnListFragmentInteractionListener {
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	private SharedPreferences sharedPreferences;
 	private PostsFragment postsFragment = PostsFragment.newInstance(1);
 	private FragmentManager fragmentManager = getFragmentManager();
-	private ApiCall apiCall;
+	private ImgurApi imgurApi;
 	private static final int REQUEST_CODE = 42;
 	String[] PERMISSIONS = {
 			android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -72,13 +73,8 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			}
 		});
 
-		apiCall = new ApiCall(Username, "8c94575ba123f37", Token);
-		apiCall.getRecentImg(getApplicationContext(), "hot", postsFragment);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
+		imgurApi = new ImgurApi(getApplicationContext(), Username, Token);
+		imgurApi.getRecentImg(postsFragment, "hot");
 	}
 
 	@Override
@@ -108,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 				startActivity(intent);
 				return true;
 			case (R.id.app_bar_fav):
-				apiCall.getFavorites(getApplicationContext(), postsFragment);
+				imgurApi.getUserFavorite(postsFragment);
 				break;
 			case (R.id.app_bar_search):
 				break;
@@ -132,15 +128,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			switch (requestCode) {
 				case REQUEST_CODE:
 					if (data != null) {
-						Uri uri = data.getData();
-
-						apiCall.UploadImg(getApplicationContext(), uri);
-
-//						PostItem post = new PostItem("1", "my picture", "0", "0", uri.toString());
-//						post.AddImage(uri.toString());
-
-//						postsFragment.adapter.removeAll();
-//						postsFragment.adapter.addItem(0, post);
+						imgurApi.uploadImg(data.getData());
 					}
 			}
 		}

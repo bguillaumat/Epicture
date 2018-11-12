@@ -26,7 +26,7 @@ import uk.me.hardill.volley.multipart.MultipartRequest;
 public class ImgurApi {
 
 	// const var
-	private static final String host = "https://api.imgur.com/";
+	private static final String host = "https://api.imgur.com/3/";
 
 	// type definition
 	private enum REQUEST_TYPE {
@@ -69,9 +69,24 @@ public class ImgurApi {
 		}
 	}
 
+	public void delUserImg(String pictureId) {
+		String url = host + "image/" + pictureId;
+		JsonObjectRequest request = new JsonRequest(Request.Method.DELETE, url, null, new ResponsePosts(context), new ErrorListener(), clientId, token);
+
+		requestQueue.add(request);
+	}
+
+	// Fav an image
+	public void addImgFav(String pictureId) {
+		String url = host + "image/" + pictureId + "/favorite";
+		JsonObjectRequest request = new JsonRequest(Request.Method.POST, url, null, new ResponsePosts(context), new ErrorListener(), clientId, token);
+
+		requestQueue.add(request);
+	}
+
 	// Get Favorite Image of User
 	public void getUserFavorite(PostsFragment fragment) {
-		String url = host + "/3/account/" + username + "/favorites/";
+		String url = host + "account/" + username + "/favorites/";
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);
@@ -80,7 +95,7 @@ public class ImgurApi {
 
 	// Get User Img import
 	public void getUserImg(PostsFragment fragment) {
-		String url = host + "/3/account/" + username + "/images";
+		String url = host + "account/" + username + "/images";
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);
@@ -89,7 +104,7 @@ public class ImgurApi {
 
 	// Get Recent hot/viral image in imgur
 	public void getRecentImg(PostsFragment fragment, String section) {
-		String url = host + "/3/gallery/" + section + "/";
+		String url = host + "gallery/" + section + "/";
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);
@@ -97,7 +112,7 @@ public class ImgurApi {
 	}
 
 	public void uploadImg(Uri img) {
-		String url = host + "3/image";
+		String url = host + "image";
 
 		HashMap<String, String> headers = new HashMap<>();
 		headers.put("Authorization", "Bearer " + token);

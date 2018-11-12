@@ -25,13 +25,13 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 	@Override
 	public void onResponse(JSONObject response) {
 		try {
-			postsFragment.adapter.removeAll();
 			Log.i("GetData", response.toString(2));
+			postsFragment.adapter.removeAll();
 			JSONArray array = new JSONArray(response.getString("data"));
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject obj = new JSONObject(array.getString(i));
 				// TODO ups & downs
-				PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), "0", "0", obj.getString("link"));
+				PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), "0", "0", obj.getString("link"), obj.getBoolean("favorite"));
 				if (obj.isNull("images")) {
 					post.AddImage(obj.getString("link"));
 					postsFragment.adapter.addItem(0, post);

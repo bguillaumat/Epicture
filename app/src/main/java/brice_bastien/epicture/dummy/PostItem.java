@@ -17,14 +17,16 @@ public class PostItem {
 	public String ups;
 	public String downs;
 	public String link;
+	public boolean favorite;
 	public List<String> images = new ArrayList<>();
 
-	public PostItem(String id, String title, String ups, String downs, String link) {
+	public PostItem(String id, String title, String ups, String downs, String link, boolean favorite) {
 		this.id = id;
 		this.title = title;
 		this.ups = ups;
 		this.downs = downs;
 		this.link = link;
+		this.favorite = favorite;
 	}
 
 	public void AddImage(String img) {

@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,7 +71,7 @@ public class PostsFragment extends Fragment {
 			} else {
 				recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
 			}
-			adapter = new MyPostsRecyclerViewAdapter(mListener, getContext());
+			adapter = new MyPostsRecyclerViewAdapter(mListener, getContext(), imgurApi);
 			recyclerView.setAdapter(adapter);
 		}
 		return fragView;

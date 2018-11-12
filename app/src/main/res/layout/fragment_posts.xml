@@ -17,15 +17,15 @@
 
         <ImageView
             android:id="@+id/post_img"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:contentDescription="@string/app_name" />
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter" />
 
         <VideoView
             android:id="@+id/post_vid"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="120dp" />
 
         <LinearLayout

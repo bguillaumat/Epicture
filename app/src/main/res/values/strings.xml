@@ -13,4 +13,6 @@
     <string name="nav_item3">Logout</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_account_setting">Account Setting</string>
+
+    <string name="upload_success">Your photo was successfully upload</string>
 </resources>

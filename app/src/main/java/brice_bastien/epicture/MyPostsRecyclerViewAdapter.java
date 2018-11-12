@@ -1,14 +1,19 @@
 package brice_bastien.epicture;
 
+import android.content.Context;
+import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
@@ -19,18 +24,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import brice_bastien.epicture.PostsFragment.OnListFragmentInteractionListener;
 import brice_bastien.epicture.dummy.PostItem;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PostItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecyclerViewAdapter.ViewHolder> {
 
 	private final List<PostItem> itemList;
 	private final OnListFragmentInteractionListener mListener;
+	private Context context;
 
-	MyPostsRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
+	MyPostsRecyclerViewAdapter(OnListFragmentInteractionListener listener, Context context) {
 		itemList = new ArrayList<>();
+		this.context = context;
 		mListener = listener;
 	}
 
@@ -43,27 +45,37 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+	public void onViewRecycled(@NonNull ViewHolder holder) {
+		super.onViewRecycled(holder);
+	}
 
+	@Override
+	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 		holder.mItem = itemList.get(position);
 		if (itemList.get(position).title.equals("null"))
 			holder.mTitleView.setText("");
 		else
 			holder.mTitleView.setText(itemList.get(position).title);
-		VideoView videoView = holder.mVideoView;
+		final VideoView videoView = holder.mVideoView;
 		ImageView imageView = holder.mImageView;
 
 		if (itemList.get(position).images.get(0).endsWith(".mp4")) {
+			Uri url = Uri.parse(itemList.get(position).images.get(0));
+
 			imageView.setVisibility(View.GONE);
 			MediaController mediaController = new MediaController(holder.mView.getContext());
 			mediaController.setAnchorView(videoView);
 			videoView.setMediaController(mediaController);
-			videoView.setVideoURI(Uri.parse(itemList.get(position).images.get(0)));
+			videoView.setVideoURI(url);
+
 		} else {
 			videoView.setVisibility(View.GONE);
-			GlideApp.with(holder.mView)
+			holder.mImageView.setImageDrawable(null);
+			GlideApp.with(holder.itemView)
+					.asDrawable()
 					.load(itemList.get(position).images.get(0))
-					.diskCacheStrategy(DiskCacheStrategy.ALL)
+					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+					.centerCrop()
 					.into(imageView);
 		}
 		holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +106,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		} else {
 			itemList.add(position, post);
 		}
-		notifyItemChanged(position);
+		notifyItemInserted(position);
 	}
 
 	public void removeItem(int position) {

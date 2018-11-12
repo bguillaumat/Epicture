@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 		webView.getSettings().setDomStorageEnabled(true);
 		webView.clearCache(true);
 		webView.clearFormData();
-		webView.loadUrl("https://api.imgur.com/oauth2/authorize?client_id=8c94575ba123f37&response_type=token");
+		webView.loadUrl("https://api.imgur.com/oauth2/authorize?client_id=" + BuildConfig.IMGUR_API_KEY + "&response_type=token");
 
 	}
 }

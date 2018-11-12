@@ -1,29 +1,21 @@
 package brice_bastien.epicture;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.bumptech.glide.Glide;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import java.util.List;
-
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.dummy.PostItem;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class PostsFragment extends Fragment {
 
 	// TODO: Customize parameter argument names
@@ -32,18 +24,16 @@ public class PostsFragment extends Fragment {
 	private int mColumnCount = 1;
 	private OnListFragmentInteractionListener mListener;
 	public MyPostsRecyclerViewAdapter adapter = null;
+	public ImgurApi imgurApi;
 
-	/**
-	 * Mandatory empty constructor for the fragment manager to instantiate the
-	 * fragment (e.g. upon screen orientation changes).
-	 */
 	public PostsFragment() {
 	}
 
 	// TODO: Customize parameter initialization
 	@SuppressWarnings("unused")
-	public static PostsFragment newInstance(int columnCount) {
+	public static PostsFragment newInstance(int columnCount, ImgurApi imgurApi) {
 		PostsFragment fragment = new PostsFragment();
+		fragment.imgurApi = imgurApi;
 		Bundle args = new Bundle();
 		args.putInt(ARG_COLUMN_COUNT, columnCount);
 		fragment.setArguments(args);
@@ -61,16 +51,17 @@ public class PostsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View fragView = inflater.inflate(R.layout.fragment_posts_list, container, false);
+		final View fragView = inflater.inflate(R.layout.fragment_posts_list, container, false);
 		RecyclerView recyclerView = fragView.findViewById(R.id.list);
-		SwipeRefreshLayout swipeRefreshLayout = fragView.findViewById(R.id.refreshSwipe);
+		final SwipeRefreshLayout swipeRefreshLayout = fragView.findViewById(R.id.refreshSwipe);
+		final PostsFragment postsFragment = this;
 
 		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
 
-				//Refresh data
-
+				imgurApi.refresh_data(postsFragment);
+				swipeRefreshLayout.setRefreshing(false);
 			}
 		});
 
@@ -82,7 +73,7 @@ public class PostsFragment extends Fragment {
 			} else {
 				recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
 			}
-			adapter = new MyPostsRecyclerViewAdapter(mListener);
+			adapter = new MyPostsRecyclerViewAdapter(mListener, getContext());
 			recyclerView.setAdapter(adapter);
 		}
 		return fragView;

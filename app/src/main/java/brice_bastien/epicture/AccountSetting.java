@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.widget.Toolbar;
 
-public class AccountSetting extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class AccountSetting extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

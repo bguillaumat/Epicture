@@ -1,17 +1,19 @@
 package brice_bastien.epicture;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Context;
+import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
@@ -26,9 +28,11 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 
 	private final List<PostItem> itemList;
 	private final OnListFragmentInteractionListener mListener;
+	private Context context;
 
-	MyPostsRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
+	MyPostsRecyclerViewAdapter(OnListFragmentInteractionListener listener, Context context) {
 		itemList = new ArrayList<>();
+		this.context = context;
 		mListener = listener;
 	}
 
@@ -52,21 +56,26 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			holder.mTitleView.setText("");
 		else
 			holder.mTitleView.setText(itemList.get(position).title);
-		VideoView videoView = holder.mVideoView;
+		final VideoView videoView = holder.mVideoView;
 		ImageView imageView = holder.mImageView;
 
 		if (itemList.get(position).images.get(0).endsWith(".mp4")) {
+			Uri url = Uri.parse(itemList.get(position).images.get(0));
+
 			imageView.setVisibility(View.GONE);
-			GlideApp.with(holder.mView).clear(imageView);
 			MediaController mediaController = new MediaController(holder.mView.getContext());
 			mediaController.setAnchorView(videoView);
 			videoView.setMediaController(mediaController);
-			videoView.setVideoURI(Uri.parse(itemList.get(position).images.get(0)));
+			videoView.setVideoURI(url);
+
 		} else {
 			videoView.setVisibility(View.GONE);
-			GlideApp.with(holder.mView)
+			holder.mImageView.setImageDrawable(null);
+			GlideApp.with(holder.itemView)
+					.asDrawable()
 					.load(itemList.get(position).images.get(0))
-					.diskCacheStrategy(DiskCacheStrategy.ALL)
+					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+					.centerCrop()
 					.into(imageView);
 		}
 		holder.mView.setOnClickListener(new View.OnClickListener() {

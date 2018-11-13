@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,9 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 		if (sharedPreferences.contains("User_Token") && sharedPreferences.contains("Username")) {
 			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-			finish();
 			startActivity(intent);
-			return;
 		}
 
 		final WebView webView = findViewById(R.id.webView);
@@ -60,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
 								.putString("Username", Username)
 								.apply();
 						cookieManager.removeAllCookies(null);
-						finish();
 						startActivity(intent);
 						return;
 					}
@@ -68,11 +65,29 @@ public class LoginActivity extends AppCompatActivity {
 				super.onPageStarted(view, url, favicon);
 			}
 		});
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			webView.getSettings().setSafeBrowsingEnabled(false);
+		}
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setDomStorageEnabled(true);
 		webView.clearCache(true);
 		webView.clearFormData();
 		webView.loadUrl("https://api.imgur.com/oauth2/authorize?client_id=" + BuildConfig.IMGUR_API_KEY + "&response_type=token");
+	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		WebView webView = findViewById(R.id.webView);
+
+		webView.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		WebView webView = findViewById(R.id.webView);
+
+		webView.onResume();
 	}
 }

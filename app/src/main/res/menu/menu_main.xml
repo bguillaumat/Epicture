@@ -10,9 +10,9 @@
     </item>
 
     <item
-        android:id="@+id/app_bar_fav"
-        android:icon="@drawable/ic_favorite_white_24dp"
-        android:title="@string/action_favorite"
+        android:id="@+id/app_bar_home"
+        android:icon="@drawable/ic_home"
+        android:title="home"
         app:showAsAction="ifRoom"/>
 
     <item

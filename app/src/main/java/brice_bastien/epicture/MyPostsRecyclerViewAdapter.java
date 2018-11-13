@@ -1,7 +1,7 @@
 package brice_bastien.epicture;
 
 import android.content.Context;
-import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +10,12 @@ import android.view.animation.BounceInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.VideoView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +55,9 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	@Override
 	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 		holder.mItem = itemList.get(position);
+		Log.i("Item", holder.mItem.toString());
+		holder.mFavorite.setOnCheckedChangeListener(null);
+		holder.mFavorite.setChecked(holder.mItem.favorite);
 		if (holder.mItem.title.equals("null"))
 			holder.mTitleView.setText("");
 		else
@@ -64,27 +65,25 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		VideoView videoView = holder.mVideoView;
 		ImageView imageView = holder.mImageView;
 
-		if (holder.mItem.images.get(0).endsWith(".mp4")) {
-			Uri url = Uri.parse(holder.mItem.images.get(0));
-
-			imageView.setVisibility(View.GONE);
-			MediaController mediaController = new MediaController(holder.mView.getContext());
-			mediaController.setAnchorView(videoView);
-			videoView.setMediaController(mediaController);
-			videoView.setVideoURI(url);
+		if (holder.mItem.images.get(0).endsWith(".gifv")) {
+			videoView.setVisibility(View.GONE);
+			holder.mImageView.setImageDrawable(null);
+			String url = holder.mItem.images.get(0);
+			url = url.replace(".gifv", "h.jpg");
+			GlideApp.with(holder.itemView)
+					.load(url)
+					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+					.into(imageView);
 		} else {
 			videoView.setVisibility(View.GONE);
 			holder.mImageView.setImageDrawable(null);
+
 			GlideApp.with(holder.itemView)
-					.asDrawable()
 					.load(holder.mItem.images.get(0))
-					.override(Target.SIZE_ORIGINAL)
 					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-					.centerCrop()
 					.into(imageView);
 		}
-		holder.mFavorite.setChecked(holder.mItem.favorite);
-		holder.mFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+		holder.mFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 				final ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
@@ -93,7 +92,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 				scaleAnimation.setInterpolator(bounceInterpolator);
 				compoundButton.startAnimation(scaleAnimation);
 
-				imgurApi.addImgFav(holder.mItem.id);
+				imgurApi.addImgFav(holder.mItem.imageFav);
 
 			}});
 

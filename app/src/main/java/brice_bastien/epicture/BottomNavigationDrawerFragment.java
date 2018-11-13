@@ -1,6 +1,5 @@
 package brice_bastien.epicture;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -42,6 +40,9 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 					case (R.id.nav1):
 						Intent intentAccount = new Intent(getActivity(), AccountSetting.class);
 						startActivity(intentAccount);
+						break;
+					case (R.id.navFav):
+						imgurApi.getUserFavorite(postsFragment);
 						break;
 					case (R.id.nav2):
 						imgurApi.getUserImg(postsFragment);

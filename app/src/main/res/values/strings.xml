@@ -9,6 +9,7 @@
     <string name="action_favorite">Favorite</string>
     <string name="action_search">Search</string>
     <string name="nav_item1">My Account</string>
+    <string name="my_favorite">My Favorite</string>
     <string name="nav_item2">My Pictures</string>
     <string name="nav_item3">Logout</string>
     <string name="action_settings">Settings</string>

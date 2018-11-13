@@ -17,6 +17,7 @@ public class PostItem {
 	public String ups;
 	public String downs;
 	public String link;
+	public String imageFav;
 	public boolean favorite;
 	public List<String> images = new ArrayList<>();
 
@@ -27,6 +28,7 @@ public class PostItem {
 		this.downs = downs;
 		this.link = link;
 		this.favorite = favorite;
+		this.imageFav = null;
 	}
 
 	public void AddImage(String img) {
@@ -42,6 +44,7 @@ public class PostItem {
 		ret += "ups:\t" + ups + "\n";
 		ret += "downs:\t" + downs + "\n";
 		ret += "link:\t" + link + "\n";
+		ret += "Favorite:\t" + favorite + "\n";
 		ret += "images:\n";
 		for (String tmp : images) {
 			ret += "\t" + tmp + "\n";

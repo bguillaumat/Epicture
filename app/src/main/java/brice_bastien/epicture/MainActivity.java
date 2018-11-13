@@ -103,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 				Intent intent = new Intent(this, SettingsActivity.class);
 				startActivity(intent);
 				return true;
-			case (R.id.app_bar_fav):
-				imgurApi.getUserFavorite(postsFragment);
+			case (R.id.app_bar_home):
+				imgurApi.getRecentImg(postsFragment, "hot");
 				break;
 			case (R.id.app_bar_search):
 				break;

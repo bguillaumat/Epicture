@@ -25,13 +25,16 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 	@Override
 	public void onResponse(JSONObject response) {
 		try {
-			Log.i("GetData", response.toString(2));
 			postsFragment.adapter.removeAll();
 			JSONArray array = new JSONArray(response.getString("data"));
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject obj = new JSONObject(array.getString(i));
+				Log.i("GetData", obj.toString(2));
 				// TODO ups & downs
 				PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), "0", "0", obj.getString("link"), obj.getBoolean("favorite"));
+				if (obj.has("cover")) {
+					post.imageFav = obj.getString("cover");
+				}
 				if (obj.isNull("images")) {
 					post.AddImage(obj.getString("link"));
 					postsFragment.adapter.addItem(0, post);
@@ -40,7 +43,10 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 				JSONArray images = new JSONArray(obj.getString("images"));
 				for (int j = 0; j < images.length(); j++) {
 					JSONObject tmp_img = new JSONObject(images.getString(j));
-					post.AddImage(tmp_img.getString("link"));
+					if (tmp_img.has("gifv")) {
+						post.AddImage(tmp_img.getString("gifv"));
+					} else
+						post.AddImage(tmp_img.getString("link"));
 				}
 				postsFragment.adapter.addItem(0, post);
 			}

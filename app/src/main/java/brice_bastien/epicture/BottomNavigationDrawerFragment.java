@@ -1,5 +1,6 @@
 package brice_bastien.epicture;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 						break;
 					case (R.id.nav3):
 						Intent intent = new Intent(getContext(), LoginActivity.class);
+						sharedPreferences = getActivity().getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 						sharedPreferences.edit().clear().apply();
 						getActivity().finish();
 						startActivity(intent);

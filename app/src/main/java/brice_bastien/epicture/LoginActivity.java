@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 		if (sharedPreferences.contains("User_Token") && sharedPreferences.contains("Username")) {
 			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+			finish();
 			startActivity(intent);
 		}
 
@@ -58,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 								.putString("Username", Username)
 								.apply();
 						cookieManager.removeAllCookies(null);
+						finish();
 						startActivity(intent);
 						return;
 					}

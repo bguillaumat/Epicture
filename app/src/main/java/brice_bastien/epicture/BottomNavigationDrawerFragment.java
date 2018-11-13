@@ -40,18 +40,22 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 					case (R.id.nav1):
 						Intent intentAccount = new Intent(getActivity(), AccountSetting.class);
 						startActivity(intentAccount);
+						dismiss();
 						break;
 					case (R.id.navFav):
 						imgurApi.getUserFavorite(postsFragment);
+						dismiss();
 						break;
 					case (R.id.nav2):
 						imgurApi.getUserImg(postsFragment);
+						dismiss();
 						break;
 					case (R.id.nav3):
 						Intent intent = new Intent(getContext(), LoginActivity.class);
 						sharedPreferences.edit().clear().apply();
 						getActivity().finish();
 						startActivity(intent);
+						dismiss();
 						break;
 				}
 				return true;

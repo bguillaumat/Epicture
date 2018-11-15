@@ -11,7 +11,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -25,6 +24,7 @@ import brice_bastien.epicture.BuildConfig;
 import brice_bastien.epicture.PostsFragment;
 import brice_bastien.epicture.R;
 import brice_bastien.epicture.Settings.SettingItem;
+import brice_bastien.epicture.post.PostItem;
 import uk.me.hardill.volley.multipart.MultipartRequest;
 
 public class ImgurApi {
@@ -81,8 +81,13 @@ public class ImgurApi {
 	}
 
 	// Fav an image
-	public void addImgFav(String pictureId) {
-		String url = host + "image/" + pictureId + "/favorite";
+	public void addImgFav(String pictureId, PostItem.FAV_TYPE type) {
+		String favType;
+		if (PostItem.FAV_TYPE.ALBUM == type)
+			favType = "album";
+		else
+			favType = "image";
+		String url = host + favType + "/" + pictureId + "/favorite";
 		JsonObjectRequest request = new JsonRequest(Request.Method.POST, url, null, new ResponsePosts(context), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);

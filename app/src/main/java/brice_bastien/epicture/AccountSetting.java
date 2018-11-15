@@ -51,7 +51,6 @@ public class AccountSetting extends AppCompatActivity {
 		secretType = findViewById(R.id.secret_type);
 		refreshLayout = findViewById(R.id.refreshSwipeSetting);
 
-
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 		Token = sharedPreferences.getString("User_Token", null);
 		Username = sharedPreferences.getString("Username", null);

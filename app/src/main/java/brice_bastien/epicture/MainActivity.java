@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 
 	@Override
 	public void onListFragmentInteraction(PostItem item) {
-
+		// TODO display one item
 	}
 
 	@Override

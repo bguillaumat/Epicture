@@ -65,24 +65,17 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		VideoView videoView = holder.mVideoView;
 		ImageView imageView = holder.mImageView;
 
-		if (holder.mItem.images.get(0).endsWith(".gifv")) {
-			videoView.setVisibility(View.GONE);
-			holder.mImageView.setImageDrawable(null);
-			String url = holder.mItem.images.get(0);
-			url = url.replace(".gifv", "h.jpg");
-			GlideApp.with(holder.itemView)
-					.load(url)
-					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-					.into(imageView);
-		} else {
-			videoView.setVisibility(View.GONE);
-			holder.mImageView.setImageDrawable(null);
+		videoView.setVisibility(View.GONE);
+		holder.mImageView.setImageDrawable(null);
+		String url = holder.mItem.images.get(0);
 
-			GlideApp.with(holder.itemView)
-					.load(holder.mItem.images.get(0))
-					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-					.into(imageView);
+		if (url.endsWith(".gifv")) {
+			url = url.replace(".gifv", "h.jpg");
 		}
+		GlideApp.with(holder.itemView)
+				.load(url)
+				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+				.into(imageView);
 		holder.mFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -92,17 +85,17 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 				scaleAnimation.setInterpolator(bounceInterpolator);
 				compoundButton.startAnimation(scaleAnimation);
 
-				imgurApi.addImgFav(holder.mItem.imageFav);
+				imgurApi.addImgFav(holder.mItem.imageFav, holder.mItem.favType);
+			}
+		});
 
-			}});
+		holder.mView.setOnClickListener(new View.OnClickListener()
 
-		holder.mView.setOnClickListener(new View.OnClickListener() {
+		{
 			@Override
 			public void onClick(View v) {
-				if (null != mListener) {
+				if (null != mListener)
 					mListener.onListFragmentInteraction(holder.mItem);
-					Toast.makeText(v.getContext(), "You click on ", Toast.LENGTH_SHORT).show();
-				}
 			}
 		});
 

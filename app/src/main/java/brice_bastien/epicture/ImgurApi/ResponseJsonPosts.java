@@ -30,10 +30,20 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject obj = new JSONObject(array.getString(i));
 				Log.i("GetData", obj.toString(2));
-				PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), "0", "0", obj.getString("link"), obj.getBoolean("favorite"));
-				if (obj.has("cover")) {
-					post.imageFav = obj.getString("cover");
+
+				PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), 0, 0, obj.getString("link"), obj.getBoolean("favorite"));
+				if (obj.has("ups") && obj.has("downs")) {
+					post.ups = obj.getInt("ups");
+					post.downs = obj.getInt("downs");
 				}
+				if (obj.has("is_album") && obj.getBoolean("is_album")) {
+					post.imageFav = obj.getString("id");
+					post.favType = PostItem.FAV_TYPE.ALBUM;
+				} else {
+					post.imageFav = obj.getString("id");
+					post.favType = PostItem.FAV_TYPE.PHOTO;
+				}
+				post.views = obj.getInt("views");
 				if (obj.isNull("images")) {
 					post.AddImage(obj.getString("link"));
 					postsFragment.adapter.addItem(0, post);

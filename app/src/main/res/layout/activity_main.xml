@@ -38,7 +38,7 @@
         android:layout_gravity="bottom"
         app:backgroundTint="@color/colorPrimary"
         app:fabAlignmentMode="center"
-        app:fabCradleMargin="0dp"
+        app:fabCradleMargin="5dp"
         app:hideOnScroll="true"
         app:navigationIcon="@drawable/ic_menu_white" />
 

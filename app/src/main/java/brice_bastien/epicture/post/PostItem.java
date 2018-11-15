@@ -5,23 +5,23 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
-/**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- * <p>
- * TODO: Replace all uses of this class before publishing your app.
- */
 public class PostItem {
+	public enum FAV_TYPE {
+		ALBUM,
+		PHOTO
+	}
 	public String title;
 	public String id;
-	public String ups;
-	public String downs;
+	public int ups;
+	public int downs;
+	public int views;
 	public String link;
 	public String imageFav;
+	public FAV_TYPE favType;
 	public boolean favorite;
 	public List<String> images = new ArrayList<>();
 
-	public PostItem(String id, String title, String ups, String downs, String link, boolean favorite) {
+	public PostItem(String id, String title, int ups, int downs, String link, boolean favorite) {
 		this.id = id;
 		this.title = title;
 		this.ups = ups;
@@ -45,6 +45,8 @@ public class PostItem {
 		ret += "downs:\t" + downs + "\n";
 		ret += "link:\t" + link + "\n";
 		ret += "Favorite:\t" + favorite + "\n";
+		ret += "Is album:\t" + favType + "\n";
+		ret += "views:\t" + views + "\n";
 		ret += "images:\n";
 		for (String tmp : images) {
 			ret += "\t" + tmp + "\n";

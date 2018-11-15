@@ -1,4 +1,4 @@
-package brice_bastien.epicture.dummy;
+package brice_bastien.epicture.post;
 
 import java.util.ArrayList;
 import java.util.List;

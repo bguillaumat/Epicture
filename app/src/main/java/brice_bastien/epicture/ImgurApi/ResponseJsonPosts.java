@@ -10,7 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import brice_bastien.epicture.PostsFragment;
-import brice_bastien.epicture.dummy.PostItem;
+import brice_bastien.epicture.post.PostItem;
 
 public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 
@@ -30,7 +30,6 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject obj = new JSONObject(array.getString(i));
 				Log.i("GetData", obj.toString(2));
-				// TODO ups & downs
 				PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), "0", "0", obj.getString("link"), obj.getBoolean("favorite"));
 				if (obj.has("cover")) {
 					post.imageFav = obj.getString("cover");

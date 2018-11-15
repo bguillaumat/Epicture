@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
-import brice_bastien.epicture.dummy.PostItem;
+import brice_bastien.epicture.post.PostItem;
 
 public class MainActivity extends AppCompatActivity implements PostsFragment.OnListFragmentInteractionListener {
 

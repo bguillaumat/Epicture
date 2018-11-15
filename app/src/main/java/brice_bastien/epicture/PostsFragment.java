@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
-import brice_bastien.epicture.dummy.PostItem;
+import brice_bastien.epicture.post.PostItem;
 
 public class PostsFragment extends Fragment {
 

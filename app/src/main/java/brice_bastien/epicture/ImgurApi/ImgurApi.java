@@ -19,9 +19,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import brice_bastien.epicture.AccountSetting;
 import brice_bastien.epicture.BuildConfig;
 import brice_bastien.epicture.PostsFragment;
 import brice_bastien.epicture.R;
+import brice_bastien.epicture.Settings.SettingItem;
 import uk.me.hardill.volley.multipart.MultipartRequest;
 
 public class ImgurApi {
@@ -119,11 +121,34 @@ public class ImgurApi {
 		requestQueue.add(request);
 	}
 
-	public void getUsrSetting() {
+	public void getUsrSetting(AccountSetting view) {
 		String url = host + "account/me/settings";
-		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseSettingsListener(context), new ErrorListener(), clientId, token);
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseSettingsListener(context, view), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);
+	}
+
+	public void putUsrSetting(SettingItem settingItem) {
+		String url = host + "account/" + username +"/settings";
+		HashMap<String, String> headers = new HashMap<>();
+		headers.put("Authorization", "Bearer " + token);
+		MultipartRequest request = new MultipartRequest(Request.Method.POST, url, headers, new Response.Listener<NetworkResponse>() {
+			@Override
+			public void onResponse(NetworkResponse response) {
+				Log.w("saveSetting", Integer.toString(response.statusCode));
+			}
+		}, new ErrorListener());
+
+		try {
+			request.addPart(new MultipartRequest.FormPart("show_mature", Boolean.toString(settingItem.isMature())));
+			request.addPart(new MultipartRequest.FormPart("album_privacy", settingItem.getAlbumType()));
+			request.addPart(new MultipartRequest.FormPart("public_images", Boolean.toString(settingItem.isPublishType())));
+			request.addPart(new MultipartRequest.FormPart("newsletter_subscribed", Boolean.toString(settingItem.isNewsletter())));
+			Log.i("saveSetting", new String(request.getBody()));
+			requestQueue.add(request);
+		}catch (Exception e) {
+			Log.w("saveSetting:", "failed");
+		}
 	}
 
 	public void uploadImg(Uri img) {
@@ -138,13 +163,7 @@ public class ImgurApi {
 						Log.w("Upload", response.toString());
 						Toast.makeText(context, context.getText(R.string.upload_success), Toast.LENGTH_SHORT).show();
 					}
-				},
-				new Response.ErrorListener() {
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						Log.w("Upload", error.toString());
-					}
-				});
+				}, new ErrorListener());
 		try {
 			String mimeType = context.getContentResolver().getType(img);
 			InputStream iStream = context.getContentResolver().openInputStream(img);

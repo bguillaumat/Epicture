@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.PostsFragment.OnListFragmentInteractionListener;
-import brice_bastien.epicture.dummy.PostItem;
+import brice_bastien.epicture.post.PostItem;
 
 public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecyclerViewAdapter.ViewHolder> {
 

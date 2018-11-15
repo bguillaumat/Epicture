@@ -13,7 +13,7 @@
     <string name="upload_success">votre photo a été envoyer</string>
     <string name="my_favorite">Mes Favoris</string>
     <string name="mature_content">Contenu Adulte</string>
-    <string name="publish_private_or_public">Publier en mode priver</string>
+    <string name="publish_private_or_public">Publier en mode public</string>
     <string name="messaging_enabled">Autoriser les message priver</string>
     <string name="newsletter_subscribed">Souscrire a la newsletter</string>
     <string name="hidden_type">Cacher</string>
@@ -21,4 +21,5 @@
     <string name="secret_type">Secret</string>
     <string name="default_album_privacy">Mode par défault pour les album:</string>
     <string name="save">Sauvegarder</string>
+    <string name="your_email">"Votre Email: "</string>
 </resources>

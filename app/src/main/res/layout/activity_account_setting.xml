@@ -1,129 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refreshSwipeSetting"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AccountSetting">
+    android:layout_height="match_parent">
 
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/avatar_settings"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginEnd="@dimen/basic_margin"
-        android:layout_marginTop="@dimen/basic_margin"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/username_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/basic_margin"
-        android:layout_marginTop="@dimen/basic_margin"
-        android:layout_marginEnd="@dimen/basic_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatar_settings" />
-
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingBottom="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_settings">
+        android:layout_height="match_parent"
+        tools:context=".AccountSetting">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/avatar_settings"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/basic_margin"
+            android:layout_marginEnd="@dimen/basic_margin"
+            android:contentDescription="@string/app_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/username_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/basic_margin"
+            android:layout_marginTop="@dimen/basic_margin"
+            android:layout_marginEnd="@dimen/basic_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/avatar_settings" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/basic_margin"
-            android:layout_marginBottom="@dimen/basic_margin"
-            android:orientation="vertical"
-            android:padding="@dimen/fab_margin">
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingBottom="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/username_settings">
 
-            <Switch
-                android:id="@+id/switch_mature_content"
+            <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/basic_margin"
                 android:layout_marginBottom="@dimen/basic_margin"
-                android:text="@string/mature_content" />
-
-            <Switch
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/basic_margin"
-                android:layout_marginBottom="@dimen/basic_margin"
-                android:text="@string/publish_private_or_public" />
-
-            <Switch
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/basic_margin"
-                android:layout_marginBottom="@dimen/basic_margin"
-                android:text="@string/messaging_enabled" />
-
-            <Switch
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/basic_margin"
-                android:layout_marginBottom="@dimen/basic_margin"
-                android:text="@string/newsletter_subscribed" />
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/basic_margin"
-                android:layout_marginBottom="@dimen/basic_margin"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/fab_margin">
 
                 <TextView
+                    android:id="@+id/userEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Switch
+                    android:id="@+id/switch_mature_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/basic_margin"
                     android:layout_marginBottom="@dimen/basic_margin"
-                    android:text="@string/default_album_privacy" />
+                    android:text="@string/mature_content" />
 
-                <RadioButton
-                    android:id="@+id/radioButton"
-                    android:layout_width="wrap_content"
+                <Switch
+                    android:id="@+id/publish_mode"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/basic_margin"
-                    android:text="@string/public_type" />
+                    android:layout_marginBottom="@dimen/basic_margin"
+                    android:text="@string/publish_private_or_public" />
 
-                <RadioButton
-                    android:id="@+id/radioButton2"
-                    android:layout_width="wrap_content"
+                <Switch
+                    android:id="@+id/messaging"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/basic_margin"
-                    android:text="@string/hidden_type" />
+                    android:layout_marginBottom="@dimen/basic_margin"
+                    android:text="@string/messaging_enabled" />
 
-                <RadioButton
-                    android:id="@+id/radioButton3"
-                    android:layout_width="wrap_content"
+                <Switch
+                    android:id="@+id/newsletter_sub"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/basic_margin"
-                    android:text="@string/secret_type" />
+                    android:layout_marginBottom="@dimen/basic_margin"
+                    android:text="@string/newsletter_subscribed" />
 
-            </RadioGroup>
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/basic_margin"
+                    android:layout_marginBottom="@dimen/basic_margin"
+                    android:orientation="vertical">
 
-            <Button
-                android:id="@+id/save_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/basic_margin"
-                android:layout_marginBottom="@dimen/basic_margin"
-                android:text="@string/save" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/basic_margin"
+                        android:layout_marginBottom="@dimen/basic_margin"
+                        android:text="@string/default_album_privacy" />
 
-        </LinearLayout>
-    </ScrollView>
+                    <RadioButton
+                        android:id="@+id/public_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/basic_margin"
+                        android:text="@string/public_type" />
 
+                    <RadioButton
+                        android:id="@+id/hidden_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/basic_margin"
+                        android:text="@string/hidden_type" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <RadioButton
+                        android:id="@+id/secret_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/basic_margin"
+                        android:text="@string/secret_type" />
+
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/save_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/basic_margin"
+                    android:layout_marginBottom="@dimen/basic_margin"
+                    android:text="@string/save" />
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+

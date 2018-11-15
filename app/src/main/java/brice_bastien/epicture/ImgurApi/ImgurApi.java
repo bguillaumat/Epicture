@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -169,6 +170,7 @@ public class ImgurApi {
 			InputStream iStream = context.getContentResolver().openInputStream(img);
 			byte[] data = getBytes(iStream);
 			request.addPart(new MultipartRequest.FilePart("image", mimeType, null, data));
+			request.setRetryPolicy(new DefaultRetryPolicy(2500, 0, 1.0f));
 			requestQueue.add(request);
 		} catch (Exception e) {
 			Log.w("Upload:", "failed");
@@ -179,7 +181,7 @@ public class ImgurApi {
 		ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
 		int bufferSize = 1024;
 		byte[] buffer = new byte[bufferSize];
-		int len = 0;
+		int len;
 
 		while ((len = inputStream.read(buffer)) != -1) {
 			byteBuffer.write(buffer, 0, len);

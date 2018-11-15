@@ -3,6 +3,7 @@ package brice_bastien.epicture.ImgurApi;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -109,6 +110,20 @@ public class ImgurApi {
 
 		requestQueue.add(request);
 		lastRequestType = REQUEST_TYPE.GET_RECENT_IMG;
+	}
+
+	public void getUsrAvatar(ImageView img) {
+		String url = host + "account/" + username + "/avatar";
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseAvatarListener(context, img) , new ErrorListener(), clientId, token);
+
+		requestQueue.add(request);
+	}
+
+	public void getUsrSetting() {
+		String url = host + "account/me/settings";
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseSettingsListener(context), new ErrorListener(), clientId, token);
+
+		requestQueue.add(request);
 	}
 
 	public void uploadImg(Uri img) {

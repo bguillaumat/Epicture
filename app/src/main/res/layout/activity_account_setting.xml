@@ -1,21 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountSetting">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/avatar_settings"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="@dimen/basic_margin"
+        android:layout_marginTop="@dimen/basic_margin"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/username_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/basic_margin"
+        android:layout_marginTop="@dimen/basic_margin"
+        android:layout_marginEnd="@dimen/basic_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatar_settings" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:paddingBottom="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username_settings">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarAccount"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/basic_margin"
+            android:layout_marginBottom="@dimen/basic_margin"
+            android:orientation="vertical"
+            android:padding="@dimen/fab_margin">
 
-    </com.google.android.material.appbar.AppBarLayout>
+            <Switch
+                android:id="@+id/switch_mature_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_margin"
+                android:layout_marginBottom="@dimen/basic_margin"
+                android:text="@string/mature_content" />
+
+            <Switch
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_margin"
+                android:layout_marginBottom="@dimen/basic_margin"
+                android:text="@string/publish_private_or_public" />
+
+            <Switch
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_margin"
+                android:layout_marginBottom="@dimen/basic_margin"
+                android:text="@string/messaging_enabled" />
+
+            <Switch
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_margin"
+                android:layout_marginBottom="@dimen/basic_margin"
+                android:text="@string/newsletter_subscribed" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/basic_margin"
+                android:layout_marginBottom="@dimen/basic_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/basic_margin"
+                    android:layout_marginBottom="@dimen/basic_margin"
+                    android:text="@string/default_album_privacy" />
+
+                <RadioButton
+                    android:id="@+id/radioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/basic_margin"
+                    android:text="@string/public_type" />
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/basic_margin"
+                    android:text="@string/hidden_type" />
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/basic_margin"
+                    android:text="@string/secret_type" />
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/save_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_margin"
+                android:layout_marginBottom="@dimen/basic_margin"
+                android:text="@string/save" />
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

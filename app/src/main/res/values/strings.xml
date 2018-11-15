@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Epicture</string>
+    <string name="app_name" translatable="false">Epicture</string>
 
     <string name="user_info_pref">UserInfo</string>
 
@@ -16,4 +16,19 @@
     <string name="title_activity_account_setting">Account Setting</string>
 
     <string name="upload_success">Your photo was successfully upload</string>
+
+    <!-- Account Settings -->
+
+    <string name="mature_content">Show mature content</string>
+    <string name="publish_private_or_public">Publish image in private</string>
+    <string name="messaging_enabled">Allow private message</string>
+    <string name="newsletter_subscribed">Subscribe to the newsletter</string>
+
+    <string name="default_album_privacy">Default privacy level for album:</string>
+    <string name="hidden_type">Hidden</string>
+    <string name="public_type">Public</string>
+    <string name="secret_type">Secret</string>
+    <string name="save">Save</string>
+
+    
 </resources>

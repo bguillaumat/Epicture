@@ -118,10 +118,14 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 				return false;
 			}
 		});
+
 		search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String query) {
 				Log.i("QuerySub", query);
+				if (query.isEmpty()) {
+					return true;
+				}
 				imgurApi.getQuery(query, postsFragment);
 				return false;
 			}
@@ -129,13 +133,14 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			@Override
 			public boolean onQueryTextChange(String query) {
 				Log.i("QueryChange", query);
+				if (query.isEmpty()) {
+					return true;
+				}
+				imgurApi.getQuery(query, postsFragment);
 				return true;
-
 			}
 
 		});
-
-
 		return true;
 	}
 

@@ -38,7 +38,8 @@ public class ImgurApi {
 		NONE,
 		GET_USR_IMG,
 		GET_RECENT_IMG,
-		GET_USR_FAVORITE
+		GET_USR_FAVORITE,
+		QUERY
 	}
 
 	// class var
@@ -46,6 +47,7 @@ public class ImgurApi {
 	private String clientId = BuildConfig.IMGUR_API_KEY;
 	private String username;
 	private String token;
+	private String query;
 	private REQUEST_TYPE lastRequestType;
 	private RequestQueue requestQueue;
 
@@ -71,6 +73,9 @@ public class ImgurApi {
 			case GET_USR_FAVORITE:
 				getUserFavorite(fragment);
 				break;
+			case QUERY:
+				getQuery(query, fragment);
+				break;
 		}
 	}
 
@@ -93,6 +98,9 @@ public class ImgurApi {
 		JsonObjectRequest requets = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, postsFragment), new ErrorListener(), clientId, token);
 
 		requestQueue.add(requets);
+
+		this.query = query;
+		lastRequestType = REQUEST_TYPE.QUERY;
 	}
 
 	public void addVote(String id, String vote) {

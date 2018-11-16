@@ -17,6 +17,24 @@
 
     <string name="upload_success">Your photo was successfully upload</string>
 
+    <string name="title_post" translatable="false">&lt;b>%1$s&lt;/b> %2$s</string>
+
+    <string name="seconds_elapsed">there are %1$ds</string>
+    <string name="minutes_elapsed">There are %1$dm</string>
+    <string name="hours_elapsed">There are %1$dh</string>
+    <string name="days_elapsed">There are %1$dd</string>
+
+    <plurals name="numberOfView">
+        <item quantity="zero">%d View</item>
+        <item quantity="one">%d View</item>
+        <item quantity="other">%d Views</item>
+    </plurals>
+
+    <plurals name="numberOfComments">
+        <item quantity="one">See the %d comment</item>
+        <item quantity="other">See all %d reviews</item>
+    </plurals>
+
     <!-- Account Settings -->
 
     <string name="your_email">Your email: </string>
@@ -30,5 +48,6 @@
     <string name="public_type">Public</string>
     <string name="secret_type">Secret</string>
     <string name="save">Save</string>
-    
+    <string name="title_activity_post_comment">Commentaries</string>
+
 </resources>

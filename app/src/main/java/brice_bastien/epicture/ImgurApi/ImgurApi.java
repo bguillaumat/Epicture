@@ -80,6 +80,13 @@ public class ImgurApi {
 		requestQueue.add(request);
 	}
 
+	public void getComment(String id) {
+		String url = host + "gallery/" + id + "/comments/";
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseCommentListener(), new ErrorListener(), clientId, token);
+
+		requestQueue.add(request);
+	}
+
 	// Fav an image
 	public void addImgFav(String pictureId, PostItem.FAV_TYPE type) {
 		String favType;

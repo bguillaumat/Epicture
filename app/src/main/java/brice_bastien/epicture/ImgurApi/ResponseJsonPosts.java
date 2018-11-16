@@ -36,6 +36,9 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 					post.ups = obj.getInt("ups");
 					post.downs = obj.getInt("downs");
 				}
+				if (obj.getString("title").equals("null"))
+					post.title = " ";
+				post.time = obj.getLong("datetime");
 				if (obj.has("is_album") && obj.getBoolean("is_album")) {
 					post.imageFav = obj.getString("id");
 					post.favType = PostItem.FAV_TYPE.ALBUM;
@@ -43,6 +46,9 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 					post.imageFav = obj.getString("id");
 					post.favType = PostItem.FAV_TYPE.PHOTO;
 				}
+				post.ownerName = obj.getString("account_url");
+				if (obj.has("comment_count") && !obj.getString("comment_count").equals("null"))
+					post.commentNumber = obj.getInt("comment_count");
 				post.views = obj.getInt("views");
 				if (obj.isNull("images")) {
 					post.AddImage(obj.getString("link"));

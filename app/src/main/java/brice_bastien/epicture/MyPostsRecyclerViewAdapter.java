@@ -1,6 +1,10 @@
 package brice_bastien.epicture;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.icu.text.DecimalFormat;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +15,14 @@ import android.view.animation.ScaleAnimation;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.widget.VideoView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.Target;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,25 +61,68 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	@Override
 	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 		holder.mItem = itemList.get(position);
+
+		Resources res = holder.mView.getResources();
+
 		Log.i("Item", holder.mItem.toString());
 		holder.mFavorite.setOnCheckedChangeListener(null);
 		holder.mFavorite.setChecked(holder.mItem.favorite);
-		if (holder.mItem.title.equals("null"))
-			holder.mTitleView.setText("");
-		else
-			holder.mTitleView.setText(holder.mItem.title);
-		VideoView videoView = holder.mVideoView;
-		ImageView imageView = holder.mImageView;
+		holder.mTitleView.setText(Html.fromHtml(res.getString(R.string.title_post, holder.mItem.ownerName, holder.mItem.title)));
+		holder.seeMoreComments.setText(res.getQuantityString(R.plurals.numberOfComments, holder.mItem.commentNumber, holder.mItem.commentNumber));
+		if (holder.mItem.commentNumber == 0) {
+			holder.seeMoreComments.setVisibility(View.GONE);
+		}
 
-		videoView.setVisibility(View.GONE);
+
+		holder.numberOfView.setText(res.getQuantityString(R.plurals.numberOfView, holder.mItem.views, holder.mItem.views));
+
+		Timestamp stamp = new Timestamp(System.currentTimeMillis());
+
+		Date endDate = new Date(stamp.getTime());
+		Date startDate = new Date(Long.parseLong(Long.toString(holder.mItem.time)) * 1000);
+
+
+		long different = endDate.getTime() - startDate.getTime();
+
+		System.out.println("startDate : " + startDate);
+		System.out.println("endDate : "+ endDate);
+		System.out.println("different : " + different);
+
+		long secondsInMilli = 1000;
+		long minutesInMilli = secondsInMilli * 60;
+		long hoursInMilli = minutesInMilli * 60;
+		long daysInMilli = hoursInMilli * 24;
+
+		long elapsedDays = different / daysInMilli;
+		different = different % daysInMilli;
+
+		long elapsedHours = different / hoursInMilli;
+		different = different % hoursInMilli;
+
+		long elapsedMinutes = different / minutesInMilli;
+		different = different % minutesInMilli;
+
+		long elapsedSeconds = different / secondsInMilli;
+
+		if (elapsedMinutes == 0 && elapsedHours == 0 && elapsedDays == 0) {
+			holder.timePost.setText(res.getString(R.string.seconds_elapsed, elapsedSeconds).toUpperCase());
+		} else if (elapsedHours == 0 && elapsedDays == 0) {
+			holder.timePost.setText(res.getString(R.string.minutes_elapsed, elapsedMinutes).toUpperCase());
+		} else if (elapsedDays == 0) {
+			holder.timePost.setText(res.getString(R.string.hours_elapsed, elapsedHours).toUpperCase());
+		} else
+			holder.timePost.setText(res.getString(R.string.days_elapsed, elapsedDays).toUpperCase());
+
+
+		ImageView imageView = holder.mImageView;
 		holder.mImageView.setImageDrawable(null);
 		String url = holder.mItem.images.get(0);
 
-		if (url.endsWith(".gifv")) {
+		if (url.endsWith(".gifv"))
 			url = url.replace(".gifv", "h.jpg");
-		}
 		GlideApp.with(holder.itemView)
 				.load(url)
+				.override(Target.SIZE_ORIGINAL)
 				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 				.into(imageView);
 		holder.mFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -86,6 +135,15 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 				compoundButton.startAnimation(scaleAnimation);
 
 				imgurApi.addImgFav(holder.mItem.imageFav, holder.mItem.favType);
+			}
+		});
+
+		holder.seeMoreComments.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(context, PostComment.class);
+				intent.putExtra("POST_ID", holder.mItem.id);
+				context.startActivity(intent);
 			}
 		});
 
@@ -134,20 +192,24 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		return itemList.size();
 	}
 
-	public class ViewHolder extends RecyclerView.ViewHolder {
+	class ViewHolder extends RecyclerView.ViewHolder {
 		public final View mView;
 		public final TextView mTitleView;
 		public final ImageView mImageView;
-		public final VideoView mVideoView;
+		public final TextView numberOfView;
+		public final TextView timePost;
+		public final TextView seeMoreComments;
 		public final ToggleButton mFavorite;
 		public PostItem mItem;
 
-		public ViewHolder(View view) {
+		ViewHolder(View view) {
 			super(view);
 			mView = view;
 			mTitleView = view.findViewById(R.id.post_title);
 			mImageView = view.findViewById(R.id.post_img);
-			mVideoView = view.findViewById(R.id.post_vid);
+			seeMoreComments = view.findViewById(R.id.see_more_comments);
+			timePost = view.findViewById(R.id.timePost);
+			numberOfView = view.findViewById(R.id.numberOfView);
 			mFavorite = view.findViewById(R.id.button_favorite);
 		}
 	}

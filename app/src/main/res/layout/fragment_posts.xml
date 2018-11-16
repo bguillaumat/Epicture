@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="8dp"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,10 +21,31 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/app_name" />
 
-        <VideoView
-            android:id="@+id/post_vid"
-            android:layout_width="wrap_content"
-            android:layout_height="120dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ToggleButton
+                android:id="@+id/button_favorite"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="@dimen/basic_margin"
+                android:background="@drawable/button_favorite"
+                android:checked="false"
+                android:text=""
+                android:textOff=""
+                android:textOn="" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/numberOfView"
+            android:layout_marginStart="@dimen/basic_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAppearance="?attr/textAppearanceListItem" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,28 +53,24 @@
 
             <TextView
                 android:id="@+id/post_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginStart="@dimen/basic_margin"
                 android:textAppearance="?attr/textAppearanceListItem" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/see_more_comments"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-            <ToggleButton
-                android:id="@+id/button_favorite"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/button_favorite"
-                android:checked="false"
-                android:layout_marginBottom="@dimen/fab_margin"
-                android:layout_marginLeft="@dimen/fab_margin"
-                android:text=""
-                android:textOff=""
-                android:textOn=""/>
+        <TextView
+            android:id="@+id/timePost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/basic_margin"
+            android:layout_marginStart="@dimen/basic_margin" />
 
-        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -15,10 +15,13 @@ public class PostItem {
 	public int ups;
 	public int downs;
 	public int views;
+	public long time;
 	public String link;
 	public String imageFav;
 	public FAV_TYPE favType;
 	public boolean favorite;
+	public String ownerName;
+	public int commentNumber;
 	public List<String> images = new ArrayList<>();
 
 	public PostItem(String id, String title, int ups, int downs, String link, boolean favorite) {

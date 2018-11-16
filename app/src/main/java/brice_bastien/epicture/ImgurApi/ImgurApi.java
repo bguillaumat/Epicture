@@ -88,6 +88,13 @@ public class ImgurApi {
 		requestQueue.add(request);
 	}
 
+	public void getQuery(String query, PostsFragment postsFragment) {
+		String url = host + "gallery/search/?q=" + query;
+		JsonObjectRequest requets = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, postsFragment), new ErrorListener(), clientId, token);
+
+		requestQueue.add(requets);
+	}
+
 	public void addVote(String id, String vote) {
 		String url = host + "gallery/" + id + "/vote/" + vote;
 		JsonObjectRequest request = new JsonRequest(Request.Method.POST, url, null, new ResponsePosts(context), new ErrorListener(), clientId, token);

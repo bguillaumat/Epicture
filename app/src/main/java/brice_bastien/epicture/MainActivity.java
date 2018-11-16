@@ -1,13 +1,17 @@
 package brice_bastien.epicture;
 
 import android.app.FragmentManager;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	private String Username = "";
 	private SharedPreferences sharedPreferences;
 	private PostsFragment postsFragment;
+	private FloatingActionButton fab;
+	private BottomAppBar bar;
 	private FragmentManager fragmentManager = getFragmentManager();
 	private ImgurApi imgurApi;
 	private static final int REQUEST_CODE = 42;
@@ -36,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		BottomAppBar bar = findViewById(R.id.bottom_app_bar);
+		bar = findViewById(R.id.bottom_app_bar);
 		setSupportActionBar(bar);
 
 		ActivityCompat.requestPermissions(this, PERMISSIONS, 1);
@@ -63,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 		imgurApi = new ImgurApi(getApplicationContext(), Username, Token);
 		postsFragment = PostsFragment.newInstance(1, imgurApi);
 		fragmentManager.beginTransaction().replace(R.id.include, postsFragment).commit();
-		FloatingActionButton fab = findViewById(R.id.fab);
+		fab = findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -93,6 +99,43 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main, menu);
+
+		SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+		SearchView search = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+
+		search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+		search.setOnSearchClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				bar.setCradleVerticalOffset(100);
+			}
+		});
+		search.setOnCloseListener(new SearchView.OnCloseListener() {
+			@Override
+			public boolean onClose() {
+				bar.setCradleVerticalOffset(0);
+				return false;
+			}
+		});
+		search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				Log.i("QuerySub", query);
+				imgurApi.getQuery(query, postsFragment);
+				return false;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String query) {
+				Log.i("QueryChange", query);
+				return true;
+
+			}
+
+		});
+
+
 		return true;
 	}
 

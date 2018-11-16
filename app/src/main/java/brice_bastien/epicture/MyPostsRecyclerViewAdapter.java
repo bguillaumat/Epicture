@@ -94,7 +94,9 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		holder.mImageView.setImageDrawable(null);
 		String url = holder.mItem.images.get(0);
 
-		if (url.endsWith(".gifv"))
+		if (url.endsWith(".mp4"))
+			url = url.replace(".mp4", "h.jpg");
+		else if (url.endsWith(".gifv"))
 			url = url.replace(".gifv", "h.jpg");
 
 		GlideApp.with(holder.itemView)

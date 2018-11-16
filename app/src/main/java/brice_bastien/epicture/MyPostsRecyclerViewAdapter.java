@@ -70,6 +70,9 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			holder.mLike.setChecked(true);
 		} else if (holder.mItem.voteType == PostItem.VOTE_TYPE.DISLIKE) {
 			holder.mDislike.setChecked(true);
+		} else {
+			holder.mLike.setChecked(false);
+			holder.mDislike.setChecked(false);
 		}
 		holder.mFavorite.setChecked(holder.mItem.favorite);
 		holder.mTitleView.setText(Html.fromHtml(res.getString(R.string.title_post, holder.mItem.ownerName, holder.mItem.title)));
@@ -113,17 +116,28 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		holder.mLike.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				holder.mDislike.setOnCheckedChangeListener(null);
 				holder.mDislike.setChecked(false);
-				buttonView.setChecked(isChecked);
+				holder.mDislike.setOnCheckedChangeListener(this);
 
+				if (!isChecked) {
+					imgurApi.addVote(holder.mItem.imageFav, "veto");
+				} else
+					imgurApi.addVote(holder.mItem.imageFav, "up");
 			}
 		});
 
 		holder.mDislike.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				holder.mLike.setOnCheckedChangeListener(null);
 				holder.mLike.setChecked(false);
-				buttonView.setChecked(isChecked);
+				holder.mLike.setOnCheckedChangeListener(this);
+
+				if (!isChecked) {
+					imgurApi.addVote(holder.mItem.imageFav, "veto");
+				} else
+					imgurApi.addVote(holder.mItem.imageFav, "down");
 			}
 		});
 

@@ -41,8 +41,10 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 				} else if (obj.has("vote")) {
 					if (obj.getString("vote").equals("up")) {
 						post.voteType = PostItem.VOTE_TYPE.LIKE;
-					} else
+					} else if (obj.getString("vote").equals("down"))
 						post.voteType = PostItem.VOTE_TYPE.DISLIKE;
+					else
+						post.voteType = PostItem.VOTE_TYPE.NONE;
 				} else
 					post.voteType = PostItem.VOTE_TYPE.NONE;
 

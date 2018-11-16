@@ -56,6 +56,7 @@ public class PostItem {
 		ret += "Favorite:\t" + favorite + "\n";
 		ret += "Is album:\t" + favType + "\n";
 		ret += "views:\t" + views + "\n";
+		ret += "Vote:\t" + voteType + "\n";
 		ret += "images:\n";
 		for (String tmp : images) {
 			ret += "\t" + tmp + "\n";

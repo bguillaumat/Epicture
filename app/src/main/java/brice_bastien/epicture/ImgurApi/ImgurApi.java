@@ -88,6 +88,13 @@ public class ImgurApi {
 		requestQueue.add(request);
 	}
 
+	public void addVote(String id, String vote) {
+		String url = host + "gallery/" + id + "/vote/" + vote;
+		JsonObjectRequest request = new JsonRequest(Request.Method.POST, url, null, new ResponsePosts(context), new ErrorListener(), clientId, token);
+
+		requestQueue.add(request);
+	}
+
 	// Fav an image
 	public void addImgFav(String pictureId, PostItem.FAV_TYPE type) {
 		String favType;
@@ -128,7 +135,7 @@ public class ImgurApi {
 		lastRequestType = REQUEST_TYPE.GET_RECENT_IMG;
 	}
 
-	public void getUsrAvatar(ImageView img) {
+	public void getUsrAvatar(ImageView img, String username) {
 		String url = host + "account/" + username + "/avatar";
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseAvatarListener(context, img) , new ErrorListener(), clientId, token);
 

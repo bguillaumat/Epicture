@@ -10,6 +10,11 @@ public class PostItem {
 		ALBUM,
 		PHOTO
 	}
+	public enum VOTE_TYPE {
+		LIKE,
+		DISLIKE,
+		NONE
+	}
 	public String title;
 	public String id;
 	public int ups;
@@ -19,6 +24,7 @@ public class PostItem {
 	public String link;
 	public String imageFav;
 	public FAV_TYPE favType;
+	public VOTE_TYPE voteType;
 	public boolean favorite;
 	public String ownerName;
 	public int commentNumber;

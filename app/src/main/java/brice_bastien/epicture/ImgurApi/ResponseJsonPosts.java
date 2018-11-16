@@ -32,10 +32,20 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 				Log.i("GetData", obj.toString(2));
 
 				PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), 0, 0, obj.getString("link"), obj.getBoolean("favorite"));
-				if (obj.has("ups") && obj.has("downs")) {
+				if (obj.has("ups") && obj.has("downs") && !obj.getString("ups").equals("null") && !obj.getString("downs").equals("null")) {
 					post.ups = obj.getInt("ups");
 					post.downs = obj.getInt("downs");
 				}
+				if (obj.has("vote") && obj.getString("vote").equals("null")) {
+					post.voteType = PostItem.VOTE_TYPE.NONE;
+				} else if (obj.has("vote")) {
+					if (obj.getString("vote").equals("up")) {
+						post.voteType = PostItem.VOTE_TYPE.LIKE;
+					} else
+						post.voteType = PostItem.VOTE_TYPE.DISLIKE;
+				} else
+					post.voteType = PostItem.VOTE_TYPE.NONE;
+
 				if (obj.getString("title").equals("null"))
 					post.title = " ";
 				post.time = obj.getLong("datetime");
@@ -67,7 +77,7 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 			}
 		} catch (Exception e) {
 			Log.i("ResponseJsonPosts", e.toString());
-			Toast.makeText(context, "Check our internet connection", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
 		}
 	}
 }

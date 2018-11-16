@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.PostsFragment.OnListFragmentInteractionListener;
+import brice_bastien.epicture.post.ElapsedTime;
 import brice_bastien.epicture.post.PostItem;
 
 public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecyclerViewAdapter.ViewHolder> {
@@ -60,56 +61,28 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 
 		Resources res = holder.mView.getResources();
 		Log.i("Item", holder.mItem.toString());
+
 		holder.mFavorite.setOnCheckedChangeListener(null);
+		holder.mLike.setOnCheckedChangeListener(null);
+		holder.mDislike.setOnCheckedChangeListener(null);
+
+		if (holder.mItem.voteType == PostItem.VOTE_TYPE.LIKE) {
+			holder.mLike.setChecked(true);
+		} else if (holder.mItem.voteType == PostItem.VOTE_TYPE.DISLIKE) {
+			holder.mDislike.setChecked(true);
+		}
 		holder.mFavorite.setChecked(holder.mItem.favorite);
 		holder.mTitleView.setText(Html.fromHtml(res.getString(R.string.title_post, holder.mItem.ownerName, holder.mItem.title)));
 		holder.seeMoreComments.setText(res.getQuantityString(R.plurals.numberOfComments, holder.mItem.commentNumber, holder.mItem.commentNumber));
-
 		if (holder.mItem.commentNumber == 0) {
 			holder.seeMoreComments.setVisibility(View.GONE);
 		}
 
 		String views = formatValue(holder.mItem.views, DECIMAL_FORMAT);
-
-
 		holder.numberOfView.setText(res.getQuantityString(R.plurals.numberOfView, holder.mItem.views, views));
 
-		Timestamp stamp = new Timestamp(System.currentTimeMillis());
-
-		Date endDate = new Date(stamp.getTime());
-		Date startDate = new Date(Long.parseLong(Long.toString(holder.mItem.time)) * 1000);
-
-
-		long different = endDate.getTime() - startDate.getTime();
-
-		System.out.println("startDate : " + startDate);
-		System.out.println("endDate : " + endDate);
-		System.out.println("different : " + different);
-
-		long secondsInMilli = 1000;
-		long minutesInMilli = secondsInMilli * 60;
-		long hoursInMilli = minutesInMilli * 60;
-		long daysInMilli = hoursInMilli * 24;
-
-		long elapsedDays = different / daysInMilli;
-		different = different % daysInMilli;
-
-		long elapsedHours = different / hoursInMilli;
-		different = different % hoursInMilli;
-
-		long elapsedMinutes = different / minutesInMilli;
-		different = different % minutesInMilli;
-
-		long elapsedSeconds = different / secondsInMilli;
-
-		if (elapsedMinutes == 0 && elapsedHours == 0 && elapsedDays == 0) {
-			holder.timePost.setText(res.getString(R.string.seconds_elapsed, elapsedSeconds).toUpperCase());
-		} else if (elapsedHours == 0 && elapsedDays == 0) {
-			holder.timePost.setText(res.getString(R.string.minutes_elapsed, elapsedMinutes).toUpperCase());
-		} else if (elapsedDays == 0) {
-			holder.timePost.setText(res.getString(R.string.hours_elapsed, elapsedHours).toUpperCase());
-		} else
-			holder.timePost.setText(res.getString(R.string.days_elapsed, elapsedDays).toUpperCase());
+		ElapsedTime elapsedTime = new ElapsedTime(holder.mItem.time);
+		holder.timePost.setText(elapsedTime.getTimeString(res).toUpperCase());
 
 
 		ImageView imageView = holder.mImageView;
@@ -118,6 +91,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 
 		if (url.endsWith(".gifv"))
 			url = url.replace(".gifv", "h.jpg");
+
 		GlideApp.with(holder.itemView)
 				.load(url)
 				.override(Target.SIZE_ORIGINAL)
@@ -133,6 +107,23 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 				compoundButton.startAnimation(scaleAnimation);
 
 				imgurApi.addImgFav(holder.mItem.imageFav, holder.mItem.favType);
+			}
+		});
+
+		holder.mLike.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				holder.mDislike.setChecked(false);
+				buttonView.setChecked(isChecked);
+
+			}
+		});
+
+		holder.mDislike.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				holder.mLike.setChecked(false);
+				buttonView.setChecked(isChecked);
 			}
 		});
 
@@ -206,6 +197,8 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		public final TextView timePost;
 		public final TextView seeMoreComments;
 		public final ToggleButton mFavorite;
+		public final ToggleButton mLike;
+		public final ToggleButton mDislike;
 		public PostItem mItem;
 
 		ViewHolder(View view) {
@@ -217,6 +210,8 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			timePost = view.findViewById(R.id.timePost);
 			numberOfView = view.findViewById(R.id.numberOfView);
 			mFavorite = view.findViewById(R.id.button_favorite);
+			mLike = view.findViewById(R.id.button_like);
+			mDislike = view.findViewById(R.id.button_dislike);
 		}
 	}
 }

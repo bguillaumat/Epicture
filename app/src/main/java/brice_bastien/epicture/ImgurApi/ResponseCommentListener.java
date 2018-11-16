@@ -21,11 +21,13 @@ public class ResponseCommentListener implements Response.Listener<JSONObject> {
 	@Override
 	public void onResponse(JSONObject response) {
 		try {
-			Log.i("Comment", response.toString(2));
 			JSONArray array = new JSONArray(response.getString("data"));
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject obj = new JSONObject(array.getString(i));
-				CommentItem commentItem = new CommentItem(obj.getString("author"), obj.getString("comment"));
+				Log.i("Comment", obj.toString(2));
+				if (obj.getBoolean("deleted"))
+					continue;
+				CommentItem commentItem = new CommentItem(obj.getString("author"), obj.getString("comment"), obj.getLong("datetime"));
 				adapter.addItem(0, commentItem);
 			}
 		} catch (Exception e) {

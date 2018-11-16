@@ -21,31 +21,69 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/app_name" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <ToggleButton
-                android:id="@+id/button_favorite"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_margin="@dimen/basic_margin"
-                android:background="@drawable/button_favorite"
-                android:checked="false"
-                android:text=""
-                android:textOff=""
-                android:textOn="" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true">
+
+                <ToggleButton
+                    android:id="@+id/button_favorite"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="@dimen/basic_margin"
+                    android:background="@drawable/button_favorite"
+                    android:checked="false"
+                    android:text=""
+                    android:textOff=""
+                    android:textOn="" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
+
+                <ToggleButton
+                    android:id="@+id/button_like"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="@dimen/basic_margin"
+                    android:background="@drawable/button_like"
+                    android:checked="false"
+                    android:gravity="end"
+                    android:text=""
+                    android:textOff=""
+                    android:textOn="" />
+
+                <ToggleButton
+                    android:id="@+id/button_dislike"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="@dimen/basic_margin"
+                    android:background="@drawable/button_dislike"
+                    android:checked="false"
+                    android:gravity="end"
+                    android:text=""
+                    android:textOff=""
+                    android:textOn="" />
 
 
-        </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/numberOfView"
-            android:layout_marginStart="@dimen/basic_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:layout_marginStart="@dimen/basic_margin"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,15 +101,17 @@
             android:id="@+id/see_more_comments"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/basic_margin"
+            android:padding="0dp" />
 
         <TextView
             android:id="@+id/timePost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:layout_marginStart="@dimen/basic_margin"
             android:layout_marginBottom="@dimen/basic_margin"
-            android:layout_marginStart="@dimen/basic_margin" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

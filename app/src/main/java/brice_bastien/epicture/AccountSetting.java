@@ -65,7 +65,7 @@ public class AccountSetting extends AppCompatActivity {
 
 		imgurApi = new ImgurApi(getApplicationContext(), Username, Token);
 
-		imgurApi.getUsrAvatar((ImageView) findViewById(R.id.avatar_settings));
+		imgurApi.getUsrAvatar((ImageView) findViewById(R.id.avatar_settings), Username);
 		imgurApi.getUsrSetting(this);
 
 		final AccountSetting account = this;
@@ -73,7 +73,7 @@ public class AccountSetting extends AppCompatActivity {
 			@Override
 			public void onRefresh() {
 
-				imgurApi.getUsrAvatar((ImageView) findViewById(R.id.avatar_settings));
+				imgurApi.getUsrAvatar((ImageView) findViewById(R.id.avatar_settings), Username);
 				imgurApi.getUsrSetting(account);
 				refreshLayout.setRefreshing(false);
 			}

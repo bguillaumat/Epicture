@@ -19,11 +19,11 @@
 
     <string name="title_post" translatable="false">&lt;b>%1$s&lt;/b> %2$s</string>
 
-    <string name="seconds_elapsed">there are %1$d seconds</string>
-    <string name="minutes_elapsed">There are %1$d minutes</string>
-    <string name="hours_elapsed">There are %1$d hours</string>
-    <string name="days_elapsed">There are %1$d days</string>
-    <string name="year_elapsed">There are %1$d years</string>
+    <string name="seconds_elapsed">%1$d seconds aho</string>
+    <string name="minutes_elapsed">%1$d minutes ago</string>
+    <string name="hours_elapsed">%1$d hours ago</string>
+    <string name="days_elapsed">%1$d days ago</string>
+    <string name="year_elapsed">%1$d years ago</string>
 
     <string name="home">Home</string>
 

@@ -46,6 +46,7 @@
     <string name="most_view">Plus vues</string>
     <string name="most_like">Plus aimer</string>
     <string name="sort_username">Utilisateur (Croissant)</string>
+    <string name="year_elapsed">Il y a %1$d ans</string>
 
 
 </resources>

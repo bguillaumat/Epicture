@@ -25,6 +25,8 @@ public class ElapsedTime {
 		long minutesInMilli = secondsInMilli * 60;
 		long hoursInMilli = minutesInMilli * 60;
 		long daysInMilli = hoursInMilli * 24;
+		long yearInMilli = daysInMilli * 365;
+		long elapsedYears = different / yearInMilli;
 		long elapsedDays = different / daysInMilli;
 		different = different % daysInMilli;
 
@@ -36,14 +38,15 @@ public class ElapsedTime {
 
 		long elapsedSeconds = different / secondsInMilli;
 
-		if (elapsedMinutes == 0 && elapsedHours == 0 && elapsedDays == 0) {
+		if (elapsedMinutes == 0 && elapsedHours == 0 && elapsedDays == 0 && elapsedYears == 0) {
 			return res.getString(R.string.seconds_elapsed, elapsedSeconds).toUpperCase();
-		} else if (elapsedHours == 0 && elapsedDays == 0) {
+		} else if (elapsedHours == 0 && elapsedDays == 0 && elapsedYears == 0) {
 			return res.getString(R.string.minutes_elapsed, elapsedMinutes).toUpperCase();
-		} else if (elapsedDays == 0) {
+		} else if (elapsedDays == 0 && elapsedYears == 0) {
 			return res.getString(R.string.hours_elapsed, elapsedHours).toUpperCase();
-		}
-		return res.getString(R.string.days_elapsed, elapsedDays).toUpperCase();
+		} else if (elapsedYears == 0)
+			return res.getString(R.string.days_elapsed, elapsedDays).toUpperCase();
+		return res.getString(R.string.year_elapsed, elapsedYears).toUpperCase();
 
 	}
 

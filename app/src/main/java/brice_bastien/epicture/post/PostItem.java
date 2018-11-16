@@ -12,11 +12,13 @@ public class PostItem {
 		ALBUM,
 		PHOTO
 	}
+
 	public enum VOTE_TYPE {
 		LIKE,
 		DISLIKE,
 		NONE
 	}
+
 	public String title;
 	public String id;
 	public int ups;
@@ -53,7 +55,8 @@ public class PostItem {
 			Long time2 = s2.time;
 
 			return time2.compareTo(time1);
-		}};
+		}
+	};
 
 	public static Comparator<PostItem> olderComparator = new Comparator<PostItem>() {
 
@@ -62,16 +65,18 @@ public class PostItem {
 			Long time2 = s2.time;
 
 			return time1.compareTo(time2);
-		}};
+		}
+	};
 
 	public static Comparator<PostItem> mostView = new Comparator<PostItem>() {
 
 		public int compare(PostItem s1, PostItem s2) {
 			Integer view1 = s1.views;
 			Integer view2 = s2.views;
-			
+
 			return view2.compareTo(view1);
-		}};
+		}
+	};
 
 	public static Comparator<PostItem> mostLike = new Comparator<PostItem>() {
 
@@ -80,7 +85,8 @@ public class PostItem {
 			Integer ups2 = s2.ups;
 
 			return ups2.compareTo(ups1);
-		}};
+		}
+	};
 
 	public static Comparator<PostItem> username = new Comparator<PostItem>() {
 
@@ -89,7 +95,8 @@ public class PostItem {
 			String username2 = s2.ownerName.toLowerCase();
 
 			return username1.compareTo(username2);
-		}};
+		}
+	};
 
 
 	@Override

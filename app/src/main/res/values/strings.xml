@@ -23,6 +23,7 @@
     <string name="minutes_elapsed">There are %1$d minutes</string>
     <string name="hours_elapsed">There are %1$d hours</string>
     <string name="days_elapsed">There are %1$d days</string>
+    <string name="year_elapsed">There are %1$d years</string>
 
     <string name="home">Home</string>
 

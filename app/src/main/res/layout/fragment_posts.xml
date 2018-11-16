@@ -69,6 +69,7 @@
             android:id="@+id/timePost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:layout_marginBottom="@dimen/basic_margin"
             android:layout_marginStart="@dimen/basic_margin" />
 

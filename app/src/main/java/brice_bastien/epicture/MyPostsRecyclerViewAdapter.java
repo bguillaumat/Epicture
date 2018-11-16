@@ -21,8 +21,11 @@ import com.bumptech.glide.request.target.Target;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,18 +59,20 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		holder.mItem = itemList.get(position);
 
 		Resources res = holder.mView.getResources();
-
 		Log.i("Item", holder.mItem.toString());
 		holder.mFavorite.setOnCheckedChangeListener(null);
 		holder.mFavorite.setChecked(holder.mItem.favorite);
 		holder.mTitleView.setText(Html.fromHtml(res.getString(R.string.title_post, holder.mItem.ownerName, holder.mItem.title)));
 		holder.seeMoreComments.setText(res.getQuantityString(R.plurals.numberOfComments, holder.mItem.commentNumber, holder.mItem.commentNumber));
+
 		if (holder.mItem.commentNumber == 0) {
 			holder.seeMoreComments.setVisibility(View.GONE);
 		}
 
+		String views = formatValue(holder.mItem.views, DECIMAL_FORMAT);
 
-		holder.numberOfView.setText(res.getQuantityString(R.plurals.numberOfView, holder.mItem.views, holder.mItem.views));
+
+		holder.numberOfView.setText(res.getQuantityString(R.plurals.numberOfView, holder.mItem.views, views));
 
 		Timestamp stamp = new Timestamp(System.currentTimeMillis());
 
@@ -176,6 +181,16 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		}
 		itemList.remove(position);
 		notifyItemRemoved(position);
+	}
+
+	private static final String DECIMAL_FORMAT = "###,###.#";
+
+	private String formatValue(Number value, String formatString) {
+		DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols(Locale.ENGLISH);
+		formatSymbols.setDecimalSeparator('.');
+		formatSymbols.setGroupingSeparator(' ');
+		DecimalFormat formatter = new DecimalFormat(formatString, formatSymbols);
+		return formatter.format(value);
 	}
 
 	@Override

@@ -39,12 +39,14 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	private final List<PostItem> itemList;
 	private final OnListFragmentInteractionListener mListener;
 	private Context context;
+	private MainActivity mainActivity;
 	private ImgurApi imgurApi;
 
-	MyPostsRecyclerViewAdapter(OnListFragmentInteractionListener listener, Context context, ImgurApi imgurApi) {
+	MyPostsRecyclerViewAdapter(OnListFragmentInteractionListener listener, Context context, MainActivity mainActivity, ImgurApi imgurApi) {
 		itemList = new ArrayList<>();
 		this.context = context;
 		this.imgurApi = imgurApi;
+		this.mainActivity = mainActivity;
 		mListener = listener;
 	}
 
@@ -81,7 +83,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			holder.seeMoreComments.setVisibility(View.GONE);
 		}
 
-		String views = formatValue(holder.mItem.views, DECIMAL_FORMAT);
+		final String views = formatValue(holder.mItem.views, DECIMAL_FORMAT);
 		holder.numberOfView.setText(res.getQuantityString(R.plurals.numberOfView, holder.mItem.views, views));
 
 		ElapsedTime elapsedTime = new ElapsedTime(holder.mItem.time);
@@ -100,6 +102,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 				.override(Target.SIZE_ORIGINAL)
 				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 				.into(imageView);
+
 		holder.mFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -144,9 +147,9 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		holder.seeMoreComments.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(context, PostComment.class);
+				Intent intent = new Intent(mainActivity, PostComment.class);
 				intent.putExtra("POST_ID", holder.mItem.id);
-				context.startActivity(intent);
+				mainActivity.startActivity(intent);
 			}
 		});
 

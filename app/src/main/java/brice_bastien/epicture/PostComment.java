@@ -6,14 +6,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.post.CommentAdapter;
 import brice_bastien.epicture.post.CommentItem;
 
-public class PostComment extends Activity {
+public class PostComment extends AppCompatActivity {
 
 	private String Token = "";
 	private String Username = "";
@@ -53,6 +55,15 @@ public class PostComment extends Activity {
 
 
 		imgurApi = new ImgurApi(getApplicationContext(), Username, Token);
+
+		final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.refresh_commentary);
+
+		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				swipeRefreshLayout.setRefreshing(false);
+			}
+		});
 
 		Context context = recyclerView.getContext();
 		recyclerView.setLayoutManager(new LinearLayoutManager(context));

@@ -67,7 +67,7 @@ public class PostsFragment extends Fragment {
 			} else {
 				recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
 			}
-			adapter = new MyPostsRecyclerViewAdapter(mListener, getContext(), imgurApi);
+			adapter = new MyPostsRecyclerViewAdapter(mListener, getContext(), (MainActivity) getActivity(), imgurApi);
 			recyclerView.setAdapter(adapter);
 		}
 		return fragView;

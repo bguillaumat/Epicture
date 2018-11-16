@@ -20,11 +20,12 @@ import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import brice_bastien.epicture.GlideApp;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.R;
 
-public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHolder>  {
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
 	private final List<CommentItem> itemList;
 	Context context;
@@ -119,7 +120,7 @@ public class CommentAdapter  extends RecyclerView.Adapter<CommentAdapter.ViewHol
 		String regex = "\\(?\\b(http://|https://|www[.])[-A-Za-z0-9+&amp;@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&amp;@#/%=~_()|]";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(text);
-		while(m.find()) {
+		while (m.find()) {
 			String urlStr = m.group();
 			if (urlStr.startsWith("(") && urlStr.endsWith(")")) {
 				urlStr = urlStr.substring(1, urlStr.length() - 1);

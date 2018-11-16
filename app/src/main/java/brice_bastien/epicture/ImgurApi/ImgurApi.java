@@ -24,6 +24,7 @@ import brice_bastien.epicture.BuildConfig;
 import brice_bastien.epicture.PostsFragment;
 import brice_bastien.epicture.R;
 import brice_bastien.epicture.Settings.SettingItem;
+import brice_bastien.epicture.post.CommentAdapter;
 import brice_bastien.epicture.post.PostItem;
 import uk.me.hardill.volley.multipart.MultipartRequest;
 
@@ -80,9 +81,9 @@ public class ImgurApi {
 		requestQueue.add(request);
 	}
 
-	public void getComment(String id) {
+	public void getComment(String id, CommentAdapter adapter) {
 		String url = host + "gallery/" + id + "/comments/";
-		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseCommentListener(), new ErrorListener(), clientId, token);
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseCommentListener(adapter), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);
 	}

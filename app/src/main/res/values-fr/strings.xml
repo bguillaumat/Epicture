@@ -38,6 +38,7 @@
         <item quantity="other">Voir les %d commentaires</item>
     </plurals>
     <string name="title_activity_post_comment">Commentaires</string>
+    <string name="author">écrit par &lt;b>%1$s&lt;/b></string>
 
 
 </resources>

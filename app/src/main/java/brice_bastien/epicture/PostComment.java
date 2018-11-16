@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.app.Activity;
 
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
+import brice_bastien.epicture.post.CommentAdapter;
+import brice_bastien.epicture.post.CommentItem;
 
 public class PostComment extends Activity {
 
@@ -42,13 +46,20 @@ public class PostComment extends Activity {
 			setTheme(R.style.AppTheme);
 		}
 
+		RecyclerView recyclerView = findViewById(R.id.commentList);
+
 		Intent intent = getIntent();
 		id = intent.getStringExtra("POST_ID");
 
 
 		imgurApi = new ImgurApi(getApplicationContext(), Username, Token);
 
-		imgurApi.getComment(id);
+		Context context = recyclerView.getContext();
+		recyclerView.setLayoutManager(new LinearLayoutManager(context));
+		CommentAdapter adapter = new CommentAdapter(getApplicationContext(), imgurApi);
+		recyclerView.setAdapter(adapter);
+
+		imgurApi.getComment(id, adapter);
 
 	}
 

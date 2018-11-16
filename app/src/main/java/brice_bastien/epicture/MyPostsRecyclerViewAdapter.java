@@ -3,7 +3,6 @@ package brice_bastien.epicture;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.icu.text.DecimalFormat;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import com.bumptech.glide.request.target.Target;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,11 +52,6 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	}
 
 	@Override
-	public void onViewRecycled(@NonNull ViewHolder holder) {
-		super.onViewRecycled(holder);
-	}
-
-	@Override
 	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 		holder.mItem = itemList.get(position);
 
@@ -85,7 +78,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		long different = endDate.getTime() - startDate.getTime();
 
 		System.out.println("startDate : " + startDate);
-		System.out.println("endDate : "+ endDate);
+		System.out.println("endDate : " + endDate);
 		System.out.println("different : " + different);
 
 		long secondsInMilli = 1000;
@@ -147,9 +140,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			}
 		});
 
-		holder.mView.setOnClickListener(new View.OnClickListener()
-
-		{
+		holder.mView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (null != mListener)

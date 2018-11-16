@@ -50,4 +50,8 @@
     <string name="save">Save</string>
     <string name="title_activity_post_comment">Commentaries</string>
 
+    <!-- Comments -->
+
+    <string name="author">written by &lt;b>%1$s&lt;/b></string>
+
 </resources>

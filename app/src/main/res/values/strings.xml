@@ -24,6 +24,15 @@
     <string name="hours_elapsed">There are %1$d hours</string>
     <string name="days_elapsed">There are %1$d days</string>
 
+    <string name="home">Home</string>
+
+    <string name="sort">Sort By</string>
+    <string name="newer">Newer</string>
+    <string name="oldest">Older</string>
+    <string name="most_view">Most View</string>
+    <string name="most_like">Most like</string>
+    <string name="sort_username">Username (Ascending)</string>
+
     <plurals name="numberOfView">
         <item quantity="zero">%s View</item>
         <item quantity="one">%s View</item>

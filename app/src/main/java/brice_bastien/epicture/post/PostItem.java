@@ -1,7 +1,9 @@
 package brice_bastien.epicture.post;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.lang.*;
 
 import androidx.annotation.NonNull;
 
@@ -44,6 +46,52 @@ public class PostItem {
 		images.add(img);
 	}
 
+	public static Comparator<PostItem> newerComparator = new Comparator<PostItem>() {
+
+		public int compare(PostItem s1, PostItem s2) {
+			Long time1 = s1.time;
+			Long time2 = s2.time;
+
+			return time2.compareTo(time1);
+		}};
+
+	public static Comparator<PostItem> olderComparator = new Comparator<PostItem>() {
+
+		public int compare(PostItem s1, PostItem s2) {
+			Long time1 = s1.time;
+			Long time2 = s2.time;
+
+			return time1.compareTo(time2);
+		}};
+
+	public static Comparator<PostItem> mostView = new Comparator<PostItem>() {
+
+		public int compare(PostItem s1, PostItem s2) {
+			Integer view1 = s1.views;
+			Integer view2 = s2.views;
+			
+			return view2.compareTo(view1);
+		}};
+
+	public static Comparator<PostItem> mostLike = new Comparator<PostItem>() {
+
+		public int compare(PostItem s1, PostItem s2) {
+			Integer ups1 = s1.ups;
+			Integer ups2 = s2.ups;
+
+			return ups2.compareTo(ups1);
+		}};
+
+	public static Comparator<PostItem> username = new Comparator<PostItem>() {
+
+		public int compare(PostItem s1, PostItem s2) {
+			String username1 = s1.ownerName.toLowerCase();
+			String username2 = s2.ownerName.toLowerCase();
+
+			return username1.compareTo(username2);
+		}};
+
+
 	@Override
 	@NonNull
 	public String toString() {
@@ -63,4 +111,5 @@ public class PostItem {
 		}
 		return ret;
 	}
+
 }

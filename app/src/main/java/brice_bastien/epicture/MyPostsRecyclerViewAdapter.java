@@ -24,6 +24,9 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -191,6 +194,31 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		}
 		itemList.remove(position);
 		notifyItemRemoved(position);
+	}
+
+	public void orderByNewest() {
+		Collections.sort(itemList, PostItem.newerComparator);
+		notifyDataSetChanged();
+	}
+
+	public void orderByOldest() {
+		Collections.sort(itemList, PostItem.olderComparator);
+		notifyDataSetChanged();
+	}
+
+	public void orderByMostView() {
+		Collections.sort(itemList, PostItem.mostView);
+		notifyDataSetChanged();
+	}
+
+	public void orderByUps() {
+		Collections.sort(itemList, PostItem.mostLike);
+		notifyDataSetChanged();
+	}
+
+	public void orderByName() {
+		Collections.sort(itemList, PostItem.username);
+		notifyDataSetChanged();
 	}
 
 	private static final String DECIMAL_FORMAT = "###,###.#";

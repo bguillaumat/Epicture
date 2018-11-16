@@ -39,6 +39,13 @@
     </plurals>
     <string name="title_activity_post_comment">Commentaires</string>
     <string name="author">écrit par &lt;b>%1$s&lt;/b></string>
+    <string name="home">Accueil</string>
+    <string name="sort">Trier par</string>
+    <string name="newer">Plus récent</string>
+    <string name="oldest">Plus ancien</string>
+    <string name="most_view">Plus vues</string>
+    <string name="most_like">Plus aimer</string>
+    <string name="sort_username">Utilisateur (Croissant)</string>
 
 
 </resources>

@@ -156,6 +156,10 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 				break;
 			case (R.id.app_bar_search):
 				break;
+
+			case (R.id.action_sort):
+				showEditDialog();
+				break;
 			case (android.R.id.home):
 				BottomNavigationDrawerFragment bottomNavDrawerFragment = new BottomNavigationDrawerFragment();
 				bottomNavDrawerFragment.postsFragment = postsFragment;
@@ -182,6 +186,11 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			}
 		}
 
+	}
+
+	private void showEditDialog() {
+		DialogSort editNameDialogFragment = DialogSort.newInstance(postsFragment.adapter);
+		editNameDialogFragment.show(getSupportFragmentManager(), "fragment_edit_name");
 	}
 
 

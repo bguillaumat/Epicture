@@ -2,6 +2,7 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,6 +21,20 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/app_name" />
+
+        <com.synnapps.carouselview.CarouselView
+            android:visibility="gone"
+            android:id="@+id/carousel_img"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:fillColor="#FFFFFFFF"
+            app:pageColor="#00000000"
+            app:radius="6dp"
+            app:slideInterval="3000"
+            app:strokeColor="#FF777777"
+            app:strokeWidth="1dp">
+
+        </com.synnapps.carouselview.CarouselView>
 
         <RelativeLayout
             android:layout_width="match_parent"

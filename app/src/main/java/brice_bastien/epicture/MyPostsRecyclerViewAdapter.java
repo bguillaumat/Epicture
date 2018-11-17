@@ -3,6 +3,8 @@ package brice_bastien.epicture;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,15 +19,14 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.Target;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +34,7 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
+import brice_bastien.epicture.ImgurPicture.ImgurPicture;
 import brice_bastien.epicture.PostsFragment.OnListFragmentInteractionListener;
 import brice_bastien.epicture.post.ElapsedTime;
 import brice_bastien.epicture.post.PostItem;
@@ -44,8 +46,6 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	private Context context;
 	private MainActivity mainActivity;
 	private ImgurApi imgurApi;
-	private View emptyView;
-	private RecyclerView recyclerView;
 
 	MyPostsRecyclerViewAdapter(OnListFragmentInteractionListener listener, Context context, MainActivity mainActivity, ImgurApi imgurApi) {
 		itemList = new ArrayList<>();
@@ -94,21 +94,47 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		ElapsedTime elapsedTime = new ElapsedTime(holder.mItem.time);
 		holder.timePost.setText(elapsedTime.getTimeString(res).toUpperCase());
 
+		if (holder.mItem.images.size() == 1) {
+			ImageView imageView = holder.mImageView;
+			holder.mImageView.setImageDrawable(null);
+			ImgurPicture imgurPicture = new ImgurPicture(holder.mItem.images.get(0));
 
-		ImageView imageView = holder.mImageView;
-		holder.mImageView.setImageDrawable(null);
-		String url = holder.mItem.images.get(0);
+			GlideApp.with(holder.itemView)
+					.load(imgurPicture.getUrl())
+					.transition(DrawableTransitionOptions.withCrossFade())
+					.thumbnail(GlideApp.with(holder.itemView)
+							.load(imgurPicture.getSmall())
+							.transition(DrawableTransitionOptions.withCrossFade()))
+					.error(new ColorDrawable(Color.RED))
+					.override(Target.SIZE_ORIGINAL)
+					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+					.into(imageView);
+		} else {
+			CarouselView carouselView = holder.carouselView;
+			carouselView.setVisibility(View.VISIBLE);
+			holder.mImageView.setVisibility(View.GONE);
+			carouselView.setPageCount(holder.mItem.images.size());
 
-		if (url.endsWith(".mp4"))
-			url = url.replace(".mp4", "h.jpg");
-		else if (url.endsWith(".gifv"))
-			url = url.replace(".gifv", "h.jpg");
+			carouselView.setImageListener(new ImageListener() {
+				@Override
+				public void setImageForPosition(int position, ImageView imageView) {
+					ImgurPicture imgurPicture = new ImgurPicture(holder.mItem.images.get(position));
 
-		GlideApp.with(holder.itemView)
-				.load(url)
-				.override(Target.SIZE_ORIGINAL)
-				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-				.into(imageView);
+					GlideApp.with(holder.itemView)
+							.load(imgurPicture.getUrl())
+							.transition(DrawableTransitionOptions.withCrossFade())
+							.thumbnail(GlideApp.with(holder.itemView)
+									.load(imgurPicture.getSmall())
+									.transition(DrawableTransitionOptions.withCrossFade()))
+							.error(new ColorDrawable(Color.RED))
+							.override(Target.SIZE_ORIGINAL)
+							.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+							.into(imageView);
+
+				}
+			});
+
+		}
 
 		holder.mFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -223,14 +249,6 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		notifyDataSetChanged();
 	}
 
-	private void checkIfEmpty() {
-		if (emptyView != null && recyclerView.getAdapter() != null) {
-			boolean emptyViewVisible = recyclerView.getAdapter().getItemCount() == 0;
-			emptyView.setVisibility(emptyViewVisible ? View.VISIBLE : View.GONE);
-			recyclerView.setVisibility(emptyViewVisible ? View.GONE : View.VISIBLE);
-		}
-	}
-
 	private static final String DECIMAL_FORMAT = "###,###.#";
 
 	private String formatValue(Number value, String formatString) {
@@ -256,6 +274,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		public final ToggleButton mFavorite;
 		public final ToggleButton mLike;
 		public final ToggleButton mDislike;
+		public final CarouselView carouselView;
 		public PostItem mItem;
 
 		ViewHolder(View view) {
@@ -268,6 +287,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			numberOfView = view.findViewById(R.id.numberOfView);
 			mFavorite = view.findViewById(R.id.button_favorite);
 			mLike = view.findViewById(R.id.button_like);
+			carouselView = view.findViewById(R.id.carousel_img);
 			mDislike = view.findViewById(R.id.button_dislike);
 		}
 	}

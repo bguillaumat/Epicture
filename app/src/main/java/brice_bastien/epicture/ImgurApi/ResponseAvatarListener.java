@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import org.json.JSONObject;
 
@@ -29,6 +30,7 @@ public class ResponseAvatarListener implements Response.Listener<JSONObject> {
 			Log.i("ResponseJsonPosts", tmp.getString("avatar"));
 			GlideApp.with(context)
 					.load(tmp.getString("avatar"))
+					.transition(DrawableTransitionOptions.withCrossFade())
 					.into(img);
 
 		} catch (Exception e) {

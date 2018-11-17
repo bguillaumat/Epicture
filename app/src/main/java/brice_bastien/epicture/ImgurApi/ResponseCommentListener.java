@@ -48,9 +48,6 @@ public class ResponseCommentListener implements Response.Listener<JSONObject> {
 				adapter.addItem(0, childrenCommentItem);
 				getChildren(childrenObj, adapter);
 			}
-
-
-
 		} catch (Exception e) {
 			Log.i("CommentChildren", e.toString());
 		}

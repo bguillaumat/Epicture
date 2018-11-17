@@ -44,6 +44,8 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	private Context context;
 	private MainActivity mainActivity;
 	private ImgurApi imgurApi;
+	private View emptyView;
+	private RecyclerView recyclerView;
 
 	MyPostsRecyclerViewAdapter(OnListFragmentInteractionListener listener, Context context, MainActivity mainActivity, ImgurApi imgurApi) {
 		itemList = new ArrayList<>();
@@ -219,6 +221,14 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	public void orderByName() {
 		Collections.sort(itemList, PostItem.username);
 		notifyDataSetChanged();
+	}
+
+	private void checkIfEmpty() {
+		if (emptyView != null && recyclerView.getAdapter() != null) {
+			boolean emptyViewVisible = recyclerView.getAdapter().getItemCount() == 0;
+			emptyView.setVisibility(emptyViewVisible ? View.VISIBLE : View.GONE);
+			recyclerView.setVisibility(emptyViewVisible ? View.GONE : View.VISIBLE);
+		}
 	}
 
 	private static final String DECIMAL_FORMAT = "###,###.#";

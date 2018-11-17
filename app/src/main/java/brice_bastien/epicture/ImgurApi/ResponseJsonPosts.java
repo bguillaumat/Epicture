@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 	public void onResponse(JSONObject response) {
 		try {
 			postsFragment.adapter.removeAll();
+			postsFragment.statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_NORMAL);
 			JSONArray array = new JSONArray(response.getString("data"));
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject obj = new JSONObject(array.getString(i));
@@ -78,8 +80,8 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 				postsFragment.adapter.addItem(0, post);
 			}
 		} catch (Exception e) {
+			postsFragment.statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_ERROR);
 			Log.i("ResponseJsonPosts", e.toString());
-			Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
 		}
 	}
 }

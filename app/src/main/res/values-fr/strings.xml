@@ -50,6 +50,7 @@
     <string name="modal_comment_title">Ecrivez un commentaire !</string>
     <string name="add_comment_hint">Ecrivez votre commentaire !</string>
     <string name="send_comment">Envoyer</string>
+    <string name="error_request">Impossible de charger le contenu</string>
 
 
 </resources>

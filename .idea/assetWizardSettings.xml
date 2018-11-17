@@ -49,8 +49,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_send" />
-                            <entry key="sourceFile" value="C:\Users\$KOR000-4HNUIEH6Q2I1\Downloads\baseline-send-24px.svg" />
+                            <entry key="outputName" value="ic_error" />
+                            <entry key="sourceFile" value="C:\Users\$KOR000-4HNUIEH6Q2I1\Downloads\baseline-error_outline-24px.svg" />
                           </map>
                         </option>
                       </PersistentState>

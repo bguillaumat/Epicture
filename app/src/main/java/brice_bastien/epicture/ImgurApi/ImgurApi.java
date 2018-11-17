@@ -110,7 +110,7 @@ public class ImgurApi {
 
 	public void getComment(String id, CommentAdapter adapter) {
 		String url = host + "gallery/" + id + "/comments/";
-		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseCommentListener(adapter), new ErrorListener(), clientId, token);
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseCommentListener(adapter), new ErrorListener(adapter.statesRecyclerViewAdapter), clientId, token);
 
 		requestQueue.add(request);
 		lastRequestType = REQUEST_TYPE.COMMENTARY;
@@ -121,7 +121,6 @@ public class ImgurApi {
 		JsonObjectRequest requets = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, postsFragment), new ErrorListener(), clientId, token);
 
 		requestQueue.add(requets);
-
 		this.query = query;
 		lastRequestType = REQUEST_TYPE.QUERY;
 	}
@@ -149,7 +148,7 @@ public class ImgurApi {
 	// Get Favorite Image of User
 	public void getUserFavorite(PostsFragment fragment) {
 		String url = host + "account/" + username + "/favorites/";
-		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(), clientId, token);
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(fragment), clientId, token);
 
 		requestQueue.add(request);
 		lastRequestType = REQUEST_TYPE.GET_USR_FAVORITE;
@@ -158,7 +157,7 @@ public class ImgurApi {
 	// Get User Img import
 	public void getUserImg(PostsFragment fragment) {
 		String url = host + "account/" + username + "/images";
-		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(), clientId, token);
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(fragment), clientId, token);
 
 		requestQueue.add(request);
 		lastRequestType = REQUEST_TYPE.GET_USR_IMG;
@@ -167,7 +166,7 @@ public class ImgurApi {
 	// Get Recent hot/viral image in imgur
 	public void getRecentImg(PostsFragment fragment, String section) {
 		String url = host + "gallery/" + section + "/";
-		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(), clientId, token);
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(fragment), clientId, token);
 
 		requestQueue.add(request);
 		lastRequestType = REQUEST_TYPE.GET_RECENT_IMG;

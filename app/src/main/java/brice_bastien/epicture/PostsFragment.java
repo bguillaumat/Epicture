@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ public class PostsFragment extends Fragment {
 	private int mColumnCount = 1;
 	private OnListFragmentInteractionListener mListener;
 	public MyPostsRecyclerViewAdapter adapter = null;
+	public StatesRecyclerViewAdapter statesRecyclerViewAdapter = null;
 	public ImgurApi imgurApi;
 
 	public PostsFragment() {
@@ -67,8 +70,13 @@ public class PostsFragment extends Fragment {
 			} else {
 				recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
 			}
-			adapter = new MyPostsRecyclerViewAdapter(mListener, getContext(), (MainActivity) getActivity(), imgurApi);
-			recyclerView.setAdapter(adapter);
+			View loadingView = getLayoutInflater().inflate(R.layout.view_loading, recyclerView, false);
+			View emptyView = getLayoutInflater().inflate(R.layout.view_empty, recyclerView, false);
+			View errorView = getLayoutInflater().inflate(R.layout.view_error, recyclerView, false);
+			adapter = new MyPostsRecyclerViewAdapter(mListener, getContext(), (MainActivity)getActivity(), imgurApi);
+			statesRecyclerViewAdapter = new StatesRecyclerViewAdapter(adapter, loadingView, emptyView, errorView);
+			recyclerView.setAdapter(statesRecyclerViewAdapter);
+			statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_LOADING);
 		}
 		return fragView;
 	}
@@ -91,7 +99,6 @@ public class PostsFragment extends Fragment {
 	}
 
 	public interface OnListFragmentInteractionListener {
-		// TODO: Update argument type and name
 		void onListFragmentInteraction(PostItem item);
 	}
 }

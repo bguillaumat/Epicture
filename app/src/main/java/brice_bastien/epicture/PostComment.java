@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -68,8 +69,17 @@ public class PostComment extends AppCompatActivity {
 
 		Context context = recyclerView.getContext();
 		recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+
+		View loadingView = getLayoutInflater().inflate(R.layout.view_loading, recyclerView, false);
+		View emptyView = getLayoutInflater().inflate(R.layout.view_empty, recyclerView, false);
+		View errorView = getLayoutInflater().inflate(R.layout.view_error, recyclerView, false);
 		final CommentAdapter adapter = new CommentAdapter(getApplicationContext(), imgurApi);
-		recyclerView.setAdapter(adapter);
+		StatesRecyclerViewAdapter statesRecyclerViewAdapter = new StatesRecyclerViewAdapter(adapter, loadingView, emptyView, errorView);
+		recyclerView.setAdapter(statesRecyclerViewAdapter);
+		statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_LOADING);
+
+		adapter.statesRecyclerViewAdapter = statesRecyclerViewAdapter;
 
 		imgurApi.getComment(id, adapter);
 

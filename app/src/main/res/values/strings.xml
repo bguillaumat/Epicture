@@ -19,6 +19,8 @@
 
     <string name="title_post" translatable="false">&lt;b>%1$s&lt;/b> %2$s</string>
 
+    <string name="error_request">Oops, couldn\'t load data</string>
+
     <string name="seconds_elapsed">%1$d seconds ago</string>
     <string name="minutes_elapsed">%1$d minutes ago</string>
     <string name="hours_elapsed">%1$d hours ago</string>

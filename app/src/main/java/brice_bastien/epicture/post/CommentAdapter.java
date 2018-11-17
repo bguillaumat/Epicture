@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import brice_bastien.epicture.R;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
 	private final List<CommentItem> itemList;
+	public StatesRecyclerViewAdapter statesRecyclerViewAdapter;
 	Context context;
 	ImgurApi imgurApi;
 

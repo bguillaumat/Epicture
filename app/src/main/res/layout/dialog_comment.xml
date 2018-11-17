@@ -4,13 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:layout_margin="@dimen/basic_margin"
+    android:layout_margin="@dimen/fab_margin"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_comment" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:layout_marginStart="@dimen/basic_margin"
+            android:text="@string/modal_comment_title"
+            android:textColor="@color/colorPrimaryText"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/edit_comment"
-        android:inputType="text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:inputType="text" />
 
 </LinearLayout>

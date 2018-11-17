@@ -47,6 +47,9 @@
     <string name="most_like">Plus aimer</string>
     <string name="sort_username">Utilisateur (Croissant)</string>
     <string name="year_elapsed">Il y a %1$d ans</string>
+    <string name="modal_comment_title">Ecrivez un commentaire !</string>
+    <string name="add_comment_hint">Ecrivez votre commentaire !</string>
+    <string name="send_comment">Envoyer</string>
 
 
 </resources>

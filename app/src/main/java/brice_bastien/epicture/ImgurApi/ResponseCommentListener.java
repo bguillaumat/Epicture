@@ -21,6 +21,7 @@ public class ResponseCommentListener implements Response.Listener<JSONObject> {
 	@Override
 	public void onResponse(JSONObject response) {
 		try {
+			adapter.removeAll();
 			JSONArray array = new JSONArray(response.getString("data"));
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject obj = new JSONObject(array.getString(i));

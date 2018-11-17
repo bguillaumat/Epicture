@@ -39,7 +39,8 @@ public class ImgurApi {
 		GET_USR_IMG,
 		GET_RECENT_IMG,
 		GET_USR_FAVORITE,
-		QUERY
+		QUERY,
+		COMMENTARY
 	}
 
 	// class var
@@ -90,6 +91,7 @@ public class ImgurApi {
 		String url = host + "gallery/" + id + "/comment";
 		HashMap<String, String> headers = new HashMap<>();
 		headers.put("Authorization", "Bearer " + token);
+
 		MultipartRequest request = new MultipartRequest(Request.Method.POST, url, headers, new Response.Listener<NetworkResponse>() {
 			@Override
 			public void onResponse(NetworkResponse response) {
@@ -111,6 +113,7 @@ public class ImgurApi {
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseCommentListener(adapter), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);
+		lastRequestType = REQUEST_TYPE.COMMENTARY;
 	}
 
 	public void getQuery(String query, PostsFragment postsFragment) {

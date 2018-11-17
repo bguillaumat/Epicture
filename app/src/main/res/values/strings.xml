@@ -19,11 +19,15 @@
 
     <string name="title_post" translatable="false">&lt;b>%1$s&lt;/b> %2$s</string>
 
-    <string name="seconds_elapsed">%1$d seconds aho</string>
+    <string name="seconds_elapsed">%1$d seconds ago</string>
     <string name="minutes_elapsed">%1$d minutes ago</string>
     <string name="hours_elapsed">%1$d hours ago</string>
     <string name="days_elapsed">%1$d days ago</string>
     <string name="year_elapsed">%1$d years ago</string>
+
+    <string name="modal_comment_title">Make a comment !</string>
+    <string name="add_comment_hint">Type your comment !</string>
+    <string name="send_comment">Post</string>
 
     <string name="home">Home</string>
 

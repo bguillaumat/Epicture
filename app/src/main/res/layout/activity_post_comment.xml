@@ -27,16 +27,48 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/fragment_posts" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_comment"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_send_message"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_baseline_add_24px" />
+            app:layout_constraintStart_toStartOf="parent">
+            
+            <ImageView
+                android:id="@+id/user_add_comment"
+                android:contentDescription="@string/app_name"
+                android:layout_width="@dimen/bottom_bar_height"
+                android:layout_height="@dimen/bottom_bar_height" />
+
+            <EditText
+                android:id="@+id/editMessage"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/bottom_bar_height"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="5"
+                android:background="@color/white"
+                android:gravity="center|start"
+                android:hint="@string/add_comment_hint"
+                android:inputType="textMultiLine|textCapSentences"
+                android:maxLines="5"
+                android:minLines="3"
+                android:scrollHorizontally="false" />
+
+            <ImageButton
+                android:id="@+id/buttonSend"
+                android:layout_width="@dimen/bottom_bar_height"
+                android:layout_height="@dimen/bottom_bar_height"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:background="@color/colorPrimary"
+                android:contentDescription="@string/app_name"
+                android:gravity="center"
+                android:src="@drawable/ic_send" />
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

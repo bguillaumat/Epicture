@@ -5,9 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -61,13 +66,6 @@ public class PostComment extends AppCompatActivity {
 
 		final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.refresh_commentary);
 
-		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-			@Override
-			public void onRefresh() {
-				swipeRefreshLayout.setRefreshing(false);
-			}
-		});
-
 		Context context = recyclerView.getContext();
 		recyclerView.setLayoutManager(new LinearLayoutManager(context));
 		final CommentAdapter adapter = new CommentAdapter(getApplicationContext(), imgurApi);
@@ -75,12 +73,26 @@ public class PostComment extends AppCompatActivity {
 
 		imgurApi.getComment(id, adapter);
 
-		FloatingActionButton floatingActionButton = findViewById(R.id.add_comment);
-		floatingActionButton.setOnClickListener(new View.OnClickListener() {
+		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				imgurApi.getComment(id, adapter);
+				swipeRefreshLayout.setRefreshing(false);
+			}
+		});
+
+
+		ImageView userPic = findViewById(R.id.user_add_comment);
+		imgurApi.getUsrAvatar(userPic, Username);
+
+
+		final EditText commentText = findViewById(R.id.editMessage);
+		ImageButton sendButton = findViewById(R.id.buttonSend);
+		sendButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				DialogComment editNameDialogFragment = DialogComment.newInstance(adapter);
-				editNameDialogFragment.show(getSupportFragmentManager(), "fragment_edit_name");
+				imgurApi.postComment(commentText.getText().toString(), id);
+				Log.i("PostComment", "try");
 			}
 		});
 

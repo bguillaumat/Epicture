@@ -82,7 +82,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		holder.mFavorite.setChecked(holder.mItem.favorite);
 		holder.mTitleView.setText(Html.fromHtml(res.getString(R.string.title_post, holder.mItem.ownerName, holder.mItem.title)));
 		holder.seeMoreComments.setText(res.getQuantityString(R.plurals.numberOfComments, holder.mItem.commentNumber, holder.mItem.commentNumber));
-		if (holder.mItem.commentNumber == 0) {
+		if (holder.mItem.id.equals("null")) {
 			holder.seeMoreComments.setVisibility(View.GONE);
 		}
 

@@ -117,7 +117,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 	private ArrayList<String> pullLinks(String text) {
 		ArrayList<String> links = new ArrayList<>();
 
-		String regex = "\\(?\\b(http://|https://|www[.])[-A-Za-z0-9+&amp;@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&amp;@#/%=~_()|]";
+		String regex = "\\(?\\b(http://i.imgur.com|https://i.imgur.com|www[.])[-A-Za-z0-9+&amp;@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&amp;@#/%=~_()|]";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(text);
 		while (m.find()) {

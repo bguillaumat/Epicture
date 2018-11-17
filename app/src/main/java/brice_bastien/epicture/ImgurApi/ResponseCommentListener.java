@@ -29,9 +29,31 @@ public class ResponseCommentListener implements Response.Listener<JSONObject> {
 					continue;
 				CommentItem commentItem = new CommentItem(obj.getString("author"), obj.getString("comment"), obj.getLong("datetime"));
 				adapter.addItem(0, commentItem);
+				getChildren(obj, adapter);
 			}
 		} catch (Exception e) {
 			Log.i("Comment", e.toString());
 		}
 	}
+
+	private void getChildren(JSONObject object, CommentAdapter adapter) {
+		try {
+			JSONArray children = new JSONArray(object.getString("children"));
+			for (int j = 0; j < children.length(); j++) {
+				JSONObject childrenObj = new JSONObject(children.getString(j));
+				Log.i("Comment", childrenObj.toString(2));
+				if (childrenObj.getBoolean("deleted"))
+					continue;
+				CommentItem childrenCommentItem = new CommentItem(childrenObj.getString("author"), childrenObj.getString("comment"), childrenObj.getLong("datetime"));
+				adapter.addItem(0, childrenCommentItem);
+				getChildren(childrenObj, adapter);
+			}
+
+
+
+		} catch (Exception e) {
+			Log.i("CommentChildren", e.toString());
+		}
+	}
+
 }

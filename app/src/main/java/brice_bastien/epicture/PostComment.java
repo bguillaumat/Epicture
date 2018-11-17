@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -67,10 +70,19 @@ public class PostComment extends AppCompatActivity {
 
 		Context context = recyclerView.getContext();
 		recyclerView.setLayoutManager(new LinearLayoutManager(context));
-		CommentAdapter adapter = new CommentAdapter(getApplicationContext(), imgurApi);
+		final CommentAdapter adapter = new CommentAdapter(getApplicationContext(), imgurApi);
 		recyclerView.setAdapter(adapter);
 
 		imgurApi.getComment(id, adapter);
+
+		FloatingActionButton floatingActionButton = findViewById(R.id.add_comment);
+		floatingActionButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				DialogComment editNameDialogFragment = DialogComment.newInstance(adapter);
+				editNameDialogFragment.show(getSupportFragmentManager(), "fragment_edit_name");
+			}
+		});
 
 	}
 

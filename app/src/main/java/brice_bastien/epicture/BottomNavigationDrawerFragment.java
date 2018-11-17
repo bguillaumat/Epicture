@@ -18,7 +18,6 @@ import brice_bastien.epicture.ImgurApi.ImgurApi;
 
 public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 
-	Storage store = new Storage();
 	private SharedPreferences sharedPreferences;
 	public PostsFragment postsFragment;
 	public ImgurApi imgurApi;

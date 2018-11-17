@@ -86,6 +86,10 @@ public class ImgurApi {
 		requestQueue.add(request);
 	}
 
+	public void postComment(String comment) {
+		String url = host + "";
+	}
+
 	public void getComment(String id, CommentAdapter adapter) {
 		String url = host + "gallery/" + id + "/comments/";
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseCommentListener(adapter), new ErrorListener(), clientId, token);

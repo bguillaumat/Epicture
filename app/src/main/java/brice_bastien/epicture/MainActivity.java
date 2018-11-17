@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 
 		if (Token == null || Username == null) {
 			Intent intent = new Intent(this, LoginActivity.class);
-			finish();
 			startActivity(intent);
+			finish();
 		}
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);

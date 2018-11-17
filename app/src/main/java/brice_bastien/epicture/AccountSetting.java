@@ -57,8 +57,8 @@ public class AccountSetting extends AppCompatActivity {
 
 		if (Token == null || Username == null) {
 			Intent intent = new Intent(this, LoginActivity.class);
-			finish();
 			startActivity(intent);
+			finish();
 		}
 
 		username.setText(Username);

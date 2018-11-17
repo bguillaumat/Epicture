@@ -53,8 +53,8 @@ public class LoginActivity extends AppCompatActivity {
 								.putString("Username", Username)
 								.apply();
 						cookieManager.removeAllCookies(null);
-						finish();
 						startActivity(intent);
+						finish();
 						return;
 					}
 				}

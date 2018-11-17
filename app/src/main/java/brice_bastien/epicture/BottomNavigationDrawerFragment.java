@@ -54,8 +54,8 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 						Intent intent = new Intent(getContext(), LoginActivity.class);
 						sharedPreferences = getActivity().getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 						sharedPreferences.edit().clear().apply();
-						getActivity().finish();
 						startActivity(intent);
+						getActivity().finish();
 						dismiss();
 						break;
 				}

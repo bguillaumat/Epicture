@@ -28,12 +28,6 @@ public class LoginActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_login);
 
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
-		if (sharedPreferences.contains("User_Token") && sharedPreferences.contains("Username")) {
-			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-			finish();
-			startActivity(intent);
-		}
-
 		final WebView webView = findViewById(R.id.webView);
 		webView.setWebViewClient(new WebViewClient() {
 			@Override

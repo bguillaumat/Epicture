@@ -92,7 +92,7 @@ public class PostComment extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				imgurApi.postComment(commentText.getText().toString(), id);
-				Log.i("PostComment", "try");
+				commentText.setText(null);
 			}
 		});
 

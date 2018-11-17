@@ -86,8 +86,24 @@ public class ImgurApi {
 		requestQueue.add(request);
 	}
 
-	public void postComment(String comment) {
-		String url = host + "";
+	public void postComment(String comment, String id) {
+		String url = host + "gallery/" + id + "/comment";
+		HashMap<String, String> headers = new HashMap<>();
+		headers.put("Authorization", "Bearer " + token);
+		MultipartRequest request = new MultipartRequest(Request.Method.POST, url, headers, new Response.Listener<NetworkResponse>() {
+			@Override
+			public void onResponse(NetworkResponse response) {
+				Log.w("post a comment", Integer.toString(response.statusCode));
+			}
+		}, new ErrorListener());
+
+		try {
+			request.addPart(new MultipartRequest.FormPart("comment", comment));
+			Log.i("post a comment", new String(request.getBody()));
+			requestQueue.add(request);
+		}catch (Exception e) {
+			Log.w("post a comment:", "failed");
+		}
 	}
 
 	public void getComment(String id, CommentAdapter adapter) {

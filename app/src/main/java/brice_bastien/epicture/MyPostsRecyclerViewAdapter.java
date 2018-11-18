@@ -65,9 +65,9 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	@Override
 	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 		holder.mItem = itemList.get(position);
+		final List<String> images = holder.mItem.images;
 
 		Resources res = holder.mView.getResources();
-		Log.i("Item", holder.mItem.toString());
 
 		holder.mFavorite.setOnCheckedChangeListener(null);
 		holder.mLike.setOnCheckedChangeListener(null);
@@ -94,10 +94,13 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		ElapsedTime elapsedTime = new ElapsedTime(holder.mItem.time);
 		holder.timePost.setText(elapsedTime.getTimeString(res).toUpperCase());
 
-		if (holder.mItem.images.size() == 1) {
+		Log.i("test", images.toString());
+		if (images.size() <= 1) {
+			holder.carouselView.setVisibility(View.GONE);
+			holder.mImageView.setVisibility(View.VISIBLE);
 			ImageView imageView = holder.mImageView;
 			holder.mImageView.setImageDrawable(null);
-			ImgurPicture imgurPicture = new ImgurPicture(holder.mItem.images.get(0));
+			ImgurPicture imgurPicture = new ImgurPicture(images.get(0));
 
 			GlideApp.with(holder.itemView)
 					.load(imgurPicture.getUrl())
@@ -113,12 +116,14 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			CarouselView carouselView = holder.carouselView;
 			carouselView.setVisibility(View.VISIBLE);
 			holder.mImageView.setVisibility(View.GONE);
-			carouselView.setPageCount(holder.mItem.images.size());
+			carouselView.setPageCount(images.size());
 
 			carouselView.setImageListener(new ImageListener() {
 				@Override
 				public void setImageForPosition(int position, ImageView imageView) {
-					ImgurPicture imgurPicture = new ImgurPicture(holder.mItem.images.get(position));
+					imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+					imageView.setBackground(new ColorDrawable(Color.BLACK));
+					ImgurPicture imgurPicture = new ImgurPicture(images.get(position));
 
 					GlideApp.with(holder.itemView)
 							.load(imgurPicture.getUrl())
@@ -133,7 +138,6 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 
 				}
 			});
-
 		}
 
 		holder.mFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

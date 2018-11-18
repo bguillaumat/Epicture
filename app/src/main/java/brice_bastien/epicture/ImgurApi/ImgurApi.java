@@ -1,6 +1,7 @@
 package brice_bastien.epicture.ImgurApi;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
@@ -19,15 +20,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import androidx.preference.PreferenceManager;
 import brice_bastien.epicture.AccountSetting;
 import brice_bastien.epicture.BuildConfig;
 import brice_bastien.epicture.PostDetails;
 import brice_bastien.epicture.PostsFragment;
 import brice_bastien.epicture.R;
 import brice_bastien.epicture.Settings.SettingItem;
+import brice_bastien.epicture.SettingsActivity;
 import brice_bastien.epicture.post.CommentAdapter;
 import brice_bastien.epicture.post.PostItem;
 import uk.me.hardill.volley.multipart.MultipartRequest;
+
+import static brice_bastien.epicture.SettingsActivity.KEY_PREF_FEED_SECTION;
 
 public class ImgurApi {
 
@@ -121,7 +126,10 @@ public class ImgurApi {
 	}
 
 	public void getComment(String id, CommentAdapter adapter) {
-		String url = host + "gallery/" + id + "/comments/";
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_COMMENTARY_NEW, false);
+
+		String url = host + "gallery/" + id + "/comments/" + (switchPref ? "new" : "best" );
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseCommentListener(adapter), new ErrorListener(adapter.statesRecyclerViewAdapter), clientId, token);
 
 		requestQueue.add(request);
@@ -172,6 +180,9 @@ public class ImgurApi {
 
 	// Get Recent hot/viral image in imgur
 	public void getRecentImg(PostsFragment fragment, String section) {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		section = sharedPrefs.getString(KEY_PREF_FEED_SECTION, "hot");
+
 		String url = host + "gallery/" + section + "/";
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(fragment), clientId, token);
 

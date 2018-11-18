@@ -3,9 +3,32 @@
 
     <string name="user_info_pref">UserInfo</string>
 
+    <!-- Settings -->
+
+    <string name="theme_category">Theme</string>
+    <string name="feed_category">Picture Feed</string>
+
+    <string name="feed_section">Feed type</string>
+    <string name="feed_section_hint">You can choose between hot, user and top section</string>
+
+    <string-array name="feed_sections">
+        <item>Hot</item>
+        <item>User</item>
+        <item>Top</item>
+    </string-array>
+
+    <string-array name="feed_sections_alias">
+        <item>hot</item>
+        <item>user</item>
+        <item>top</item>
+    </string-array>
+
     <string name="dark_mode">Dark Mode</string>
     <string name="dark_mode_hint">Enable Dark Mode. Note: not fully implement</string>
-
+    <string name="commentary_sort">Recent Comments</string>
+    <string name="commentary_sort_hint">If the option is enabled, the comments will be sorted by the most recent</string>
+    
+    
     <string name="action_favorite">Favorite</string>
     <string name="action_search">Search</string>
     <string name="nav_item1">My Account</string>

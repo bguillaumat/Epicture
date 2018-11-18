@@ -52,6 +52,12 @@
     <string name="send_comment">Envoyer</string>
     <string name="error_request">Impossible de charger le contenu</string>
     <string name="title_activity_post_details">Details</string>
+    <string name="commentary_sort">Commentaires Récent</string>
+    <string name="commentary_sort_hint">Si l\'options est activée, les commentaires les plus recents seront visible en premier</string>
+    <string name="theme_category">Thème</string>
+    <string name="feed_category">Flux d\'image</string>
+    <string name="feed_section">Type de flux</string>
+    <string name="feed_section_hint">Vous pouvez choisir entre  les section Hot, User et Top</string>
 
 
 </resources>

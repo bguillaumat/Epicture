@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <androidx.preference.SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:title="@string/dark_mode"
-        android:key="example_switch"
-        android:summary="@string/dark_mode_hint" />
+
+    <PreferenceCategory android:title="@string/theme_category">
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="example_switch"
+            android:summary="@string/dark_mode_hint"
+            android:title="@string/dark_mode" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/feed_category">
+
+        <ListPreference
+            android:key="feed_section"
+            android:title="@string/feed_section"
+            android:summary="@string/feed_section_hint"
+            android:entries="@array/feed_sections"
+            android:entryValues="@array/feed_sections_alias"
+            android:defaultValue="hot" />
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="commentary_sort"
+            android:summary="@string/commentary_sort_hint"
+            android:title="@string/commentary_sort" />
+
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>

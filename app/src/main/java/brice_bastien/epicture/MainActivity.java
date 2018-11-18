@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -158,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 				break;
 
 			case (R.id.action_sort):
+				//showEditDialog();
 				showEditDialog();
 				break;
 			case (android.R.id.home):
@@ -181,11 +183,16 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			switch (requestCode) {
 				case REQUEST_CODE:
 					if (data != null) {
-						imgurApi.uploadImg(data.getData());
+						showUploadDialog(data.getData());
 					}
 			}
 		}
 
+	}
+
+	private void showUploadDialog(Uri img) {
+		DialogUpload editNameDialogFragment = DialogUpload.newInstance(postsFragment.adapter, img);
+		editNameDialogFragment.show(getSupportFragmentManager(), "fragment_edit_name");
 	}
 
 	private void showEditDialog() {

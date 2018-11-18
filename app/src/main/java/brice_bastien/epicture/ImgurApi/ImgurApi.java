@@ -209,7 +209,7 @@ public class ImgurApi {
 		}
 	}
 
-	public void uploadImg(Uri img) {
+	public void uploadImg(Uri img, String title, String desc) {
 		String url = host + "image";
 
 		HashMap<String, String> headers = new HashMap<>();
@@ -227,6 +227,8 @@ public class ImgurApi {
 			InputStream iStream = context.getContentResolver().openInputStream(img);
 			byte[] data = getBytes(iStream);
 			request.addPart(new MultipartRequest.FilePart("image", mimeType, null, data));
+			request.addPart(new MultipartRequest.FormPart("title", title));
+			request.addPart(new MultipartRequest.FormPart("description", desc));
 			request.setRetryPolicy(new DefaultRetryPolicy(2500, 0, 1.0f));
 			requestQueue.add(request);
 		} catch (Exception e) {

@@ -43,6 +43,7 @@ public class PostItem {
 		this.downs = downs;
 		this.link = link;
 		this.favorite = favorite;
+		this.description = "";
 		this.imageFav = null;
 	}
 

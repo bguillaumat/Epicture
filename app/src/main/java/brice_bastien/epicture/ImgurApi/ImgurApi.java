@@ -232,8 +232,32 @@ public class ImgurApi {
 			Log.i("saveSetting", new String(request.getBody()));
 			requestQueue.add(request);
 		}catch (Exception e) {
-			Log.w("saveSetting:", "failed");
+			Log.w("saveSetting:", e.toString());
 		}
+	}
+
+	public void editImage(boolean isAlbum, String id, String title, String description) {
+		String url = host +  (isAlbum ? "album/" : "image/") + id;
+		HashMap<String, String> headers = new HashMap<>();
+		headers.put("Authorization", "Bearer " + token);
+
+		MultipartRequest request = new MultipartRequest(Request.Method.POST, url, headers, new Response.Listener<NetworkResponse>() {
+			@Override
+			public void onResponse(NetworkResponse response) {
+				Log.i("edit", Integer.toString(response.statusCode));
+			}
+		}, new ErrorListener());
+
+		try {
+			request.addPart(new MultipartRequest.FormPart("title", title));
+			request.addPart(new MultipartRequest.FormPart("description", description));
+			requestQueue.add(request);
+
+		} catch (Exception e) {
+			Log.w("saveSetting:", e.toString());
+		}
+
+
 	}
 
 	public void uploadImg(Uri img, String title, String desc) {

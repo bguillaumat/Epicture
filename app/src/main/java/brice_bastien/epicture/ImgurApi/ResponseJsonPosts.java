@@ -59,6 +59,7 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 					post.imageFav = obj.getString("id");
 					post.favType = PostItem.FAV_TYPE.PHOTO;
 				}
+				post.description = (checkKey(obj, "description") ? obj.getString("description") : "");
 				post.deleteHash = (checkKey(obj, "deletehash") ? obj.getString("deletehash") : "");
 				post.ownerName = obj.getString("account_url");
 				post.commentNumber = (checkKey(obj, "comment_count") ? obj.getInt("comment_count") : 0);

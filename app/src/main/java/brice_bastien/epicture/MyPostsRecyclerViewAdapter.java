@@ -1,5 +1,6 @@
 package brice_bastien.epicture;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,13 +11,17 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.ScaleAnimation;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -169,6 +174,38 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		holder.editButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				final Dialog dialog = new Dialog(context);
+				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				dialog.setContentView(R.layout.dialog_edit);
+				dialog.show();
+
+				Button save = dialog.findViewById(R.id.save_btn);
+				Button cancel = dialog.findViewById(R.id.cancel_action);
+
+				final EditText title = dialog.findViewById(R.id.uploadPhotoTitle);
+				final EditText description = dialog.findViewById(R.id.uploadPhotoDescription);
+
+				title.setText(holder.mItem.title);
+				if (!holder.mItem.description.isEmpty())
+					description.setText(holder.mItem.description);
+
+				save.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (title.getText().toString().isEmpty())
+							Toast.makeText(v.getContext(), "Your photo need a title", Toast.LENGTH_SHORT).show();
+						else {
+							imgurApi.editImage(holder.mItem.favType == PostItem.FAV_TYPE.ALBUM, holder.mItem.id, title.getText().toString(), description.getText().toString());
+							dialog.dismiss();
+						}
+					}
+				});
+				cancel.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						dialog.dismiss();
+					}
+				});
 
 			}
 		});

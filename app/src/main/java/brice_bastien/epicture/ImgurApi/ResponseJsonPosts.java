@@ -27,9 +27,10 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 	public void onResponse(JSONObject response) {
 		try {
 			postsFragment.adapter.removeAll();
-			postsFragment.statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_NORMAL);
 			JSONArray array = new JSONArray(response.getString("data"));
 			for (int i = 0; i < array.length(); i++) {
+				if (i == 0)
+					postsFragment.statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_NORMAL);
 				JSONObject obj = new JSONObject(array.getString(i));
 				Log.i("GetData", obj.toString(2));
 

@@ -3,6 +3,9 @@
 
     <string name="user_info_pref">UserInfo</string>
 
+    <string name="delete_action">Delete post</string>
+    <string name="delete_warning">Are you sure you want to delete ?</string>
+
     <!-- Settings -->
 
     <string name="theme_category">Theme</string>

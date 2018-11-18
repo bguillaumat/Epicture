@@ -1,12 +1,12 @@
 package brice_bastien.epicture;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +22,7 @@ import android.widget.ToggleButton;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.Target;
+import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.ImgurPicture.ImgurPicture;
@@ -45,6 +47,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 
 	private final List<PostItem> itemList;
 	private final OnListFragmentInteractionListener mListener;
+	public StatesRecyclerViewAdapter statesRecyclerViewAdapter;
 	private Context context;
 	private MainActivity mainActivity;
 	private ImgurApi imgurApi;
@@ -84,11 +87,13 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			holder.mLike.setVisibility(View.GONE);
 			holder.mFavorite.setVisibility(View.GONE);
 			holder.deleteButton.setVisibility(View.VISIBLE);
+			holder.editButton.setVisibility(View.VISIBLE);
 		} else {
 			holder.mDislike.setVisibility(View.VISIBLE);
 			holder.mLike.setVisibility(View.VISIBLE);
 			holder.mFavorite.setVisibility(View.VISIBLE);
 			holder.deleteButton.setVisibility(View.GONE);
+			holder.editButton.setVisibility(View.GONE);
 		}
 
 
@@ -161,11 +166,31 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			});
 		}
 
+		holder.editButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+
 		holder.deleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				imgurApi.delUserImg(holder.mItem.favType == PostItem.FAV_TYPE.ALBUM, holder.mItem.deleteHash);
-				removeItem(position);
+				AlertDialog.Builder alert = new AlertDialog.Builder(context);
+				alert.setTitle(R.string.delete_action);
+				alert.setMessage(R.string.delete_warning);
+				alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						imgurApi.delUserImg(holder.mItem.favType == PostItem.FAV_TYPE.ALBUM, holder.mItem.deleteHash);
+						removeItem(position);
+					}
+				});
+				alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+				alert.show();
 			}
 		});
 
@@ -241,6 +266,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 
 	public void removeAll() {
 		itemList.clear();
+		statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_EMPTY);
 		notifyDataSetChanged();
 	}
 
@@ -250,6 +276,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		} else {
 			itemList.add(position, post);
 		}
+		statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_NORMAL);
 		notifyItemInserted(position);
 	}
 
@@ -258,6 +285,9 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			return;
 		}
 		itemList.remove(position);
+		if (itemList.isEmpty()) {
+			statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_EMPTY);
+		}
 		notifyItemRemoved(position);
 	}
 
@@ -313,6 +343,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		public final ToggleButton mDislike;
 		public final CarouselView carouselView;
 		public final ImageButton deleteButton;
+		public final ImageButton editButton;
 		public PostItem mItem;
 
 		ViewHolder(View view) {
@@ -328,6 +359,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			carouselView = view.findViewById(R.id.carousel_img);
 			mDislike = view.findViewById(R.id.button_dislike);
 			deleteButton = view.findViewById(R.id.delete_button);
+			editButton = view.findViewById(R.id.edit_button);
 		}
 	}
 }

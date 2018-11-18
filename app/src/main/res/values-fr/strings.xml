@@ -64,7 +64,7 @@
     <string name="search_sort">Trié par</string>
     <string name="search_sort_hint">Les options sont viral, top et time</string>
     <string name="low_data_hint">Cette options active le chargement des images en basse qualité</string>
-    <string name="low_data">Econimiseur de données</string>
+    <string name="low_data">Economie de données</string>
     <string name="modal_upload_title">Titre</string>
     <string name="modal_upload_title_hint">Titre</string>
     <string name="modal_upload_description">Description</string>
@@ -73,6 +73,8 @@
     <string name="favorite_category">Favoris</string>
     <string name="favorite_sort">Trié par</string>
     <string name="favorite_sort_hint">Les options sont older et newest</string>
+    <string name="delete_action">Supprimer le post</string>
+    <string name="delete_warning">Etes-vous sûr de vouloir supprimer le post ?</string>
 
 
 </resources>

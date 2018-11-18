@@ -23,9 +23,10 @@ public class ResponseCommentListener implements Response.Listener<JSONObject> {
 	public void onResponse(JSONObject response) {
 		try {
 			adapter.removeAll();
-			adapter.statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_NORMAL);
 			JSONArray array = new JSONArray(response.getString("data"));
 			for (int i = 0; i < array.length(); i++) {
+				if (i == 0)
+					adapter.statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_NORMAL);
 				JSONObject obj = new JSONObject(array.getString(i));
 				Log.i("Comment", obj.toString(2));
 				if (obj.getBoolean("deleted"))

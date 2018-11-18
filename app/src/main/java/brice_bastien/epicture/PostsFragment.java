@@ -76,6 +76,7 @@ public class PostsFragment extends Fragment {
 			adapter = new MyPostsRecyclerViewAdapter(mListener, getContext(), (MainActivity)getActivity(), imgurApi);
 			statesRecyclerViewAdapter = new StatesRecyclerViewAdapter(adapter, loadingView, emptyView, errorView);
 			recyclerView.setAdapter(statesRecyclerViewAdapter);
+			adapter.statesRecyclerViewAdapter = statesRecyclerViewAdapter;
 			statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_LOADING);
 		}
 		return fragView;

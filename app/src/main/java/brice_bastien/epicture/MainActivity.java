@@ -172,7 +172,12 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 
 	@Override
 	public void onListFragmentInteraction(PostItem item) {
-		// TODO display one item
+		Intent intent = new Intent(this, PostDetails.class);
+		intent.putExtra("ID", item.id);
+		intent.putExtra("IS_ALBUM", item.favType == PostItem.FAV_TYPE.ALBUM);
+		intent.putExtra("USERNAME", item.ownerName);
+		intent.putExtra("COMMENTS", item.commentNumber);
+		startActivity(intent);
 	}
 
 	@Override

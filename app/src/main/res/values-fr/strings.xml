@@ -51,6 +51,7 @@
     <string name="add_comment_hint">Ecrivez votre commentaire !</string>
     <string name="send_comment">Envoyer</string>
     <string name="error_request">Impossible de charger le contenu</string>
+    <string name="title_activity_post_details">Details</string>
 
 
 </resources>

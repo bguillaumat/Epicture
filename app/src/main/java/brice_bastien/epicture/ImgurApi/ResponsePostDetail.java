@@ -1,41 +1,39 @@
 package brice_bastien.epicture.ImgurApi;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import brice_bastien.epicture.PostsFragment;
+import brice_bastien.epicture.PostDetails;
 import brice_bastien.epicture.post.PostItem;
 
-public class ResponseJsonPosts implements Response.Listener<JSONObject> {
+public class ResponsePostDetail implements Response.Listener<JSONObject> {
 
-	private PostsFragment postsFragment;
-	private Context context;
+	private PostDetails postDetails;
 
-	ResponseJsonPosts(Context context, PostsFragment postsFragment) {
-		this.postsFragment = postsFragment;
-		this.context = context;
+	ResponsePostDetail(PostDetails postDetails) {
+		this.postDetails = postDetails;
 	}
 
 	@Override
 	public void onResponse(JSONObject response) {
 		try {
-			postsFragment.adapter.removeAll();
-			postsFragment.statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_NORMAL);
-			JSONArray array = new JSONArray(response.getString("data"));
-			for (int i = 0; i < array.length(); i++) {
-				JSONObject obj = new JSONObject(array.getString(i));
-				Log.i("GetData", obj.toString(2));
-
+				JSONObject obj = new JSONObject(response.getString("data"));
+				Log.i("PostDetails", obj.toString(2));
 				PostItem post = new PostItem(obj.getString("id"), obj.getString("title"), 0, 0, obj.getString("link"), obj.getBoolean("favorite"));
-				post.ups = (checkKey(obj, "ups") ? obj.getInt("ups") : 0);
-				post.downs = (checkKey(obj, "downs") ? obj.getInt("downs") : 0);
+
+				if (obj.has("ups") && obj.has("downs") && !obj.getString("ups").equals("null") && !obj.getString("downs").equals("null")) {
+					post.ups = obj.getInt("ups");
+					post.downs = obj.getInt("downs");
+				}
+				if (obj.has("description") && !obj.getString("description").equals("null")) {
+					post.description = obj.getString("description");
+				} else {
+					post.description = "";
+				}
 				if (obj.has("vote") && obj.getString("vote").equals("null")) {
 					post.voteType = PostItem.VOTE_TYPE.NONE;
 				} else if (obj.has("vote")) {
@@ -58,14 +56,14 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 					post.imageFav = obj.getString("id");
 					post.favType = PostItem.FAV_TYPE.PHOTO;
 				}
-				post.deleteHash = (checkKey(obj, "deletehash") ? obj.getString("deletehash") : "");
 				post.ownerName = obj.getString("account_url");
-				post.commentNumber = (checkKey(obj, "comment_count") ? obj.getInt("comment_count") : 0);
+				if (obj.has("comment_count") && !obj.getString("comment_count").equals("null"))
+					post.commentNumber = obj.getInt("comment_count");
 				post.views = obj.getInt("views");
 				if (obj.isNull("images")) {
 					post.AddImage(obj.getString("link"));
-					postsFragment.adapter.addItem(0, post);
-					continue;
+					postDetails.setView(post);
+					return;
 				}
 				JSONArray images = new JSONArray(obj.getString("images"));
 				for (int j = 0; j < images.length(); j++) {
@@ -75,22 +73,9 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 					} else
 						post.AddImage(tmp_img.getString("link"));
 				}
-				postsFragment.adapter.addItem(0, post);
-			}
+				postDetails.setView(post);
 		} catch (Exception e) {
-			postsFragment.statesRecyclerViewAdapter.setState(StatesRecyclerViewAdapter.STATE_ERROR);
-			Log.i("ResponseJsonPosts", e.toString());
+			Log.w("PostDetails", e.getStackTrace().toString() + e.toString());
 		}
 	}
-
-	private boolean checkKey(JSONObject object, String key) {
-		boolean check = false;
-		try {
-			check = object.has(key) && !object.getString(key).equals("null");
-		} catch (Exception e) {
-			Log.i("checkKey", e.toString());
-		}
-		return check;
-	}
-
 }

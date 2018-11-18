@@ -21,6 +21,8 @@ public class PostItem {
 
 	public String title;
 	public String id;
+	public String description;
+	public String deleteHash;
 	public int ups;
 	public int downs;
 	public int views;

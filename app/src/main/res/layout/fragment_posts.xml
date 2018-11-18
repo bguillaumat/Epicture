@@ -24,14 +24,15 @@
 
         <com.synnapps.carouselview.CarouselView
             android:visibility="gone"
+            app:autoPlay="false"
             android:id="@+id/carousel_img"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            app:fillColor="#FFFFFFFF"
+            app:fillColor="@color/colorPrimary"
             app:pageColor="#00000000"
-            app:radius="6dp"
+            app:radius="5dp"
             app:slideInterval="3000"
-            app:strokeColor="#FF777777"
+            app:strokeColor="@color/colorAccent"
             app:strokeWidth="1dp">
 
         </com.synnapps.carouselview.CarouselView>

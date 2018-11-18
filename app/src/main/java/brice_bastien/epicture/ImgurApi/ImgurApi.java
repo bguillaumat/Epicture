@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import brice_bastien.epicture.AccountSetting;
 import brice_bastien.epicture.BuildConfig;
+import brice_bastien.epicture.PostDetails;
 import brice_bastien.epicture.PostsFragment;
 import brice_bastien.epicture.R;
 import brice_bastien.epicture.Settings.SettingItem;
@@ -60,6 +61,10 @@ public class ImgurApi {
 		lastRequestType = REQUEST_TYPE.NONE;
 	}
 
+	public String getUsername() {
+		return this.username;
+	}
+
 	// Refresh last request
 	public void refresh_data(PostsFragment fragment) {
 		switch (lastRequestType) {
@@ -80,9 +85,16 @@ public class ImgurApi {
 		}
 	}
 
-	public void delUserImg(String pictureId) {
-		String url = host + "image/" + pictureId;
+	public void delUserImg(boolean isAlbum, String deleteHash) {
+		String url = host + (isAlbum ? "album/" : "image/") + deleteHash;
 		JsonObjectRequest request = new JsonRequest(Request.Method.DELETE, url, null, new ResponsePosts(context), new ErrorListener(), clientId, token);
+
+		requestQueue.add(request);
+	}
+
+	public void getDetails(boolean isAlbum, String id, PostDetails postDetails) {
+		String url = host + (isAlbum ? "album/" : "image/") + id;
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponsePostDetail(postDetails), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);
 	}
@@ -134,12 +146,7 @@ public class ImgurApi {
 
 	// Fav an image
 	public void addImgFav(String pictureId, PostItem.FAV_TYPE type) {
-		String favType;
-		if (PostItem.FAV_TYPE.ALBUM == type)
-			favType = "album";
-		else
-			favType = "image";
-		String url = host + favType + "/" + pictureId + "/favorite";
+		String url = host + (PostItem.FAV_TYPE.ALBUM == type ? "album" : "image") + "/" + pictureId + "/favorite";
 		JsonObjectRequest request = new JsonRequest(Request.Method.POST, url, null, new ResponsePosts(context), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);

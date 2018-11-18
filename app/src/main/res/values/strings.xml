@@ -69,5 +69,6 @@
     <!-- Comments -->
 
     <string name="author">written by &lt;b>%1$s&lt;/b></string>
+    <string name="title_activity_post_details">Details</string>
 
 </resources>

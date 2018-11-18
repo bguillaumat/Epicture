@@ -22,6 +22,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.Target;
 import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
 
 import java.text.DecimalFormat;
@@ -73,6 +74,21 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		holder.mLike.setOnCheckedChangeListener(null);
 		holder.mDislike.setOnCheckedChangeListener(null);
 
+		if (holder.mItem.id.equals("null") || isMe(holder.mItem.ownerName)) {
+			holder.seeMoreComments.setVisibility(View.GONE);
+		} else
+			holder.seeMoreComments.setVisibility(View.VISIBLE);
+		if (isMe(holder.mItem.ownerName)) {
+			holder.mDislike.setVisibility(View.GONE);
+			holder.mLike.setVisibility(View.GONE);
+			holder.mFavorite.setVisibility(View.GONE);
+		} else {
+			holder.mDislike.setVisibility(View.VISIBLE);
+			holder.mLike.setVisibility(View.VISIBLE);
+			holder.mFavorite.setVisibility(View.VISIBLE);
+		}
+
+
 		if (holder.mItem.voteType == PostItem.VOTE_TYPE.LIKE) {
 			holder.mLike.setChecked(true);
 		} else if (holder.mItem.voteType == PostItem.VOTE_TYPE.DISLIKE) {
@@ -84,9 +100,6 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		holder.mFavorite.setChecked(holder.mItem.favorite);
 		holder.mTitleView.setText(Html.fromHtml(res.getString(R.string.title_post, holder.mItem.ownerName, holder.mItem.title)));
 		holder.seeMoreComments.setText(res.getQuantityString(R.plurals.numberOfComments, holder.mItem.commentNumber, holder.mItem.commentNumber));
-		if (holder.mItem.id.equals("null")) {
-			holder.seeMoreComments.setVisibility(View.GONE);
-		}
 
 		final String views = formatValue(holder.mItem.views, DECIMAL_FORMAT);
 		holder.numberOfView.setText(res.getQuantityString(R.plurals.numberOfView, holder.mItem.views, views));
@@ -94,7 +107,6 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		ElapsedTime elapsedTime = new ElapsedTime(holder.mItem.time);
 		holder.timePost.setText(elapsedTime.getTimeString(res).toUpperCase());
 
-		Log.i("test", images.toString());
 		if (images.size() <= 1) {
 			holder.carouselView.setVisibility(View.GONE);
 			holder.mImageView.setVisibility(View.VISIBLE);
@@ -118,6 +130,13 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			holder.mImageView.setVisibility(View.GONE);
 			carouselView.setPageCount(images.size());
 
+			carouselView.setImageClickListener(new ImageClickListener() {
+				@Override
+				public void onClick(int position) {
+					if (null != mListener)
+						mListener.onListFragmentInteraction(holder.mItem);
+				}
+			});
 			carouselView.setImageListener(new ImageListener() {
 				@Override
 				public void setImageForPosition(int position, ImageView imageView) {
@@ -135,7 +154,6 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 							.override(Target.SIZE_ORIGINAL)
 							.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 							.into(imageView);
-
 				}
 			});
 		}
@@ -198,6 +216,10 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			}
 		});
 
+	}
+
+	private boolean isMe(String user) {
+		return imgurApi.getUsername().equals(user);
 	}
 
 	public void updateData(List<PostItem> posts) {

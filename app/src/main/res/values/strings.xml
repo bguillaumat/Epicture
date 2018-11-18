@@ -8,6 +8,20 @@
     <string name="theme_category">Theme</string>
     <string name="feed_category">Picture Feed</string>
     <string name="search_category">Search</string>
+    <string name="favorite_category">Favorite</string>
+
+    <string name="favorite_sort">Favorite Sort</string>
+    <string name="favorite_sort_hint">You can sorted by older and newest</string>
+
+    <string-array name="favorite_sorts">
+        <item>Old</item>
+        <item>Recent</item>
+    </string-array>
+
+    <string-array name="favorite_sorts_alias">
+        <item>oldest</item>
+        <item>newest</item>
+    </string-array>
 
     <string name="feed_section">Feed type</string>
     <string name="feed_section_hint">You can choose between hot, user and top section</string>

@@ -14,6 +14,8 @@ public class SettingsActivity extends AppCompatActivity {
 	public static final String KEY_PREF_FEED_SORT = "feed_sort";
 	public static final String KEY_PREF_SEARCH_SORT = "search_sort";
 	public static final String KEY_PREF_LOW_DATA = "low_data";
+	public static final String KEY_PREF_FAVORITE_SORT = "favorite_sort";
+
 
 
 	@Override

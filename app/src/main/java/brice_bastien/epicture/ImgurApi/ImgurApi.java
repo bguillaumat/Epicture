@@ -32,6 +32,7 @@ import brice_bastien.epicture.post.CommentAdapter;
 import brice_bastien.epicture.post.PostItem;
 import uk.me.hardill.volley.multipart.MultipartRequest;
 
+import static brice_bastien.epicture.SettingsActivity.KEY_PREF_FAVORITE_SORT;
 import static brice_bastien.epicture.SettingsActivity.KEY_PREF_FEED_SECTION;
 import static brice_bastien.epicture.SettingsActivity.KEY_PREF_FEED_SORT;
 import static brice_bastien.epicture.SettingsActivity.KEY_PREF_SEARCH_SORT;
@@ -166,7 +167,10 @@ public class ImgurApi {
 
 	// Get Favorite Image of User
 	public void getUserFavorite(PostsFragment fragment) {
-		String url = host + "account/" + username + "/favorites/";
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		String sort = sharedPrefs.getString(KEY_PREF_FAVORITE_SORT, "newest");
+
+		String url = host + "account/" + username + "/favorites/" + sort;
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(fragment), clientId, token);
 
 		requestQueue.add(request);

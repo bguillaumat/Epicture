@@ -53,4 +53,15 @@
             android:defaultValue="viral" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/favorite_category">
+        <ListPreference
+            android:key="favorite_sort"
+            android:title="@string/favorite_sort"
+            android:summary="@string/favorite_sort_hint"
+            android:entries="@array/favorite_sorts"
+            android:entryValues="@array/favorite_sorts_alias"
+            android:defaultValue="newest" />
+    </PreferenceCategory>
+
+
 </androidx.preference.PreferenceScreen>

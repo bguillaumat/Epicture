@@ -70,6 +70,9 @@
     <string name="modal_upload_description">Description</string>
     <string name="modal_upload_description_hint">Description</string>
     <string name="modal_upload_button">Envoyer</string>
+    <string name="favorite_category">Favoris</string>
+    <string name="favorite_sort">Trié par</string>
+    <string name="favorite_sort_hint">Les options sont older et newest</string>
 
 
 </resources>

@@ -11,13 +11,13 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/modal_upload_title"
+            android:textAlignment="center"
             android:textColor="@color/colorPrimaryText"
             android:textStyle="bold" />
 
@@ -41,8 +41,8 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/modal_upload_description"

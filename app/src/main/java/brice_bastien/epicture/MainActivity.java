@@ -193,10 +193,10 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 				case REQUEST_CODE:
 					if (data != null) {
 						imagePath = data.getData();
+						upload_dialog = true;
 					}
 			}
 		}
-		upload_dialog = true;
 	}
 
 	@Override

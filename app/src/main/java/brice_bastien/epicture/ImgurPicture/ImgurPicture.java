@@ -1,5 +1,11 @@
 package brice_bastien.epicture.ImgurPicture;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import androidx.preference.PreferenceManager;
+import brice_bastien.epicture.SettingsActivity;
+
 public class ImgurPicture {
 
 	private static final String small = "t";
@@ -25,9 +31,15 @@ public class ImgurPicture {
 		return getImgLink(addType(original_url, big));
 	}
 
-	public String getUrl() {
+	public String getUrl(Context context) {
 		String url;
 
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		Boolean lowData = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_LOW_DATA, false);
+
+		if (lowData) {
+			return getMedium();
+		}
 		if (original_url.endsWith(".mp4")) {
 			url = addType(original_url, huge_picture);
 		} else if (original_url.endsWith(".gifv")) {

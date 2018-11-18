@@ -33,6 +33,8 @@ import brice_bastien.epicture.post.PostItem;
 import uk.me.hardill.volley.multipart.MultipartRequest;
 
 import static brice_bastien.epicture.SettingsActivity.KEY_PREF_FEED_SECTION;
+import static brice_bastien.epicture.SettingsActivity.KEY_PREF_FEED_SORT;
+import static brice_bastien.epicture.SettingsActivity.KEY_PREF_SEARCH_SORT;
 
 public class ImgurApi {
 
@@ -137,7 +139,9 @@ public class ImgurApi {
 	}
 
 	public void getQuery(String query, PostsFragment postsFragment) {
-		String url = host + "gallery/search/?q=" + query;
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		String sort = sharedPrefs.getString(KEY_PREF_SEARCH_SORT, "viral");
+		String url = host + "gallery/search/" + sort + "/?q=" + query;
 		JsonObjectRequest requets = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, postsFragment), new ErrorListener(), clientId, token);
 
 		requestQueue.add(requets);
@@ -182,8 +186,9 @@ public class ImgurApi {
 	public void getRecentImg(PostsFragment fragment, String section) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 		section = sharedPrefs.getString(KEY_PREF_FEED_SECTION, "hot");
+		String sort = sharedPrefs.getString(KEY_PREF_FEED_SORT, "viral");
 
-		String url = host + "gallery/" + section + "/";
+		String url = host + "gallery/" + section + "/" + sort;
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(fragment), clientId, token);
 
 		requestQueue.add(request);

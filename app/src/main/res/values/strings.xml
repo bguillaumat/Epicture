@@ -7,6 +7,7 @@
 
     <string name="theme_category">Theme</string>
     <string name="feed_category">Picture Feed</string>
+    <string name="search_category">Search</string>
 
     <string name="feed_section">Feed type</string>
     <string name="feed_section_hint">You can choose between hot, user and top section</string>
@@ -22,6 +23,27 @@
         <item>user</item>
         <item>top</item>
     </string-array>
+
+    <string name="low_data">Data Saving</string>
+    <string name="low_data_hint">This option enables loading of images in low quality</string>
+
+    <string name="feed_sort">Feed sort</string>
+    <string name="feed_sort_hint">You can sorted by viral, top and time</string>
+
+    <string-array name="feed_sorts">
+        <item>Most Viral</item>
+        <item>Top Post</item>
+        <item>Time</item>
+    </string-array>
+
+    <string-array name="feed_sorts_alias">
+        <item>viral</item>
+        <item>top</item>
+        <item>time</item>
+    </string-array>
+
+    <string name="search_sort">Search sort</string>
+    <string name="search_sort_hint">You can sorted by viral, top and time</string>
 
     <string name="dark_mode">Dark Mode</string>
     <string name="dark_mode_hint">Enable Dark Mode. Note: not fully implement</string>

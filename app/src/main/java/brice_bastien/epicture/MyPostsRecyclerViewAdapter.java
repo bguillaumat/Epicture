@@ -115,7 +115,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			ImgurPicture imgurPicture = new ImgurPicture(images.get(0));
 
 			GlideApp.with(holder.itemView)
-					.load(imgurPicture.getUrl())
+					.load(imgurPicture.getUrl(holder.itemView.getContext()))
 					.transition(DrawableTransitionOptions.withCrossFade())
 					.thumbnail(GlideApp.with(holder.itemView)
 							.load(imgurPicture.getSmall())
@@ -145,7 +145,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 					ImgurPicture imgurPicture = new ImgurPicture(images.get(position));
 
 					GlideApp.with(holder.itemView)
-							.load(imgurPicture.getUrl())
+							.load(imgurPicture.getUrl(holder.itemView.getContext()))
 							.transition(DrawableTransitionOptions.withCrossFade())
 							.thumbnail(GlideApp.with(holder.itemView)
 									.load(imgurPicture.getSmall())

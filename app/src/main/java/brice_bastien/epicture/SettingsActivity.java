@@ -11,6 +11,9 @@ public class SettingsActivity extends AppCompatActivity {
 	public static final String KEY_PREF_EXAMPLE_SWITCH = "example_switch";
 	public static final String KEY_PREF_COMMENTARY_NEW = "commentary_sort";
 	public static final String KEY_PREF_FEED_SECTION = "feed_section";
+	public static final String KEY_PREF_FEED_SORT = "feed_sort";
+	public static final String KEY_PREF_SEARCH_SORT = "search_sort";
+	public static final String KEY_PREF_LOW_DATA = "low_data";
 
 
 	@Override

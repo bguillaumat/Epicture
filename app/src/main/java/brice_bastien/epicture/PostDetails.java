@@ -103,7 +103,7 @@ public class PostDetails extends AppCompatActivity {
 				ImgurPicture imgurPicture = new ImgurPicture(images.get(position));
 
 				GlideApp.with(view)
-						.load(imgurPicture.getUrl())
+						.load(imgurPicture.getUrl(view))
 						.transition(DrawableTransitionOptions.withCrossFade())
 						.thumbnail(GlideApp.with(view)
 								.load(imgurPicture.getSmall())

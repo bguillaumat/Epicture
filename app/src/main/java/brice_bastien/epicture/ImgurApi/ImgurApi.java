@@ -1,6 +1,7 @@
 package brice_bastien.epicture.ImgurApi;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
@@ -19,14 +20,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import androidx.preference.PreferenceManager;
 import brice_bastien.epicture.AccountSetting;
 import brice_bastien.epicture.BuildConfig;
+import brice_bastien.epicture.PostDetails;
 import brice_bastien.epicture.PostsFragment;
 import brice_bastien.epicture.R;
 import brice_bastien.epicture.Settings.SettingItem;
+import brice_bastien.epicture.SettingsActivity;
 import brice_bastien.epicture.post.CommentAdapter;
 import brice_bastien.epicture.post.PostItem;
 import uk.me.hardill.volley.multipart.MultipartRequest;
+
+import static brice_bastien.epicture.SettingsActivity.KEY_PREF_FEED_SECTION;
+import static brice_bastien.epicture.SettingsActivity.KEY_PREF_FEED_SORT;
+import static brice_bastien.epicture.SettingsActivity.KEY_PREF_SEARCH_SORT;
 
 public class ImgurApi {
 
@@ -60,6 +68,10 @@ public class ImgurApi {
 		lastRequestType = REQUEST_TYPE.NONE;
 	}
 
+	public String getUsername() {
+		return this.username;
+	}
+
 	// Refresh last request
 	public void refresh_data(PostsFragment fragment) {
 		switch (lastRequestType) {
@@ -80,9 +92,16 @@ public class ImgurApi {
 		}
 	}
 
-	public void delUserImg(String pictureId) {
-		String url = host + "image/" + pictureId;
+	public void delUserImg(boolean isAlbum, String deleteHash) {
+		String url = host + (isAlbum ? "album/" : "image/") + deleteHash;
 		JsonObjectRequest request = new JsonRequest(Request.Method.DELETE, url, null, new ResponsePosts(context), new ErrorListener(), clientId, token);
+
+		requestQueue.add(request);
+	}
+
+	public void getDetails(boolean isAlbum, String id, PostDetails postDetails) {
+		String url = host + (isAlbum ? "album/" : "image/") + id;
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponsePostDetail(postDetails), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);
 	}
@@ -109,7 +128,10 @@ public class ImgurApi {
 	}
 
 	public void getComment(String id, CommentAdapter adapter) {
-		String url = host + "gallery/" + id + "/comments/";
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_COMMENTARY_NEW, false);
+
+		String url = host + "gallery/" + id + "/comments/" + (switchPref ? "new" : "best" );
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseCommentListener(adapter), new ErrorListener(adapter.statesRecyclerViewAdapter), clientId, token);
 
 		requestQueue.add(request);
@@ -117,7 +139,9 @@ public class ImgurApi {
 	}
 
 	public void getQuery(String query, PostsFragment postsFragment) {
-		String url = host + "gallery/search/?q=" + query;
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		String sort = sharedPrefs.getString(KEY_PREF_SEARCH_SORT, "viral");
+		String url = host + "gallery/search/" + sort + "/?q=" + query;
 		JsonObjectRequest requets = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, postsFragment), new ErrorListener(), clientId, token);
 
 		requestQueue.add(requets);
@@ -134,12 +158,7 @@ public class ImgurApi {
 
 	// Fav an image
 	public void addImgFav(String pictureId, PostItem.FAV_TYPE type) {
-		String favType;
-		if (PostItem.FAV_TYPE.ALBUM == type)
-			favType = "album";
-		else
-			favType = "image";
-		String url = host + favType + "/" + pictureId + "/favorite";
+		String url = host + (PostItem.FAV_TYPE.ALBUM == type ? "album" : "image") + "/" + pictureId + "/favorite";
 		JsonObjectRequest request = new JsonRequest(Request.Method.POST, url, null, new ResponsePosts(context), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);
@@ -165,7 +184,11 @@ public class ImgurApi {
 
 	// Get Recent hot/viral image in imgur
 	public void getRecentImg(PostsFragment fragment, String section) {
-		String url = host + "gallery/" + section + "/";
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		section = sharedPrefs.getString(KEY_PREF_FEED_SECTION, "hot");
+		String sort = sharedPrefs.getString(KEY_PREF_FEED_SORT, "viral");
+
+		String url = host + "gallery/" + section + "/" + sort;
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseJsonPosts(context, fragment), new ErrorListener(fragment), clientId, token);
 
 		requestQueue.add(request);

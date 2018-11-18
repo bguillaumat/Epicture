@@ -51,6 +51,20 @@
     <string name="add_comment_hint">Ecrivez votre commentaire !</string>
     <string name="send_comment">Envoyer</string>
     <string name="error_request">Impossible de charger le contenu</string>
+    <string name="title_activity_post_details">Details</string>
+    <string name="commentary_sort">Commentaires Récent</string>
+    <string name="commentary_sort_hint">Si l\'options est activée, les commentaires les plus recents seront visible en premier</string>
+    <string name="theme_category">Thème</string>
+    <string name="feed_category">Flux d\'image</string>
+    <string name="feed_section">Type de flux</string>
+    <string name="feed_section_hint">Vous pouvez choisir entre  les section Hot, User et Top</string>
+    <string name="feed_sort">Trié par</string>
+    <string name="feed_sort_hint">Vous pouvez trié par les plus viral, top et time</string>
+    <string name="search_category">Recherche</string>
+    <string name="search_sort">Trié par</string>
+    <string name="search_sort_hint">Les options sont viral, top et time</string>
+    <string name="low_data_hint">Cette options active le chargement des images en basse qualité</string>
+    <string name="low_data">Econimiseur de données</string>
 
 
 </resources>

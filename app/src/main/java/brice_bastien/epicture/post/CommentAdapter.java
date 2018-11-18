@@ -2,7 +2,10 @@ package brice_bastien.epicture.post;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.target.Target;
 import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -21,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import brice_bastien.epicture.GlideApp;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
+import brice_bastien.epicture.ImgurPicture.ImgurPicture;
 import brice_bastien.epicture.R;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
@@ -65,21 +71,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
 		ArrayList<String> list = pullLinks(holder.mItem.comment);
 		if (list.size() > 0) {
-			String pic = list.get(0);
+			ImgurPicture imgurPicture = new ImgurPicture(list.get(0));
 
-			if (pic.endsWith(".gifv") || pic.endsWith(".mp4"))
-				pic = pic.replace(".gifv", "h.jpg").replace(".mp4", "h.jpg");
-
-			String extension = pic.substring(pic.lastIndexOf(".") + 1);
-
-			if (!extension.isEmpty() && extension.length() <= 4) {
-				imageView.setVisibility(View.VISIBLE);
-				GlideApp.with(context)
-						.load(pic)
-						.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-						.into(imageView);
-				commentary = commentary.replace(list.get(0), "");
-			}
+			imageView.setVisibility(View.VISIBLE);
+			GlideApp.with(holder.itemView)
+					.load(imgurPicture.getMedium())
+					.error(new ColorDrawable(Color.RED))
+					.transition(DrawableTransitionOptions.withCrossFade())
+					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+					.into(imageView);
+			commentary = commentary.replace(list.get(0), "");
 		}
 		holder.comment.setText(Html.fromHtml(res.getString(R.string.title_post, holder.mItem.author, commentary)));
 		list.clear();

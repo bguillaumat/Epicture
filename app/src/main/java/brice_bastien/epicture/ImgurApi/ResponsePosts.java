@@ -12,7 +12,7 @@ public class ResponsePosts implements Response.Listener<JSONObject> {
 
 	private Context context;
 
-	public ResponsePosts(Context context) {
+	ResponsePosts(Context context) {
 		this.context = context;
 	}
 

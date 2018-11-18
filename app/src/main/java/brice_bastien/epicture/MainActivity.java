@@ -25,6 +25,8 @@ import brice_bastien.epicture.post.PostItem;
 
 public class MainActivity extends AppCompatActivity implements PostsFragment.OnListFragmentInteractionListener {
 
+	private boolean upload_dialog = false;
+	private Uri imagePath;
 	private String Token = "";
 	private String Username = "";
 	private SharedPreferences sharedPreferences;
@@ -188,16 +190,26 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			switch (requestCode) {
 				case REQUEST_CODE:
 					if (data != null) {
-						showUploadDialog(data.getData());
+						imagePath = data.getData();
 					}
 			}
 		}
+		upload_dialog = true;
+	}
 
+	@Override
+	protected void onResumeFragments() {
+		super.onResumeFragments();
+		if (upload_dialog) {
+			upload_dialog = false;
+			showUploadDialog(imagePath);
+			imagePath = null;
+		}
 	}
 
 	private void showUploadDialog(Uri img) {
-		DialogUpload editNameDialogFragment = DialogUpload.newInstance(postsFragment.adapter, img);
-		editNameDialogFragment.show(getSupportFragmentManager(), "fragment_edit_name");
+		DialogUpload editNameDialogFragment = DialogUpload.newInstance(postsFragment.adapter, img, imgurApi);
+		editNameDialogFragment.show(getSupportFragmentManager(), "fragment_upload_picture");
 	}
 
 	private void showEditDialog() {

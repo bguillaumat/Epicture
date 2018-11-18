@@ -18,9 +18,6 @@ public class DialogSort extends DialogFragment {
 	static DialogSort newInstance(MyPostsRecyclerViewAdapter adapter) {
 		DialogSort frag = new DialogSort();
 		frag.adapter = adapter;
-//		Bundle args = new Bundle();
-//		args.putString("title", title);
-//		frag.setArguments(args);
 		return frag;
 	}
 
@@ -73,12 +70,6 @@ public class DialogSort extends DialogFragment {
 				adapter.orderByName();
 			}
 		});
-
-//		mEditText = view.findViewById(R.id.txt_your_name);
-//		String title = getArguments().getString("title", "Enter Name");
-//		getDialog().setTitle(title);
-//		mEditText.requestFocus();
-//		getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
 
 	}

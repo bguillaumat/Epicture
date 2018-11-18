@@ -65,6 +65,11 @@
     <string name="search_sort_hint">Les options sont viral, top et time</string>
     <string name="low_data_hint">Cette options active le chargement des images en basse qualité</string>
     <string name="low_data">Econimiseur de données</string>
+    <string name="modal_upload_title">Titre</string>
+    <string name="modal_upload_title_hint">Titre</string>
+    <string name="modal_upload_description">Description</string>
+    <string name="modal_upload_description_hint">Description</string>
+    <string name="modal_upload_button">Envoyer</string>
 
 
 </resources>

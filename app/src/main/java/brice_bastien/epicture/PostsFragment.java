@@ -2,6 +2,7 @@ package brice_bastien.epicture;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +21,7 @@ import brice_bastien.epicture.post.PostItem;
 public class PostsFragment extends Fragment {
 
 	private static final String ARG_COLUMN_COUNT = "column-count";
-	private int mColumnCount = 1;
+	private int mColumnCount = 2;
 	private OnListFragmentInteractionListener mListener;
 	public MyPostsRecyclerViewAdapter adapter = null;
 	public StatesRecyclerViewAdapter statesRecyclerViewAdapter = null;
@@ -61,11 +63,13 @@ public class PostsFragment extends Fragment {
 				swipeRefreshLayout.setRefreshing(false);
 			}
 		});
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(container.getContext());
+		Boolean grid_view = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_GRID_VIEW, false);
 
 		// Set the adapter
 		if (recyclerView != null) {
 			Context context = recyclerView.getContext();
-			if (mColumnCount <= 1) {
+			if (!grid_view) {
 				recyclerView.setLayoutManager(new LinearLayoutManager(context));
 			} else {
 				recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));

@@ -9,6 +9,13 @@
             android:summary="@string/dark_mode_hint"
             android:title="@string/dark_mode" />
 
+        <androidx.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="grid_view"
+            android:summary="@string/grid_layout_hint"
+            android:title="@string/grid_layout" />
+
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/feed_category">

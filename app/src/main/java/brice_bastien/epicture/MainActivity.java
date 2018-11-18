@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 		}
 
 		imgurApi = new ImgurApi(getApplicationContext(), Username, Token);
-		postsFragment = PostsFragment.newInstance(1, imgurApi);
+		postsFragment = PostsFragment.newInstance(2, imgurApi);
 		fragmentManager.beginTransaction().replace(R.id.include, postsFragment).commit();
 		fab = findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 		});
 
 		imgurApi.getRecentImg(postsFragment, "hot");
+//		Snackbar.make(this.getVie, "", Snackbar.LENGTH_SHORT).show();
 	}
 
 	@Override

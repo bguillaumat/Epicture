@@ -54,7 +54,7 @@
     <string name="title_activity_post_details">Details</string>
     <string name="commentary_sort">Commentaires Récent</string>
     <string name="commentary_sort_hint">Si l\'options est activée, les commentaires les plus recents seront visible en premier</string>
-    <string name="theme_category">Thème</string>
+    <string name="theme_category">Thème (Experimental)</string>
     <string name="feed_category">Flux d\'image</string>
     <string name="feed_section">Type de flux</string>
     <string name="feed_section_hint">Vous pouvez choisir entre  les section Hot, User et Top</string>
@@ -75,5 +75,8 @@
     <string name="favorite_sort_hint">Les options sont older et newest</string>
     <string name="delete_action">Supprimer le post</string>
     <string name="delete_warning">Etes-vous sûr de vouloir supprimer le post ?</string>
+    <string name="grid_layout">Mode grille</string>
+    <string name="grid_layout_hint">Active le mode grille dans le flux. Redémarrer après changement !</string>
+    <string name="hello">Bonjour %1$s !</string>
 
 </resources>

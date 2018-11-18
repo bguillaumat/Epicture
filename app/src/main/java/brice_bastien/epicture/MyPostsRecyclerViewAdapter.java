@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -64,7 +65,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+	public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 		holder.mItem = itemList.get(position);
 		final List<String> images = holder.mItem.images;
 
@@ -82,10 +83,12 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			holder.mDislike.setVisibility(View.GONE);
 			holder.mLike.setVisibility(View.GONE);
 			holder.mFavorite.setVisibility(View.GONE);
+			holder.deleteButton.setVisibility(View.VISIBLE);
 		} else {
 			holder.mDislike.setVisibility(View.VISIBLE);
 			holder.mLike.setVisibility(View.VISIBLE);
 			holder.mFavorite.setVisibility(View.VISIBLE);
+			holder.deleteButton.setVisibility(View.GONE);
 		}
 
 
@@ -157,6 +160,14 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 				}
 			});
 		}
+
+		holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				imgurApi.delUserImg(holder.mItem.favType == PostItem.FAV_TYPE.ALBUM, holder.mItem.deleteHash);
+				removeItem(position);
+			}
+		});
 
 		holder.mFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -301,6 +312,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		public final ToggleButton mLike;
 		public final ToggleButton mDislike;
 		public final CarouselView carouselView;
+		public final ImageButton deleteButton;
 		public PostItem mItem;
 
 		ViewHolder(View view) {
@@ -315,6 +327,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			mLike = view.findViewById(R.id.button_like);
 			carouselView = view.findViewById(R.id.carousel_img);
 			mDislike = view.findViewById(R.id.button_dislike);
+			deleteButton = view.findViewById(R.id.delete_button);
 		}
 	}
 }

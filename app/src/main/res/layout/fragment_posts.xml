@@ -57,6 +57,14 @@
                     android:textOff=""
                     android:textOn="" />
 
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/delete_button"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="@dimen/basic_margin"
+                    android:src="@drawable/ic_delete"
+                    android:background="#00000000"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -87,7 +95,6 @@
                     android:text=""
                     android:textOff=""
                     android:textOn="" />
-
 
             </LinearLayout>
 

@@ -28,7 +28,7 @@
     <string name="low_data_hint">If enabled the images will be in low quality</string>
 
     <string name="feed_sort">Feed sort</string>
-    <string name="feed_sort_hint">You can sort post by viral, top and time</string>
+    <string name="feed_sort_hint">You can sort by viral, top and time</string>
 
     <string-array name="feed_sorts">
         <item>Most Viral</item>

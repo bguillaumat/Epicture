@@ -78,5 +78,8 @@
     <string name="grid_layout">Mode grille</string>
     <string name="grid_layout_hint">Active le mode grille dans le flux. Redémarrer après changement !</string>
     <string name="hello">Bonjour %1$s !</string>
+    <string name="camera_action">Prendre une photo</string>
+    <string name="file_explorer_action">Choisir une image dans le télephone</string>
+    <string name="modal_upload_choose">Prendre une photo ou un fichier</string>
 
 </resources>

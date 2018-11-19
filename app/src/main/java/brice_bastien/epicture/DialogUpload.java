@@ -19,7 +19,6 @@ public class DialogUpload extends DialogFragment {
 	public MyPostsRecyclerViewAdapter adapter;
 	public ImgurApi imgurApi;
 
-
 	EditText title;
 	EditText description;
 	public Uri img;

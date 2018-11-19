@@ -1,25 +1,39 @@
 package brice_bastien.epicture;
 
+import android.Manifest;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.post.PostItem;
@@ -36,10 +50,12 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	private BottomAppBar bar;
 	private FragmentManager fragmentManager = getFragmentManager();
 	private ImgurApi imgurApi;
-	private static final int REQUEST_CODE = 42;
+	private static final int REQUEST_CODE_CAMERA = 24;
+	private static final int REQUEST_CODE_FILE_EXPLORER = 42;
 	String[] PERMISSIONS = {
-			android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-			android.Manifest.permission.READ_EXTERNAL_STORAGE
+			Manifest.permission.WRITE_EXTERNAL_STORAGE,
+			Manifest.permission.READ_EXTERNAL_STORAGE,
+			Manifest.permission.CAMERA
 	};
 
 	@Override
@@ -74,18 +90,49 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 		postsFragment = PostsFragment.newInstance(2, imgurApi);
 		fragmentManager.beginTransaction().replace(R.id.include, postsFragment).commit();
 		fab = findViewById(R.id.fab);
+		final AppCompatActivity main = this;
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-				intent.addCategory(Intent.CATEGORY_OPENABLE);
-				intent.setType("image/*");
-				startActivityForResult(intent, REQUEST_CODE);
+				final Dialog dialog = new Dialog(main);
+				dialog.setTitle(R.string.modal_upload_choose);
+				dialog.setCancelable(true);
+				dialog.setContentView(R.layout.dialog_image);
+				dialog.show();
+
+				Button camera = dialog.findViewById(R.id.camera_action);
+				Button fileExplorer = dialog.findViewById(R.id.file_explorer_action);
+
+				camera.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (ContextCompat.checkSelfPermission(main, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+							Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+							if (takePicture.resolveActivity(getPackageManager()) != null) {
+								startActivityForResult(takePicture, REQUEST_CODE_CAMERA);
+							}
+						} else {
+							ActivityCompat.requestPermissions(main, PERMISSIONS, 1);
+						}
+						dialog.dismiss();
+					}
+				});
+
+				fileExplorer.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+						intent.addCategory(Intent.CATEGORY_OPENABLE);
+						intent.setType("image/*");
+						startActivityForResult(intent, REQUEST_CODE_FILE_EXPLORER);
+						dialog.dismiss();
+					}
+				});
+
 			}
 		});
 
 		imgurApi.getRecentImg(postsFragment, "hot");
-//		Snackbar.make(this.getVie, "", Snackbar.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -161,9 +208,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 				break;
 			case (R.id.app_bar_search):
 				break;
-
 			case (R.id.action_sort):
-				//showEditDialog();
 				showEditDialog();
 				break;
 			case (android.R.id.home):
@@ -188,13 +233,24 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
-				case REQUEST_CODE:
+				case REQUEST_CODE_FILE_EXPLORER:
 					if (data != null) {
 						imagePath = data.getData();
 						upload_dialog = true;
 					}
+					break;
+				case REQUEST_CODE_CAMERA:
+					if (data != null) {
+						Bitmap img = (Bitmap)data.getExtras().get("data");
+						if (img != null) {
+							imagePath = getImageUri(getApplicationContext(), img);
+							upload_dialog = true;
+						}
+					}
+					break;
 			}
 		}
 	}
@@ -207,6 +263,13 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			showUploadDialog(imagePath);
 			imagePath = null;
 		}
+	}
+
+	private Uri getImageUri(Context context, Bitmap inImage) {
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+		String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+		return Uri.parse(path);
 	}
 
 	private void showUploadDialog(Uri img) {

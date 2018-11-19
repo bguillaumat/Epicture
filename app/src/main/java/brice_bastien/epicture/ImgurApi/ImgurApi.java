@@ -269,7 +269,7 @@ public class ImgurApi {
 				new Response.Listener<NetworkResponse>() {
 					@Override
 					public void onResponse(NetworkResponse response) {
-						Log.w("Upload", response.toString());
+						Log.w("UploadResponse", response.toString());
 						Toast.makeText(context, context.getText(R.string.upload_success), Toast.LENGTH_SHORT).show();
 					}
 				}, new ErrorListener());
@@ -283,7 +283,8 @@ public class ImgurApi {
 			request.setRetryPolicy(new DefaultRetryPolicy(2500, 0, 1.0f));
 			requestQueue.add(request);
 		} catch (Exception e) {
-			Log.w("Upload:", "failed");
+			e.printStackTrace();
+			Log.w("Upload", e.toString());
 		}
 	}
 

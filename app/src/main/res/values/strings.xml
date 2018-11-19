@@ -70,7 +70,7 @@
     <string name="dark_mode_hint">Enable Dark Mode. Note: not fully implement</string>
     <string name="commentary_sort">Recent Comments</string>
     <string name="commentary_sort_hint">If enabled, the comments will be sorted by the most recent</string>
-    
+
     <!-- Modal upload -->
 
     <string name="modal_upload_title">Title</string>
@@ -79,6 +79,9 @@
     <string name="modal_upload_description_hint">Description</string>
     <string name="modal_upload_button">Upload</string>
 
+    <string name="modal_upload_choose">Choose an action</string>
+    <string name="camera_action">Take a picture</string>
+    <string name="file_explorer_action">Take a picture in gallery</string>
 
     <string name="action_favorite">Favorite</string>
     <string name="action_search">Search</string>
@@ -121,7 +124,7 @@
     </plurals>
 
     <plurals name="numberOfComments">
-        <item quantity="one">See the %d comment</item>
+        <item quantity="one">See all reviews</item>
         <item quantity="other">See all %d reviews</item>
     </plurals>
 

@@ -1,11 +1,14 @@
 package brice_bastien.epicture;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.preference.PreferenceManager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,16 +20,22 @@ public class SplashScreen extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_splash_screen);
 
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
 		if (switchPref) {
-			setTheme(R.style.AppTheme_DARK);
+			setTheme(R.style.AppTheme_DARK_NoActionBar);
 			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorAccentDarker));
 		} else {
-			setTheme(R.style.AppTheme);
+			setTheme(R.style.AppTheme_NoActionBar);
 			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+		}
+
+		setContentView(R.layout.activity_splash_screen);
+
+		ConstraintLayout layout = findViewById(R.id.splash_background);
+		if (switchPref) {
+			layout.setBackground(new ColorDrawable(Color.BLACK));
 		}
 
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);

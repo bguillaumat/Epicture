@@ -57,7 +57,6 @@ public class PostDetails extends AppCompatActivity implements SharedPreferences.
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_post_details);
 
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
@@ -69,6 +68,8 @@ public class PostDetails extends AppCompatActivity implements SharedPreferences.
 			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
 		}
 		sharedPrefs.registerOnSharedPreferenceChangeListener(this);
+
+		setContentView(R.layout.activity_post_details);
 
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 		Token = sharedPreferences.getString("User_Token", null);

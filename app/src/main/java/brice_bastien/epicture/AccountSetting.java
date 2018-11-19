@@ -10,13 +10,15 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.Settings.SettingItem;
 
-public class AccountSetting extends AppCompatActivity {
+public class AccountSetting extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private String Token = "";
 	private String Username = "";
@@ -37,6 +39,18 @@ public class AccountSetting extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+		if (switchPref) {
+			setTheme(R.style.AppTheme_DARK);
+			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorAccentDarker));
+		} else {
+			setTheme(R.style.AppTheme);
+			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+		}
+		sharedPrefs.registerOnSharedPreferenceChangeListener(this);
+
 		setContentView(R.layout.activity_account_setting);
 
 		mature = findViewById(R.id.switch_mature_content);
@@ -115,5 +129,22 @@ public class AccountSetting extends AppCompatActivity {
 				break;
 		}
 	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (key.equals(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH)) {
+			if (sharedPreferences.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false)) {
+				setTheme(R.style.AppTheme_DARK);
+				getWindow().setNavigationBarColor(getResources().getColor(R.color.colorAccentDarker));
+			} else {
+				setTheme(R.style.AppTheme);
+				getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+			}
+			recreate();
+		}
+
+	}
+
+
 
 }

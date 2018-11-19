@@ -49,7 +49,6 @@
                 android:layout_height="@dimen/bottom_bar_height"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_weight="5"
-                android:background="@color/white"
                 android:gravity="center|start"
                 android:hint="@string/add_comment_hint"
                 android:inputType="textMultiLine|textCapSentences"

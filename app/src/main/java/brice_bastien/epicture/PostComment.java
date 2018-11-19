@@ -35,7 +35,6 @@ public class PostComment extends AppCompatActivity implements SharedPreferences.
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_post_comment);
 
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
@@ -48,6 +47,7 @@ public class PostComment extends AppCompatActivity implements SharedPreferences.
 		}
 		sharedPrefs.registerOnSharedPreferenceChangeListener(this);
 
+		setContentView(R.layout.activity_post_comment);
 
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 		Token = sharedPreferences.getString("User_Token", null);
@@ -58,7 +58,7 @@ public class PostComment extends AppCompatActivity implements SharedPreferences.
 			startActivity(intent);
 			finish();
 		}
-		
+
 		RecyclerView recyclerView = findViewById(R.id.commentList);
 
 		Intent intent = getIntent();
@@ -71,7 +71,6 @@ public class PostComment extends AppCompatActivity implements SharedPreferences.
 
 		Context context = recyclerView.getContext();
 		recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
 
 		View loadingView = getLayoutInflater().inflate(R.layout.view_loading, recyclerView, false);
 		View emptyView = getLayoutInflater().inflate(R.layout.view_empty, recyclerView, false);

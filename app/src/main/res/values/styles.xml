@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:iconTint">@color/colorIcon</item>
+        <item name="android:textColorPrimary">#000</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:windowMinWidthMajor">90%</item>
         <item name="android:windowMinWidthMinor">90%</item>
@@ -18,7 +19,8 @@
         <item name="android:windowMinWidthMinor">90%</item>
     </style>
 
-    <style name="AppTheme.DARK" parent="Theme.MaterialComponents.Light.DarkActionBar">
+
+    <style name="AppTheme.DARK" parent="Theme.AppCompat">
         <item name="colorPrimary">#000000</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -26,13 +28,16 @@
         <item name="android:background">@color/colorAccentDarker</item>
         <item name="android:actionBarItemBackground">@color/colorAccentDarker</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:actionBarStyle">@style/MyActionBarTheme</item>
+        <!--<item name="android:actionBarStyle">@style/MyActionBarTheme</item>-->
         <item name="android:actionButtonStyle">@color/white</item>
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:actionMenuTextColor">@color/white</item>
-        <item name="android:itemTextAppearance">@style/MenuItemTextAppearance</item>
+        <!--<item name="android:itemTextAppearance">@style/MenuItemTextAppearance</item>-->
         <item name="searchViewStyle">@style/MySearchViewStyle</item>
         <item name="android:editTextColor">@color/white</item>
+
+        <!--<item name="navigationViewStyle">@style/MenuItemTextAppearance</item>-->
+
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:textColorTertiary">@color/white</item>
@@ -41,10 +46,19 @@
         <item name="android:textColorTertiaryInverse">@color/white</item>
         <item name="android:windowMinWidthMajor">90%</item>
         <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:colorBackground">@color/colorPrimaryDarker</item>
+    </style>
+
+    <style name="AppTheme.DARK.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
     </style>
 
     <style name="MyActionBarTheme">
         <item name="android:backgroundTint">?colorPrimary</item>
+        <item name="android:iconTint">@color/white</item>
     </style>
 
     <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
@@ -64,7 +78,7 @@
         <item name="android:icon">@color/white</item>
     </style>
 
-    <style name="MenuItemTextAppearance">
+    <style name="MenuItemTextAppearance" parent="Widget.Design.NavigationView">
         <item name="textColor">@color/white</item>
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:itemBackground">@color/white</item>

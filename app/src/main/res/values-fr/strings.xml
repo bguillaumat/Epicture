@@ -8,7 +8,7 @@
     <string name="action_settings">Paramètres</string>
     <string name="user_info_pref">UserInfo</string>
     <string name="dark_mode">Mode Sombre</string>
-    <string name="dark_mode_hint">Activer le mode sombre. Note: N\'est pas integrer parfaitement :p</string>
+    <string name="dark_mode_hint">Activer le mode sombre.</string>
     <string name="title_activity_account_setting">Paramètre du compte</string>
     <string name="upload_success">votre photo a été envoyer</string>
     <string name="my_favorite">Mes Favoris</string>

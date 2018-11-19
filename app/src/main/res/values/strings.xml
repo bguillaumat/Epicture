@@ -67,7 +67,7 @@
     <string name="search_sort_hint">You can sorted by viral, top and time</string>
 
     <string name="dark_mode">Dark Mode</string>
-    <string name="dark_mode_hint">Enable Dark Mode. Note: not fully implement</string>
+    <string name="dark_mode_hint">Enable Dark Mode.</string>
     <string name="commentary_sort">Recent Comments</string>
     <string name="commentary_sort_hint">If enabled, the comments will be sorted by the most recent</string>
 

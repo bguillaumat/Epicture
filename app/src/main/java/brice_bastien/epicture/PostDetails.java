@@ -28,12 +28,13 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.ImgurPicture.ImgurPicture;
 import brice_bastien.epicture.post.ElapsedTime;
 import brice_bastien.epicture.post.PostItem;
 
-public class PostDetails extends AppCompatActivity {
+public class PostDetails extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	String id;
 	Boolean isAlbum;
@@ -57,6 +58,17 @@ public class PostDetails extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_details);
+
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+		if (switchPref) {
+			setTheme(R.style.AppTheme_DARK);
+			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorAccentDarker));
+		} else {
+			setTheme(R.style.AppTheme);
+			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+		}
+		sharedPrefs.registerOnSharedPreferenceChangeListener(this);
 
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 		Token = sharedPreferences.getString("User_Token", null);
@@ -158,6 +170,21 @@ public class PostDetails extends AppCompatActivity {
 		formatSymbols.setGroupingSeparator(' ');
 		DecimalFormat formatter = new DecimalFormat(formatString, formatSymbols);
 		return formatter.format(value);
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (key.equals(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH)) {
+			if (sharedPreferences.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false)) {
+				setTheme(R.style.AppTheme_DARK);
+				getWindow().setNavigationBarColor(getResources().getColor(R.color.colorAccentDarker));
+			} else {
+				setTheme(R.style.AppTheme);
+				getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+			}
+			recreate();
+		}
+
 	}
 
 

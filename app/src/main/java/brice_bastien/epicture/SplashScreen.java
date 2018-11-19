@@ -1,6 +1,7 @@
 package brice_bastien.epicture;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,16 @@ public class SplashScreen extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash_screen);
+
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+		if (switchPref) {
+			setTheme(R.style.AppTheme_DARK);
+			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorAccentDarker));
+		} else {
+			setTheme(R.style.AppTheme);
+			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+		}
 
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 

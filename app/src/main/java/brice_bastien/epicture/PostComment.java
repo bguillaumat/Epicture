@@ -24,7 +24,7 @@ import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.post.CommentAdapter;
 import brice_bastien.epicture.post.CommentItem;
 
-public class PostComment extends AppCompatActivity {
+public class PostComment extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private String Token = "";
 	private String Username = "";
@@ -37,6 +37,17 @@ public class PostComment extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_comment);
 
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+		if (switchPref) {
+			setTheme(R.style.AppTheme_DARK);
+			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorAccentDarker));
+		} else {
+			setTheme(R.style.AppTheme);
+			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+		}
+		sharedPrefs.registerOnSharedPreferenceChangeListener(this);
+
 
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 		Token = sharedPreferences.getString("User_Token", null);
@@ -47,16 +58,7 @@ public class PostComment extends AppCompatActivity {
 			startActivity(intent);
 			finish();
 		}
-
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
-		if (switchPref) {
-			setTheme(R.style.AppTheme_DARK);
-		} else {
-			setTheme(R.style.AppTheme);
-		}
-
+		
 		RecyclerView recyclerView = findViewById(R.id.commentList);
 
 		Intent intent = getIntent();
@@ -105,6 +107,21 @@ public class PostComment extends AppCompatActivity {
 				commentText.setText(null);
 			}
 		});
+
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (key.equals(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH)) {
+			if (sharedPreferences.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false)) {
+				setTheme(R.style.AppTheme_DARK);
+				getWindow().setNavigationBarColor(getResources().getColor(R.color.colorAccentDarker));
+			} else {
+				setTheme(R.style.AppTheme);
+				getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+			}
+			recreate();
+		}
 
 	}
 

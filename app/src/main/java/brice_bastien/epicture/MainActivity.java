@@ -38,7 +38,7 @@ import androidx.preference.PreferenceManager;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.post.PostItem;
 
-public class MainActivity extends AppCompatActivity implements PostsFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements PostsFragment.OnListFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener  {
 
 	private boolean upload_dialog = false;
 	private Uri imagePath;
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		sharedPrefs.registerOnSharedPreferenceChangeListener(this);
 		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
 		if (switchPref) {
 			setTheme(R.style.AppTheme_DARK);
@@ -143,8 +144,10 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
 		if (switchPref) {
 			setTheme(R.style.AppTheme_DARK);
+			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorAccentDarker));
 		} else {
 			setTheme(R.style.AppTheme);
+			getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
 		}
 	}
 
@@ -263,6 +266,21 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 			showUploadDialog(imagePath);
 			imagePath = null;
 		}
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (key.equals(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH)) {
+			if (sharedPreferences.getBoolean(SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false)) {
+				setTheme(R.style.AppTheme_DARK);
+				getWindow().setNavigationBarColor(getResources().getColor(R.color.colorAccentDarker));
+			} else {
+				setTheme(R.style.AppTheme);
+				getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+			}
+			recreate();
+		}
+
 	}
 
 	private Uri getImageUri(Context context, Bitmap inImage) {

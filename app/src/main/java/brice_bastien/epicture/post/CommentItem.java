@@ -1,5 +1,7 @@
 package brice_bastien.epicture.post;
 
+import java.util.Comparator;
+
 import androidx.annotation.NonNull;
 
 public class CommentItem {
@@ -13,6 +15,17 @@ public class CommentItem {
 		this.comment = comment;
 		this.time = time;
 	}
+
+	public static Comparator<PostItem> newerComparator = new Comparator<PostItem>() {
+
+		public int compare(PostItem s1, PostItem s2) {
+			Long time1 = s1.time;
+			Long time2 = s2.time;
+
+			return time2.compareTo(time1);
+		}
+	};
+
 
 	@NonNull
 	@Override

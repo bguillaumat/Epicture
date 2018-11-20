@@ -23,10 +23,56 @@
     <string name="save">Sauvegarder</string>
     <string name="your_email">"Votre Email: "</string>
 
-    <string name="seconds_elapsed">Il y a %1$d secondes</string>
-    <string name="minutes_elapsed">Il y a %1$d minutes</string>
-    <string name="hours_elapsed">Il y a %1$d heures</string>
-    <string name="days_elapsed">Il y a %1$d jours</string>
+    <plurals name="small_seconds_elapsed">
+        <item quantity="one">%d s</item>
+        <item quantity="other">%d s</item>
+    </plurals>
+
+    <plurals name="small_minutes_elapsed">
+        <item quantity="one">%d min.</item>
+        <item quantity="other">%d min.</item>
+    </plurals>
+
+    <plurals name="small_hours_elapsed">
+        <item quantity="one">%d h</item>
+        <item quantity="other">%d h</item>
+    </plurals>
+
+    <plurals name="small_days_elapsed">
+        <item quantity="one">%d j</item>
+        <item quantity="other">%d j</item>
+    </plurals>
+
+    <plurals name="small_year_elapsed">
+        <item quantity="one">%d a</item>
+        <item quantity="other">%d a</item>
+    </plurals>
+
+
+    <plurals name="seconds_elapsed">
+        <item quantity="one">Il y a %d second</item>
+        <item quantity="other">Il y a %d seconds</item>
+    </plurals>
+
+    <plurals name="minutes_elapsed">
+        <item quantity="one">Il y a %d minute</item>
+        <item quantity="other">Il y a %d minutes</item>
+    </plurals>
+
+    <plurals name="hours_elapsed">
+        <item quantity="one">Il y a %d heure</item>
+        <item quantity="other">Il y a %d heures</item>
+    </plurals>
+
+    <plurals name="days_elapsed">
+        <item quantity="one">Il y a %d Jour</item>
+        <item quantity="other">Il y a %d Jours</item>
+    </plurals>
+
+    <plurals name="year_elapsed">
+        <item quantity="one">Il y a %d an</item>
+        <item quantity="other">Il y a %d ans</item>
+    </plurals>
 
     <plurals name="numberOfView">
         <item quantity="one">%s Vue</item>
@@ -34,9 +80,10 @@
     </plurals>
 
     <plurals name="numberOfComments">
-        <item quantity="one">Voir le %d commentaire</item>
+        <item quantity="one">Voir %d commentaire</item>
         <item quantity="other">Voir les %d commentaires</item>
     </plurals>
+
     <string name="title_activity_post_comment">Commentaires</string>
     <string name="author">écrit par &lt;b>%1$s&lt;/b></string>
     <string name="home">Accueil</string>
@@ -46,7 +93,6 @@
     <string name="most_view">Plus vues</string>
     <string name="most_like">Plus aimer</string>
     <string name="sort_username">Utilisateur (Croissant)</string>
-    <string name="year_elapsed">Il y a %1$d ans</string>
     <string name="modal_comment_title">Ecrivez un commentaire !</string>
     <string name="add_comment_hint">Ecrivez votre commentaire !</string>
     <string name="send_comment">Envoyer</string>

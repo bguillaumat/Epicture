@@ -98,12 +98,6 @@
 
     <string name="error_request">Oops, couldn\'t load data</string>
 
-    <string name="seconds_elapsed">%1$d seconds ago</string>
-    <string name="minutes_elapsed">%1$d minutes ago</string>
-    <string name="hours_elapsed">%1$d hours ago</string>
-    <string name="days_elapsed">%1$d days ago</string>
-    <string name="year_elapsed">%1$d years ago</string>
-
     <string name="modal_comment_title">Make a comment !</string>
     <string name="add_comment_hint">Type your comment !</string>
     <string name="send_comment">Post</string>
@@ -126,6 +120,57 @@
     <plurals name="numberOfComments">
         <item quantity="one">See all reviews</item>
         <item quantity="other">See all %d reviews</item>
+    </plurals>
+
+    <plurals name="small_seconds_elapsed">
+        <item quantity="one">%ds</item>
+        <item quantity="other">%ds</item>
+    </plurals>
+
+    <plurals name="small_minutes_elapsed">
+        <item quantity="one">%dm</item>
+        <item quantity="other">%dm</item>
+    </plurals>
+
+    <plurals name="small_hours_elapsed">
+        <item quantity="one">%dh</item>
+        <item quantity="other">%dh</item>
+    </plurals>
+
+    <plurals name="small_days_elapsed">
+        <item quantity="one">%dd</item>
+        <item quantity="other">%dd</item>
+    </plurals>
+
+    <plurals name="small_year_elapsed">
+        <item quantity="one">%dy</item>
+        <item quantity="other">%dy</item>
+    </plurals>
+
+
+    <plurals name="seconds_elapsed">
+        <item quantity="one">%d second ago</item>
+        <item quantity="other">%d seconds ago</item>
+    </plurals>
+
+    <plurals name="minutes_elapsed">
+        <item quantity="one">%d minute ago</item>
+        <item quantity="other">%d minutes ago</item>
+    </plurals>
+
+    <plurals name="hours_elapsed">
+        <item quantity="one">%d hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
+
+    <plurals name="days_elapsed">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+
+    <plurals name="year_elapsed">
+        <item quantity="one">%d year ago</item>
+        <item quantity="other">%d years ago</item>
     </plurals>
 
     <!-- Account Settings -->

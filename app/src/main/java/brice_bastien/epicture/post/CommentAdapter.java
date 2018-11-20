@@ -47,7 +47,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_comments, parent, false);
 		return new ViewHolder(view);
-
 	}
 
 	@Override
@@ -61,7 +60,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 		Resources res = holder.mView.getResources();
 
 		ElapsedTime elapsedTime = new ElapsedTime(holder.mItem.time);
-		holder.time.setText(elapsedTime.getTimeString(res).toUpperCase());
+		holder.time.setText(elapsedTime.getLittleElapsed(res));
 
 		ImageView imageView = holder.commentPic;
 		imageView.setImageDrawable(null);
@@ -81,6 +80,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 					.into(imageView);
 			commentary = commentary.replace(list.get(0), "");
+		} else {
+			imageView.setVisibility(View.GONE);
 		}
 		holder.comment.setText(Html.fromHtml(res.getString(R.string.title_post, holder.mItem.author, commentary)));
 		list.clear();
@@ -129,6 +130,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 		}
 		return links;
 	}
+
 
 
 	class ViewHolder extends RecyclerView.ViewHolder {

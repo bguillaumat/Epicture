@@ -92,10 +92,8 @@ public class PostComment extends AppCompatActivity implements SharedPreferences.
 			}
 		});
 
-
 		ImageView userPic = findViewById(R.id.user_add_comment);
 		imgurApi.getUsrAvatar(userPic, Username);
-
 
 		final EditText commentText = findViewById(R.id.editMessage);
 		ImageButton sendButton = findViewById(R.id.buttonSend);
@@ -106,7 +104,6 @@ public class PostComment extends AppCompatActivity implements SharedPreferences.
 				commentText.setText(null);
 			}
 		});
-
 	}
 
 	@Override

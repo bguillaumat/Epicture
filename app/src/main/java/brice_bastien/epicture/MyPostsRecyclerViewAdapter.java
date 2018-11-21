@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Html;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +30,14 @@ import android.widget.ToggleButton;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.flexbox.AlignSelf;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
+
+import net.openid.appauth.AuthorizationRequest;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -42,6 +48,8 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.ImgurPicture.ImgurPicture;
@@ -73,12 +81,52 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		return new ViewHolder(view);
 	}
 
-	@Override
-	public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-		holder.mItem = itemList.get(position);
-		final List<String> images = holder.mItem.images;
+	private void onGridLayout(ViewHolder holder, int position) {
+		holder.seeMoreComments.setVisibility(View.GONE);
+		holder.editButton.setVisibility(View.GONE);
+		holder.deleteButton.setVisibility(View.GONE);
+		holder.mFavorite.setVisibility(View.GONE);
+		holder.mLike.setVisibility(View.GONE);
+		holder.mDislike.setVisibility(View.GONE);
+		holder.carouselView.setVisibility(View.GONE);
+		holder.timePost.setVisibility(View.GONE);
+		holder.mTitleView.setVisibility(View.GONE);
+		holder.numberOfView.setVisibility(View.GONE);
+		holder.mImageView.setVisibility(View.VISIBLE);
+		holder.mImageView.setImageDrawable(null);
+		List<String> images = holder.mItem.images;
 
+		ImageView imageView = holder.mImageView;
+		holder.mImageView.setImageDrawable(null);
+		ImgurPicture imgurPicture = new ImgurPicture(images.get(0));
+
+		GlideApp.with(holder.itemView)
+				.load(imgurPicture.getBigSquare())
+				.transition(DrawableTransitionOptions.withCrossFade())
+				.thumbnail(GlideApp.with(holder.itemView)
+						.load(imgurPicture.getSmallSquare())
+						.transition(DrawableTransitionOptions.withCrossFade()))
+				.error(new ColorDrawable(Color.RED))
+				.override(Target.SIZE_ORIGINAL)
+				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+				.into(imageView);
+	}
+
+	private void onLinearLayout(final ViewHolder holder, final int position) {
+		final List<String> images = holder.mItem.images;
 		Resources res = holder.mView.getResources();
+
+		holder.seeMoreComments.setVisibility(View.VISIBLE);
+		holder.editButton.setVisibility(View.VISIBLE);
+		holder.deleteButton.setVisibility(View.VISIBLE);
+		holder.mFavorite.setVisibility(View.VISIBLE);
+		holder.mLike.setVisibility(View.VISIBLE);
+		holder.mDislike.setVisibility(View.VISIBLE);
+		holder.carouselView.setVisibility(View.VISIBLE);
+		holder.timePost.setVisibility(View.VISIBLE);
+		holder.mTitleView.setVisibility(View.VISIBLE);
+		holder.numberOfView.setVisibility(View.VISIBLE);
+		holder.mImageView.setVisibility(View.VISIBLE);
 
 		holder.mFavorite.setOnCheckedChangeListener(null);
 		holder.mLike.setOnCheckedChangeListener(null);
@@ -101,7 +149,6 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			holder.deleteButton.setVisibility(View.GONE);
 			holder.editButton.setVisibility(View.GONE);
 		}
-
 
 		if (holder.mItem.voteType == PostItem.VOTE_TYPE.LIKE) {
 			holder.mLike.setChecked(true);
@@ -170,6 +217,27 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 							.into(imageView);
 				}
 			});
+		}
+	}
+
+	@Override
+	public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+		holder.mItem = itemList.get(position);
+		CardView card = holder.mView.findViewById(R.id.card_view);
+
+		Display display = mainActivity.getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		float density = holder.mView.getResources()
+				.getDisplayMetrics()
+				.density;
+		ViewGroup.LayoutParams lp = card.getLayoutParams();
+		if (lp instanceof GridLayoutManager.LayoutParams) {
+			card.setLayoutParams(lp);
+			onGridLayout(holder, position);
+		} else {
+			card.setLayoutParams(lp);
+			onLinearLayout(holder, position);
 		}
 
 		holder.editButton.setOnClickListener(new View.OnClickListener() {

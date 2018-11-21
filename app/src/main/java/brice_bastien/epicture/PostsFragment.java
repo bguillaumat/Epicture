@@ -4,10 +4,16 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.flexbox.AlignContent;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 
 import androidx.preference.PreferenceManager;
@@ -18,11 +24,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.post.PostItem;
 
-public class PostsFragment extends Fragment {
+public class PostsFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final String ARG_COLUMN_COUNT = "column-count";
 	private int mColumnCount = 2;
 	private OnListFragmentInteractionListener mListener;
+	private RecyclerView recyclerView;
 	public MyPostsRecyclerViewAdapter adapter = null;
 	public StatesRecyclerViewAdapter statesRecyclerViewAdapter = null;
 	public ImgurApi imgurApi;
@@ -52,7 +59,7 @@ public class PostsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View fragView = inflater.inflate(R.layout.fragment_posts_list, container, false);
-		RecyclerView recyclerView = fragView.findViewById(R.id.list);
+		recyclerView = fragView.findViewById(R.id.list);
 		final SwipeRefreshLayout swipeRefreshLayout = fragView.findViewById(R.id.refreshSwipe);
 		final PostsFragment postsFragment = this;
 
@@ -65,6 +72,9 @@ public class PostsFragment extends Fragment {
 		});
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(container.getContext());
 		Boolean grid_view = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_GRID_VIEW, false);
+		Integer columnNum = sharedPrefs.getInt(SettingsActivity.KEY_PREF_GRID_COLUMN, 2);
+
+		sharedPrefs.registerOnSharedPreferenceChangeListener(this);
 
 		// Set the adapter
 		if (recyclerView != null) {
@@ -72,7 +82,7 @@ public class PostsFragment extends Fragment {
 			if (!grid_view) {
 				recyclerView.setLayoutManager(new LinearLayoutManager(context));
 			} else {
-				recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+				recyclerView.setLayoutManager(new GridLayoutManager(context, columnNum));
 			}
 			View loadingView = getLayoutInflater().inflate(R.layout.view_loading, recyclerView, false);
 			View emptyView = getLayoutInflater().inflate(R.layout.view_empty, recyclerView, false);
@@ -101,6 +111,28 @@ public class PostsFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 		mListener = null;
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		Integer columnNum = sharedPreferences.getInt(SettingsActivity.KEY_PREF_GRID_COLUMN, 2);
+
+		switch (key) {
+			case SettingsActivity.KEY_PREF_GRID_VIEW:
+				if (!sharedPreferences.getBoolean(key, false)) {
+					recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+				} else {
+					recyclerView.setLayoutManager(new GridLayoutManager(getContext(), columnNum));
+				}
+				recyclerView.setAdapter(statesRecyclerViewAdapter);
+				break;
+			case SettingsActivity.KEY_PREF_GRID_COLUMN:
+				if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
+					recyclerView.setLayoutManager(new GridLayoutManager(getContext(), columnNum));
+					recyclerView.setAdapter(statesRecyclerViewAdapter);
+				}
+				break;
+		}
 	}
 
 	public interface OnListFragmentInteractionListener {

@@ -17,6 +17,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
 	public static final String KEY_PREF_LOW_DATA = "low_data";
 	public static final String KEY_PREF_FAVORITE_SORT = "favorite_sort";
 	public static final String KEY_PREF_GRID_VIEW = "grid_view";
+	public static final String KEY_PREF_GRID_COLUMN = "grid_column";
 
 
 

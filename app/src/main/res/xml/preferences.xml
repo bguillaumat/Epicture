@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:asp="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/theme_category">
 
@@ -14,6 +15,14 @@
             android:key="grid_view"
             android:summary="@string/grid_layout_hint"
             android:title="@string/grid_layout" />
+
+        <SeekBarPreference
+            android:key="grid_column"
+            android:title="@string/grid_columns"
+            android:summary="@string/grid_columns_hint"
+            android:max="4"
+            asp:min="2"
+            android:defaultValue="2" />
 
 
     </PreferenceCategory>

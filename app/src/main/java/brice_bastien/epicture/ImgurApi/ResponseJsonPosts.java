@@ -65,7 +65,10 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 				post.commentNumber = (checkKey(obj, "comment_count") ? obj.getInt("comment_count") : 0);
 				post.views = obj.getInt("views");
 				if (obj.isNull("images")) {
-					post.AddImage(obj.getString("link"));
+					if (obj.has("mp4") && !obj.getString("link").endsWith(".gif")) {
+						post.AddImage(obj.getString("mp4"));
+					} else
+						post.AddImage(obj.getString("link"));
 					postsFragment.adapter.addItem(0, post);
 					continue;
 				}

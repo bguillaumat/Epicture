@@ -8,14 +8,17 @@
 
     <!-- Settings -->
 
-    <string name="theme_category">Theme (Experimental)</string>
+    <string name="theme_category">Theme</string>
     <string name="feed_category">Picture Feed</string>
     <string name="search_category">Search</string>
     <string name="favorite_category">Favorite</string>
     <string name="hello">Hello %1$s !</string>
 
     <string name="grid_layout">Grid view</string>
-    <string name="grid_layout_hint">Enable grid view for all feed. Restart after change !</string>
+    <string name="grid_layout_hint">Enable grid view for all feed.</string>
+
+    <string name="grid_columns">Number of columns</string>
+    <string name="grid_columns_hint">Number of columns in Grid View.</string>
 
     <string name="favorite_sort">Favorite Sort</string>
     <string name="favorite_sort_hint">You can sorted by older and newest</string>

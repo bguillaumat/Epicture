@@ -8,6 +8,8 @@ import brice_bastien.epicture.SettingsActivity;
 
 public class ImgurPicture {
 
+	private static final String small_square = "s";
+	private static final String big_square = "b";
 	private static final String small = "t";
 	private static final String medium = "m";
 	private static final String big = "l";
@@ -30,6 +32,10 @@ public class ImgurPicture {
 	public String getBig() {
 		return getImgLink(addType(original_url, big));
 	}
+
+	public String getSmallSquare() { return getImgLink(addType(original_url, small_square)); }
+
+	public String getBigSquare() { return getImgLink(addType(original_url, big_square)); }
 
 	public String getUrl(Context context) {
 		String url;

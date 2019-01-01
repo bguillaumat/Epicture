@@ -12,27 +12,31 @@
         android:layout_height="match_parent"
         tools:context=".AccountSetting">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/avatar_settings"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="@dimen/basic_margin"
-            android:layout_marginEnd="@dimen/basic_margin"
-            android:contentDescription="@string/app_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/username_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/basic_margin"
-            android:layout_marginTop="@dimen/basic_margin"
-            android:layout_marginEnd="@dimen/basic_margin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/avatar_settings" />
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/avatar_settings"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/basic_margin"
+                android:layout_marginEnd="@dimen/basic_margin"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/username_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/basic_margin"
+                android:layout_marginTop="@dimen/basic_margin"
+                android:layout_marginEnd="@dimen/basic_margin" />
+
+
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -42,8 +46,9 @@
             android:layout_marginEnd="8dp"
             android:paddingBottom="50dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/username_settings">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
             <LinearLayout
                 android:id="@+id/linearLayout"

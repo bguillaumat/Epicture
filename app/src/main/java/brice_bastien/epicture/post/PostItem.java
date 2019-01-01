@@ -18,7 +18,6 @@ public class PostItem {
 		DISLIKE,
 		NONE
 	}
-
 	public String title;
 	public String id;
 	public String description;
@@ -35,6 +34,7 @@ public class PostItem {
 	public String ownerName;
 	public int commentNumber;
 	public List<String> images = new ArrayList<>();
+	public List<String> tags = new ArrayList<>();
 
 	public PostItem(String id, String title, int ups, int downs, String link, boolean favorite) {
 		this.id = id;

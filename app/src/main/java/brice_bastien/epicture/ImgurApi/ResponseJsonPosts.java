@@ -48,7 +48,6 @@ public class ResponseJsonPosts implements Response.Listener<JSONObject> {
 						post.voteType = PostItem.VOTE_TYPE.NONE;
 				} else
 					post.voteType = PostItem.VOTE_TYPE.NONE;
-
 				if (obj.getString("title").equals("null"))
 					post.title = " ";
 				post.time = obj.getLong("datetime");

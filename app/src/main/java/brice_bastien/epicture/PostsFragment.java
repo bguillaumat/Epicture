@@ -4,22 +4,17 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.flexbox.AlignContent;
-import com.google.android.flexbox.AlignItems;
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.post.PostItem;
@@ -79,10 +74,11 @@ public class PostsFragment extends Fragment implements SharedPreferences.OnShare
 		// Set the adapter
 		if (recyclerView != null) {
 			Context context = recyclerView.getContext();
+			recyclerView.setHasFixedSize(false);
 			if (!grid_view) {
 				recyclerView.setLayoutManager(new LinearLayoutManager(context));
 			} else {
-				recyclerView.setLayoutManager(new GridLayoutManager(context, columnNum));
+				recyclerView.setLayoutManager(new StaggeredGridLayoutManager(columnNum, 1));
 			}
 			View loadingView = getLayoutInflater().inflate(R.layout.view_loading, recyclerView, false);
 			View emptyView = getLayoutInflater().inflate(R.layout.view_empty, recyclerView, false);
@@ -122,13 +118,13 @@ public class PostsFragment extends Fragment implements SharedPreferences.OnShare
 				if (!sharedPreferences.getBoolean(key, false)) {
 					recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 				} else {
-					recyclerView.setLayoutManager(new GridLayoutManager(getContext(), columnNum));
+					recyclerView.setLayoutManager(new StaggeredGridLayoutManager(columnNum, 1));
 				}
 				recyclerView.setAdapter(statesRecyclerViewAdapter);
 				break;
 			case SettingsActivity.KEY_PREF_GRID_COLUMN:
 				if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
-					recyclerView.setLayoutManager(new GridLayoutManager(getContext(), columnNum));
+					recyclerView.setLayoutManager(new StaggeredGridLayoutManager(columnNum, 1));
 					recyclerView.setAdapter(statesRecyclerViewAdapter);
 				}
 				break;

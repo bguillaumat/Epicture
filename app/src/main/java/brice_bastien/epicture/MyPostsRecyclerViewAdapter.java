@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Html;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,14 +29,12 @@ import android.widget.ToggleButton;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.Target;
-import com.google.android.flexbox.AlignSelf;
-import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
-
-import net.openid.appauth.AuthorizationRequest;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -49,8 +46,9 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.ImgurPicture.ImgurPicture;
 import brice_bastien.epicture.PostsFragment.OnListFragmentInteractionListener;
@@ -81,8 +79,9 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		return new ViewHolder(view);
 	}
 
-	private void onGridLayout(ViewHolder holder, int position) {
+	private void onGridLayout(ViewHolder holder, CircularProgressDrawable circularProgressDrawable) {
 		holder.seeMoreComments.setVisibility(View.GONE);
+		holder.chips.setVisibility(View.GONE);
 		holder.editButton.setVisibility(View.GONE);
 		holder.deleteButton.setVisibility(View.GONE);
 		holder.mFavorite.setVisibility(View.GONE);
@@ -101,21 +100,26 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		ImgurPicture imgurPicture = new ImgurPicture(images.get(0));
 
 		GlideApp.with(holder.itemView)
-				.load(imgurPicture.getBigSquare())
+				.load(imgurPicture.getUrl(holder.itemView.getContext()))
 				.transition(DrawableTransitionOptions.withCrossFade())
 				.thumbnail(GlideApp.with(holder.itemView)
-						.load(imgurPicture.getSmallSquare())
+						.load(imgurPicture.getSmall())
 						.transition(DrawableTransitionOptions.withCrossFade()))
+				.placeholder(circularProgressDrawable)
 				.error(new ColorDrawable(Color.RED))
 				.override(Target.SIZE_ORIGINAL)
 				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 				.into(imageView);
+		holder.chips.removeAllViews();
+		holder.chips.setVisibility(View.GONE);
+
 	}
 
-	private void onLinearLayout(final ViewHolder holder, final int position) {
+	private void onLinearLayout(final ViewHolder holder, final CircularProgressDrawable circularProgressDrawable) {
 		final List<String> images = holder.mItem.images;
 		Resources res = holder.mView.getResources();
 
+		holder.chips.setVisibility(View.VISIBLE);
 		holder.seeMoreComments.setVisibility(View.VISIBLE);
 		holder.editButton.setVisibility(View.VISIBLE);
 		holder.deleteButton.setVisibility(View.VISIBLE);
@@ -181,6 +185,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 					.thumbnail(GlideApp.with(holder.itemView)
 							.load(imgurPicture.getSmall())
 							.transition(DrawableTransitionOptions.withCrossFade()))
+					.placeholder(circularProgressDrawable)
 					.error(new ColorDrawable(Color.RED))
 					.override(Target.SIZE_ORIGINAL)
 					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
@@ -211,6 +216,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 							.thumbnail(GlideApp.with(holder.itemView)
 									.load(imgurPicture.getSmall())
 									.transition(DrawableTransitionOptions.withCrossFade()))
+							.placeholder(circularProgressDrawable)
 							.error(new ColorDrawable(Color.RED))
 							.override(Target.SIZE_ORIGINAL)
 							.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
@@ -218,6 +224,20 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 				}
 			});
 		}
+
+		holder.chips.removeAllViews();
+		if (holder.mItem.tags.size() == 0) {
+			holder.chips.setVisibility(View.GONE);
+		} else {
+			holder.chips.setVisibility(View.VISIBLE);
+		}
+
+		for (int j = 0; j < holder.mItem.tags.size(); j++) {
+			Chip chip = new Chip(holder.mView.getContext());
+			chip.setText("#" + holder.mItem.tags.get(j));
+			holder.chips.addView(chip);
+		}
+
 	}
 
 	@Override
@@ -225,19 +245,21 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		holder.mItem = itemList.get(position);
 		CardView card = holder.mView.findViewById(R.id.card_view);
 
+		CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(holder.mView.getContext());
+		circularProgressDrawable.setStrokeWidth(5f);
+		circularProgressDrawable.setCenterRadius(30f);
+		circularProgressDrawable.start();
+
 		Display display = mainActivity.getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
-		float density = holder.mView.getResources()
-				.getDisplayMetrics()
-				.density;
 		ViewGroup.LayoutParams lp = card.getLayoutParams();
-		if (lp instanceof GridLayoutManager.LayoutParams) {
+		if (lp instanceof StaggeredGridLayoutManager.LayoutParams) {
 			card.setLayoutParams(lp);
-			onGridLayout(holder, position);
+			onGridLayout(holder, circularProgressDrawable);
 		} else {
 			card.setLayoutParams(lp);
-			onLinearLayout(holder, position);
+			onLinearLayout(holder, circularProgressDrawable);
 		}
 
 		holder.editButton.setOnClickListener(new View.OnClickListener() {
@@ -450,11 +472,13 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		public final CarouselView carouselView;
 		public final ImageButton deleteButton;
 		public final ImageButton editButton;
+		public final ChipGroup chips;
 		public PostItem mItem;
 
 		ViewHolder(View view) {
 			super(view);
 			mView = view;
+			chips = view.findViewById(R.id.chipgroup);
 			mTitleView = view.findViewById(R.id.post_title);
 			mImageView = view.findViewById(R.id.post_img);
 			seeMoreComments = view.findViewById(R.id.see_more_comments);

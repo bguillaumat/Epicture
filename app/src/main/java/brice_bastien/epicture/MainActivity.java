@@ -11,25 +11,18 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.SearchView;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -38,7 +31,7 @@ import androidx.preference.PreferenceManager;
 import brice_bastien.epicture.ImgurApi.ImgurApi;
 import brice_bastien.epicture.post.PostItem;
 
-public class MainActivity extends AppCompatActivity implements PostsFragment.OnListFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener  {
+public class MainActivity extends AppCompatActivity implements PostsFragment.OnListFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private boolean upload_dialog = false;
 	private Uri imagePath;
@@ -247,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 					break;
 				case REQUEST_CODE_CAMERA:
 					if (data != null) {
-						Bitmap img = (Bitmap)data.getExtras().get("data");
+						Bitmap img = (Bitmap) data.getExtras().get("data");
 						if (img != null) {
 							imagePath = getImageUri(getApplicationContext(), img);
 							upload_dialog = true;

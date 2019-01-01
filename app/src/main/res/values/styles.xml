@@ -10,6 +10,7 @@
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:windowMinWidthMajor">90%</item>
         <item name="android:windowMinWidthMinor">90%</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -36,8 +37,9 @@
         <item name="searchViewStyle">@style/MySearchViewStyle</item>
         <item name="android:editTextColor">@color/white</item>
 
-        <!--<item name="navigationViewStyle">@style/MenuItemTextAppearance</item>-->
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
 
+        <!--<item name="navigationViewStyle">@style/MenuItemTextAppearance</item>-->
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:textColorTertiary">@color/white</item>
@@ -79,7 +81,7 @@
     </style>
 
     <style name="MenuItemTextAppearance" parent="Widget.Design.NavigationView">
-        <item name="textColor">@color/white</item>
+        <!--<item name="textColor">@color/white</item>-->
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:itemBackground">@color/white</item>
     </style>
@@ -87,5 +89,15 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_corner</item>
+    </style>
 
 </resources>

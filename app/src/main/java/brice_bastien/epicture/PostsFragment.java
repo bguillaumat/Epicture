@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdView;
 import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
 
 import androidx.preference.PreferenceManager;

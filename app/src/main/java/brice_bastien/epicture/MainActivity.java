@@ -24,6 +24,9 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		MobileAds.initialize(this, BuildConfig.APPLICATION_ID);
 		bar = findViewById(R.id.bottom_app_bar);
 		setSupportActionBar(bar);
 
@@ -72,7 +76,9 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 		Token = sharedPreferences.getString("User_Token", null);
 		Username = sharedPreferences.getString("Username", null);
 
-		Log.e("TOKEN", Token);
+		if (BuildConfig.DEBUG) {
+			Log.e("DEBUG", "DEbug mode");
+		}
 
 		if (Token == null || Username == null) {
 			Intent intent = new Intent(this, LoginActivity.class);

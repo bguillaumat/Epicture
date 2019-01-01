@@ -35,6 +35,7 @@ import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -95,13 +96,13 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 
 	private void onGridLayout(ViewHolder holder, CircularProgressDrawable circularProgressDrawable) {
 		holder.seeMoreComments.setVisibility(View.GONE);
-		holder.chips.setVisibility(View.GONE);
 		holder.editButton.setVisibility(View.GONE);
 		holder.deleteButton.setVisibility(View.GONE);
 		holder.mFavorite.setVisibility(View.GONE);
 		holder.mLike.setVisibility(View.GONE);
 		holder.mDislike.setVisibility(View.GONE);
 		holder.carouselView.setVisibility(View.GONE);
+		holder.player.setVisibility(View.GONE);
 		holder.timePost.setVisibility(View.GONE);
 		holder.mTitleView.setVisibility(View.GONE);
 		holder.numberOfView.setVisibility(View.GONE);
@@ -124,16 +125,12 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 				.override(Target.SIZE_ORIGINAL)
 				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 				.into(imageView);
-		holder.chips.removeAllViews();
-		holder.chips.setVisibility(View.GONE);
-
 	}
 
 	private void onLinearLayout(final ViewHolder holder, final CircularProgressDrawable circularProgressDrawable) {
 		final List<String> images = holder.mItem.images;
 		Resources res = holder.mView.getResources();
 
-		holder.chips.setVisibility(View.VISIBLE);
 		holder.seeMoreComments.setVisibility(View.VISIBLE);
 		holder.editButton.setVisibility(View.VISIBLE);
 		holder.deleteButton.setVisibility(View.VISIBLE);
@@ -190,23 +187,15 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			holder.carouselView.setVisibility(View.GONE);
 			holder.mImageView.setVisibility(View.GONE);
 			holder.player.setVisibility(View.VISIBLE);
-
 			SimpleExoPlayer player = ExoPlayerFactory.newSimpleInstance(holder.mView.getContext());
-
+			player.setPlayWhenReady(true);
+			player.setRepeatMode(Player.REPEAT_MODE_ALL);
 			holder.player.setPlayer(player);
-
-			Uri uri = Uri.parse(images.get(0).endsWith(".mp4") ? images.get(0) : images.get(0).replace(".gifv", ".mp4") );
-
-			// Produces DataSource instances through which media data is loaded.
-			DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(holder.mView.getContext(),
-					Util.getUserAgent(holder.mView.getContext(), "yourApplicationName"));
-// This is the MediaSource representing the media to be played.
-			MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-					.createMediaSource(uri);
-// Prepare the player with the source.
+			holder.player.hideController();
+			Uri uri = Uri.parse(images.get(0).endsWith(".mp4") ? images.get(0) : images.get(0).replace(".gifv", ".mp4"));
+			DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(holder.mView.getContext(), Util.getUserAgent(holder.mView.getContext(), "yourApplicationName"));
+			MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
 			player.prepare(videoSource);
-
-
 		} else if (images.size() <= 1) {
 			holder.carouselView.setVisibility(View.GONE);
 			holder.player.setVisibility(View.GONE);
@@ -262,19 +251,6 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			});
 		}
 
-		holder.chips.removeAllViews();
-		if (holder.mItem.tags.size() == 0) {
-			holder.chips.setVisibility(View.GONE);
-		} else {
-			holder.chips.setVisibility(View.VISIBLE);
-		}
-
-		for (int j = 0; j < holder.mItem.tags.size(); j++) {
-			Chip chip = new Chip(holder.mView.getContext());
-			chip.setText("#" + holder.mItem.tags.get(j));
-			holder.chips.addView(chip);
-		}
-
 	}
 
 	@Override
@@ -290,7 +266,6 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		Display display = mainActivity.getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
-		Log.e("INFOS", holder.mItem.toString());
 		ViewGroup.LayoutParams lp = card.getLayoutParams();
 		if (lp instanceof StaggeredGridLayoutManager.LayoutParams) {
 			card.setLayoutParams(lp);
@@ -336,6 +311,18 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 					}
 				});
 
+			}
+		});
+
+		holder.shareButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+				intent.setType("text/plain");
+				String shareBodyText = "Hey! See this post on imgur: " + holder.mItem.link;
+				intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+				intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+				v.getContext().startActivity(Intent.createChooser(intent, ""));
 			}
 		});
 
@@ -510,14 +497,14 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		public final CarouselView carouselView;
 		public final ImageButton deleteButton;
 		public final ImageButton editButton;
-		public final ChipGroup chips;
+		public final ImageButton shareButton;
 		public final PlayerView player;
 		public PostItem mItem;
 
 		ViewHolder(View view) {
 			super(view);
 			mView = view;
-			chips = view.findViewById(R.id.chipgroup);
+			shareButton = view.findViewById(R.id.share_button);
 			mTitleView = view.findViewById(R.id.post_title);
 			mImageView = view.findViewById(R.id.post_img);
 			seeMoreComments = view.findViewById(R.id.see_more_comments);

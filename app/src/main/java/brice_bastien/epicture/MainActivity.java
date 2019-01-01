@@ -9,8 +9,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -18,11 +22,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.Date;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -40,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 	private SharedPreferences sharedPreferences;
 	private PostsFragment postsFragment;
 	private FloatingActionButton fab;
+	private String mCameraFileName;
 	private BottomAppBar bar;
 	private FragmentManager fragmentManager = getFragmentManager();
 	private ImgurApi imgurApi;
@@ -102,7 +110,18 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 					public void onClick(View v) {
 						if (ContextCompat.checkSelfPermission(main, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
 							Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
 							if (takePicture.resolveActivity(getPackageManager()) != null) {
+								StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+								StrictMode.setVmPolicy(builder.build());
+								Date date = new Date();
+								DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+								String newPicFile = df.format(date) + ".jpg";
+								String outPath = Environment.getExternalStorageDirectory() + "/DCIM/Imgur/" + newPicFile;
+								File outFile = new File(outPath);
+								mCameraFileName = outFile.toString();
+								Uri outuri = Uri.fromFile(outFile);
+								takePicture.putExtra(MediaStore.EXTRA_OUTPUT, outuri);
 								startActivityForResult(takePicture, REQUEST_CODE_CAMERA);
 							}
 						} else {
@@ -239,12 +258,12 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 					}
 					break;
 				case REQUEST_CODE_CAMERA:
-					if (data != null) {
-						Bitmap img = (Bitmap) data.getExtras().get("data");
-						if (img != null) {
-							imagePath = getImageUri(getApplicationContext(), img);
-							upload_dialog = true;
-						}
+					File cameraRes = new File(mCameraFileName);
+					if (cameraRes.length() >= 10000000) {
+						Toast.makeText(getApplicationContext(), "Please reduce camera quality (max: 10MB)", Toast.LENGTH_LONG).show();
+					} else {
+						imagePath = Uri.fromFile(cameraRes);
+						upload_dialog = true;
 					}
 					break;
 			}

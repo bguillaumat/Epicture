@@ -83,7 +83,7 @@ public class PostsFragment extends Fragment implements SharedPreferences.OnShare
 			View loadingView = getLayoutInflater().inflate(R.layout.view_loading, recyclerView, false);
 			View emptyView = getLayoutInflater().inflate(R.layout.view_empty, recyclerView, false);
 			View errorView = getLayoutInflater().inflate(R.layout.view_error, recyclerView, false);
-			adapter = new MyPostsRecyclerViewAdapter(mListener, getContext(), (MainActivity)getActivity(), imgurApi);
+			adapter = new MyPostsRecyclerViewAdapter(mListener, getContext(), (MainActivity) getActivity(), imgurApi);
 			statesRecyclerViewAdapter = new StatesRecyclerViewAdapter(adapter, loadingView, emptyView, errorView);
 			recyclerView.setAdapter(statesRecyclerViewAdapter);
 			adapter.statesRecyclerViewAdapter = statesRecyclerViewAdapter;

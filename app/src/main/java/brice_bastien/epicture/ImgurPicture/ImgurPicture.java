@@ -75,4 +75,8 @@ public class ImgurPicture {
 		return url;
 	}
 
+	public boolean isVideo() {
+		return (original_url.endsWith(".mp4") || original_url.endsWith(".gifv"));
+	}
+
 }

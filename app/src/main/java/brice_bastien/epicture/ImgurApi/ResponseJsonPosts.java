@@ -2,7 +2,6 @@ package brice_bastien.epicture.ImgurApi;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;

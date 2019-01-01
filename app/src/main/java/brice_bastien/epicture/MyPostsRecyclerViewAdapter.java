@@ -8,7 +8,9 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,18 @@ import android.widget.ToggleButton;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.rockerhieu.rvadapter.states.StatesRecyclerViewAdapter;
@@ -172,8 +186,30 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		ElapsedTime elapsedTime = new ElapsedTime(holder.mItem.time);
 		holder.timePost.setText(elapsedTime.getTimeString(res).toUpperCase());
 
-		if (images.size() <= 1) {
+		if (images.get(0).endsWith(".mp4") || images.get(0).endsWith(".gifv")) {
 			holder.carouselView.setVisibility(View.GONE);
+			holder.mImageView.setVisibility(View.GONE);
+			holder.player.setVisibility(View.VISIBLE);
+
+			SimpleExoPlayer player = ExoPlayerFactory.newSimpleInstance(holder.mView.getContext());
+
+			holder.player.setPlayer(player);
+
+			Uri uri = Uri.parse(images.get(0).endsWith(".mp4") ? images.get(0) : images.get(0).replace(".gifv", ".mp4") );
+
+			// Produces DataSource instances through which media data is loaded.
+			DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(holder.mView.getContext(),
+					Util.getUserAgent(holder.mView.getContext(), "yourApplicationName"));
+// This is the MediaSource representing the media to be played.
+			MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+					.createMediaSource(uri);
+// Prepare the player with the source.
+			player.prepare(videoSource);
+
+
+		} else if (images.size() <= 1) {
+			holder.carouselView.setVisibility(View.GONE);
+			holder.player.setVisibility(View.GONE);
 			holder.mImageView.setVisibility(View.VISIBLE);
 			ImageView imageView = holder.mImageView;
 			holder.mImageView.setImageDrawable(null);
@@ -193,6 +229,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		} else {
 			CarouselView carouselView = holder.carouselView;
 			carouselView.setVisibility(View.VISIBLE);
+			holder.player.setVisibility(View.GONE);
 			holder.mImageView.setVisibility(View.GONE);
 			carouselView.setPageCount(images.size());
 
@@ -253,6 +290,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		Display display = mainActivity.getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
+		Log.e("INFOS", holder.mItem.toString());
 		ViewGroup.LayoutParams lp = card.getLayoutParams();
 		if (lp instanceof StaggeredGridLayoutManager.LayoutParams) {
 			card.setLayoutParams(lp);
@@ -473,6 +511,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 		public final ImageButton deleteButton;
 		public final ImageButton editButton;
 		public final ChipGroup chips;
+		public final PlayerView player;
 		public PostItem mItem;
 
 		ViewHolder(View view) {
@@ -490,6 +529,7 @@ public class MyPostsRecyclerViewAdapter extends RecyclerView.Adapter<MyPostsRecy
 			mDislike = view.findViewById(R.id.button_dislike);
 			deleteButton = view.findViewById(R.id.delete_button);
 			editButton = view.findViewById(R.id.edit_button);
+			player = view.findViewById(R.id.video_player);
 		}
 	}
 }

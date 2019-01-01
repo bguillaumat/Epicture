@@ -23,6 +23,9 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'IMGUR_API_KEY', ImgurApiKey
     }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -69,7 +72,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-web:3.1.1'
     androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.1.1'
 
-    implementation 'com.github.pedromassango:IBackdrop:2.1.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.9.3'
 
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:design:28.0.0'

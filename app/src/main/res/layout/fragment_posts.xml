@@ -35,6 +35,14 @@
 
         </com.synnapps.carouselview.CarouselView>
 
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:visibility="gone"
+            android:id="@+id/video_player"
+            android:layout_width="match_parent"
+            android:layout_height="400dp">
+
+        </com.google.android.exoplayer2.ui.PlayerView>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

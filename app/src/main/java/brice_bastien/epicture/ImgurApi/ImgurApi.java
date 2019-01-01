@@ -15,6 +15,10 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.UploadNotificationConfig;
+import net.gotev.uploadservice.UploadService;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -123,7 +127,7 @@ public class ImgurApi {
 			request.addPart(new MultipartRequest.FormPart("comment", comment));
 			Log.i("post a comment", new String(request.getBody()));
 			requestQueue.add(request);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			Log.w("post a comment:", "failed");
 		}
 	}
@@ -132,7 +136,7 @@ public class ImgurApi {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 		Boolean switchPref = sharedPrefs.getBoolean(SettingsActivity.KEY_PREF_COMMENTARY_NEW, false);
 
-		String url = host + "gallery/" + id + "/comments/" + (switchPref ? "new" : "best" );
+		String url = host + "gallery/" + id + "/comments/" + (switchPref ? "new" : "best");
 		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseCommentListener(adapter), new ErrorListener(adapter.statesRecyclerViewAdapter), clientId, token);
 
 		requestQueue.add(request);
@@ -201,7 +205,7 @@ public class ImgurApi {
 
 	public void getUsrAvatar(ImageView img, String username) {
 		String url = host + "account/" + username + "/avatar";
-		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseAvatarListener(context, img) , new ErrorListener(), clientId, token);
+		JsonObjectRequest request = new JsonRequest(Request.Method.GET, url, null, new ResponseAvatarListener(context, img), new ErrorListener(), clientId, token);
 
 		requestQueue.add(request);
 	}
@@ -214,7 +218,7 @@ public class ImgurApi {
 	}
 
 	public void putUsrSetting(SettingItem settingItem) {
-		String url = host + "account/" + username +"/settings";
+		String url = host + "account/" + username + "/settings";
 		HashMap<String, String> headers = new HashMap<>();
 		headers.put("Authorization", "Bearer " + token);
 		MultipartRequest request = new MultipartRequest(Request.Method.POST, url, headers, new Response.Listener<NetworkResponse>() {
@@ -231,13 +235,13 @@ public class ImgurApi {
 			request.addPart(new MultipartRequest.FormPart("newsletter_subscribed", Boolean.toString(settingItem.isNewsletter())));
 			Log.i("saveSetting", new String(request.getBody()));
 			requestQueue.add(request);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			Log.w("saveSetting:", e.toString());
 		}
 	}
 
 	public void editImage(boolean isAlbum, String id, String title, String description) {
-		String url = host +  (isAlbum ? "album/" : "image/") + id;
+		String url = host + (isAlbum ? "album/" : "image/") + id;
 		HashMap<String, String> headers = new HashMap<>();
 		headers.put("Authorization", "Bearer " + token);
 
@@ -284,7 +288,6 @@ public class ImgurApi {
 			requestQueue.add(request);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.w("Upload", e.toString());
 		}
 	}
 

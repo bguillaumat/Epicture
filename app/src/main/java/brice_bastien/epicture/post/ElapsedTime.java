@@ -38,15 +38,19 @@ public class ElapsedTime {
 
 		long elapsedSeconds = different / secondsInMilli;
 
+		String result;
+
 		if (elapsedMinutes == 0 && elapsedHours == 0 && elapsedDays == 0 && elapsedYears == 0) {
-			return res.getQuantityString(R.plurals.seconds_elapsed, (int)elapsedSeconds, elapsedSeconds).toUpperCase();
+			result = res.getQuantityString(R.plurals.seconds_elapsed, (int) elapsedSeconds, elapsedSeconds).toUpperCase();
 		} else if (elapsedHours == 0 && elapsedDays == 0 && elapsedYears == 0) {
-			return res.getQuantityString(R.plurals.minutes_elapsed, (int)elapsedMinutes, elapsedMinutes).toUpperCase();
+			result = res.getQuantityString(R.plurals.minutes_elapsed, (int) elapsedMinutes, elapsedMinutes).toUpperCase();
 		} else if (elapsedDays == 0 && elapsedYears == 0) {
-			return res.getQuantityString(R.plurals.hours_elapsed, (int)elapsedHours, elapsedHours).toUpperCase();
+			result = res.getQuantityString(R.plurals.hours_elapsed, (int) elapsedHours, elapsedHours).toUpperCase();
 		} else if (elapsedYears == 0)
-			return res.getQuantityString(R.plurals.days_elapsed, (int)elapsedDays, elapsedDays).toUpperCase();
-		return res.getQuantityString(R.plurals.year_elapsed, (int)elapsedYears, elapsedYears).toUpperCase();
+			result = res.getQuantityString(R.plurals.days_elapsed, (int) elapsedDays, elapsedDays).toUpperCase();
+		else
+			result = res.getQuantityString(R.plurals.year_elapsed, (int) elapsedYears, elapsedYears).toUpperCase();
+		return result + " \u2022";
 	}
 
 	public String getLittleElapsed(Resources res) {
@@ -71,15 +75,19 @@ public class ElapsedTime {
 
 		long elapsedSeconds = different / secondsInMilli;
 
+		String result;
+
 		if (elapsedMinutes == 0 && elapsedHours == 0 && elapsedDays == 0 && elapsedYears == 0) {
-			return res.getQuantityString(R.plurals.small_seconds_elapsed, (int)elapsedSeconds, elapsedSeconds);
+			result = res.getQuantityString(R.plurals.small_seconds_elapsed, (int) elapsedSeconds, elapsedSeconds);
 		} else if (elapsedHours == 0 && elapsedDays == 0 && elapsedYears == 0) {
-			return res.getQuantityString(R.plurals.small_minutes_elapsed, (int)elapsedMinutes, elapsedMinutes);
+			result = res.getQuantityString(R.plurals.small_minutes_elapsed, (int) elapsedMinutes, elapsedMinutes);
 		} else if (elapsedDays == 0 && elapsedYears == 0) {
-			return res.getQuantityString(R.plurals.small_hours_elapsed, (int)elapsedHours, elapsedHours);
+			result = res.getQuantityString(R.plurals.small_hours_elapsed, (int) elapsedHours, elapsedHours);
 		} else if (elapsedYears == 0)
-			return res.getQuantityString(R.plurals.small_days_elapsed, (int)elapsedDays, elapsedDays);
-		return res.getQuantityString(R.plurals.small_year_elapsed, (int)elapsedYears, elapsedYears);
+			result = res.getQuantityString(R.plurals.small_days_elapsed, (int) elapsedDays, elapsedDays);
+		else
+			result = res.getQuantityString(R.plurals.small_year_elapsed, (int) elapsedYears, elapsedYears);
+		return result + " \u2022";
 	}
 
 }

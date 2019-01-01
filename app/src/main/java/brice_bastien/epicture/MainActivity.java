@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements PostsFragment.OnL
 		Token = sharedPreferences.getString("User_Token", null);
 		Username = sharedPreferences.getString("Username", null);
 
+		Log.e("TOKEN", Token);
+
 		if (Token == null || Username == null) {
 			Intent intent = new Intent(this, LoginActivity.class);
 			startActivity(intent);

@@ -83,7 +83,10 @@
         <item quantity="one">Voir %d commentaire</item>
         <item quantity="other">Voir les %d commentaires</item>
     </plurals>
-
+    <plurals name="commentCount">
+        <item quantity="one">%d Commentaire</item>
+        <item quantity="other">%d Commentaires</item>
+    </plurals>
     <string name="title_activity_post_comment">Commentaires</string>
     <string name="author">écrit par &lt;b>%1$s&lt;/b></string>
     <string name="home">Accueil</string>

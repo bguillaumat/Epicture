@@ -28,6 +28,7 @@ public class AccountSetting extends AppCompatActivity implements SharedPreferenc
 	Switch messaging;
 	Switch newsletter;
 	TextView username;
+	TextView commentCount;
 	Button saveBtn;
 	TextView email;
 	RadioButton publicType;
@@ -64,6 +65,7 @@ public class AccountSetting extends AppCompatActivity implements SharedPreferenc
 		hiddenType = findViewById(R.id.hidden_type);
 		secretType = findViewById(R.id.secret_type);
 		refreshLayout = findViewById(R.id.refreshSwipeSetting);
+		commentCount = findViewById(R.id.commentsCount);
 
 		sharedPreferences = getSharedPreferences(getString(R.string.user_info_pref), Context.MODE_PRIVATE);
 		Token = sharedPreferences.getString("User_Token", null);
@@ -75,11 +77,12 @@ public class AccountSetting extends AppCompatActivity implements SharedPreferenc
 			finish();
 		}
 
-		username.setText(Username);
+		username.setText(Username + " \u2022 ");
 
 		imgurApi = new ImgurApi(getApplicationContext(), Username, Token);
 
 		imgurApi.getUsrAvatar((ImageView) findViewById(R.id.avatar_settings), Username);
+		imgurApi.getCommentsCount(commentCount);
 		imgurApi.getUsrSetting(this);
 
 		final AccountSetting account = this;

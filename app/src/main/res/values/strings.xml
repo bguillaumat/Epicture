@@ -150,6 +150,11 @@
         <item quantity="other">%dy</item>
     </plurals>
 
+    <plurals name="commentCount">
+        <item quantity="one">%d Comment</item>
+        <item quantity="other">%d Comments</item>
+    </plurals>
+
 
     <plurals name="seconds_elapsed">
         <item quantity="one">%d second ago</item>

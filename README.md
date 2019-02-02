@@ -10,6 +10,9 @@ Epicture is a non-official Imgur Application in Java (Android)
 * **Comments**
 * **SearchBar**
 
+## Screenshots:
+![](commentary.gif)
+
 # Authors
 **[Brice Lang-Nguyen](https://github.com/AsianPw)** (brice.lang-nguyen@epitech.eu)  
 **[Bastien Guillaumat](https://github.com/bguillaumat)** (bastien.guillaumat@epitech.eu)  

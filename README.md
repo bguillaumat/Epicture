@@ -2,7 +2,6 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bguillaumat/Epicture/master/LICENSE)
 # EPICTURE
 Epicture is a non-official Imgur Application in Java (Android)  
-**[Demo](https://obscure-headland-59625.herokuapp.com/login)**
 ## Features:
 * **Login/Disconnect Imgur**
 * **Upload photos from files or camera**
